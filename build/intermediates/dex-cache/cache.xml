@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="false"
+        jar="/home/bent/git/TDT4240-TicTacToe/core/build/libs/core-1.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="27.0.3"
+        sha1="e9a4b589c7526d6529a24cb5d3dd87ebe3409048">
+        <dex dex="/home/bent/git/TDT4240-TicTacToe/android/build/intermediates/pre-dexed/debug/core-1.0_370d59852cd60d49a538a96ab485fb00ff35fe58.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/bent/.gradle/caches/modules-2/files-2.1/com.badlogicgames.gdx/gdx-backend-android/1.9.8/84024cd60ad6f26370891fbcd17de9f0167e662/gdx-backend-android-1.9.8.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="27.0.3"
+        sha1="084024cd60ad6f26370891fbcd17de9f0167e662">
+        <dex dex="/home/bent/git/TDT4240-TicTacToe/android/build/intermediates/pre-dexed/debug/gdx-backend-android-1.9.8_0311177bff109903efd39eee18e39997ffc3e438.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/bent/.gradle/caches/modules-2/files-2.1/com.badlogicgames.gdx/gdx-box2d/1.9.8/6f0497b7958216464101adfb7bdc3a0f7b88d6d3/gdx-box2d-1.9.8.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="27.0.3"
+        sha1="6f0497b7958216464101adfb7bdc3a0f7b88d6d3">
+        <dex dex="/home/bent/git/TDT4240-TicTacToe/android/build/intermediates/pre-dexed/debug/gdx-box2d-1.9.8_fc98c6d339e9d64c0b1d314c1ea22fff47156b48.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/bent/.gradle/caches/modules-2/files-2.1/com.badlogicgames.gdx/gdx/1.9.8/a35a0076fbce873f9c2d5a1a1c8066244231bb3c/gdx-1.9.8.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="27.0.3"
+        sha1="a35a0076fbce873f9c2d5a1a1c8066244231bb3c">
+        <dex dex="/home/bent/git/TDT4240-TicTacToe/android/build/intermediates/pre-dexed/debug/gdx-1.9.8_d6c8bc066e472b2ec42ec4df11cd6e7a46e00d68.jar" />
+    </item>
+
+</items>
