@@ -7,27 +7,26 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class MyGdxGame extends ApplicationAdapter {
-	SpriteBatch batch;
-	Texture img;
-	
+	public static final int WIDTH = 1080;
+	public static final int HIGTH = 1920;
+
+	public static final java.lang.String TITLE = "Helicopter";
+	private GameStateManager gsm;
+	private SpriteBatch batch;
+
 	@Override
-	public void create () {
+	public void create() {
 		batch = new SpriteBatch();
-		img = new Texture("badlogic.jpg");
+		gsm = new GameStateManager();
+		Gdx.gl.glClearColor(0, 1, 0, 1);
+		gsm.push(new MenuState(gsm) {
+		});
 	}
 
 	@Override
-	public void render () {
-		Gdx.gl.glClearColor(1, 0, 0, 1);
+	public void render() {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		batch.begin();
-		batch.draw(img, 0, 0);
-		batch.end();
-	}
-	
-	@Override
-	public void dispose () {
-		batch.dispose();
-		img.dispose();
+		gsm.update(Gdx.graphics.getDeltaTime());
+		gsm.render(batch);
 	}
 }

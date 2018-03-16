@@ -7,7 +7,7 @@
         jumboMode="false"
         optimize="true"
         revision="27.0.3"
-        sha1="e9a4b589c7526d6529a24cb5d3dd87ebe3409048">
+        sha1="16a8497dbd2647a8425fe353b4fa88b9010b6006">
         <dex dex="/home/bent/git/TDT4240-TicTacToe/android/build/intermediates/pre-dexed/debug/core-1.0_370d59852cd60d49a538a96ab485fb00ff35fe58.jar" />
     </item>
     <item
