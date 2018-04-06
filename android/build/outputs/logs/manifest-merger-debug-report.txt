@@ -36,7 +36,7 @@ ADDED from /home/bent/git/TDT4240-TicTacToe/android/AndroidManifest.xml:7:5-22:1
 activity#com.mygdx.game.AndroidLauncher
 ADDED from /home/bent/git/TDT4240-TicTacToe/android/AndroidManifest.xml:12:9-21:20
 	android:screenOrientation
-		ADDED from /home/bent/git/TDT4240-TicTacToe/android/AndroidManifest.xml:15:13-50
+		ADDED from /home/bent/git/TDT4240-TicTacToe/android/AndroidManifest.xml:15:13-49
 	android:label
 		ADDED from /home/bent/git/TDT4240-TicTacToe/android/AndroidManifest.xml:14:13-45
 	android:configChanges

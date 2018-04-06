@@ -12,7 +12,7 @@ public class PlayState extends State {
 
     protected PlayState(GameStateManager gsm) {
         super(gsm);
-        board = new GameBoard(100, 100);
+        board = new GameBoard(3, 3);
     }
 
     @Override
@@ -28,7 +28,21 @@ public class PlayState extends State {
     @Override
     public void render(SpriteBatch sb) {
         sb.begin();
-        sb.draw(board.getBoardPiece(), board.getSizeX(), board.getSizeY());
+        int sizeX = board.getSizeX();
+        int sizeY = board.getSizeY();
+        // The position of the initial square
+        int startPositionX = 100;
+        int startPositionY = 100;
+        // This should be dynamic and change depending on the boardsize
+        int pieceSize = 300;
+        for(int i = 0; i < sizeX; i++){
+            for(int j = 0; j < sizeY; j++){
+                sb.draw(board.getBoardPiece(i, j), startPositionX, startPositionY, pieceSize, pieceSize);
+                startPositionY += pieceSize;
+            }
+            startPositionX += pieceSize;
+            startPositionY = 100;
+        }
         sb.end();
     }
 
