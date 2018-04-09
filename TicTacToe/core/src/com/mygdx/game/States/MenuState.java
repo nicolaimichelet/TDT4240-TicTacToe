@@ -42,7 +42,6 @@ public class MenuState implements State {
     public void render(SpriteBatch sb) {
         sb.begin();
         font.draw(sb, "Press 1 or 2 on the keyboard for fun", 100, MyGdxGame.HEIGHT/2);
-        font.draw(sb, "Singleton value = " + singleton.getSingletonValue(), MyGdxGame.WIDTH-150, MyGdxGame.HEIGHT-40);
         sb.end();
     }
 

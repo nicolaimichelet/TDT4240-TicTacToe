@@ -25,7 +25,6 @@ public class PlayStateTask2 implements State {
     public PlayStateTask2(GameStateManager gsm) {
         this.gsm = gsm;
         helicopter = new ManuallyControlledHelicopter(20, 20);
-        singleton.setSingletonValue(20);
 
     }
 
@@ -59,7 +58,6 @@ public class PlayStateTask2 implements State {
             //sb.draw(helicopter.getTexture(), helicopter.getPosition().x, helicopter.getPosition().y, 0, 0, 0, 0, 0, 0, true, false);
         }
         font.draw(sb, writePosition(), 10, MyGdxGame.HEIGHT-30);
-        font.draw(sb, "Singleton value = " + singleton.getSingletonValue(), MyGdxGame.WIDTH-150, MyGdxGame.HEIGHT-40);
         sb.end();
     }
 
