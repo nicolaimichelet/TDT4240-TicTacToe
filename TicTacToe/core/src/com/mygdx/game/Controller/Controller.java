@@ -1,5 +1,7 @@
 package com.mygdx.game.Controller;
 
+//This is just an exapmle controller imported from a previos project, it might not be used at all.
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
