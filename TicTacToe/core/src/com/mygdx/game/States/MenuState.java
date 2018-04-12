@@ -22,11 +22,7 @@ public class MenuState implements State {
 //    BitmapFont font = new BitmapFont();
     private Singleton singleton = Singleton.getInstance();
     private GameStateManager gsm;
-//    private Stage stage;
-
-//    private Skin skin;
-//    TextButton playButton;
-//    TextButton settingsButton;
+    private Stage stage;
 
     private Skin skin;
     private BitmapFont font;
@@ -35,11 +31,6 @@ public class MenuState implements State {
     private TextButton powerUpButton;
     private TextButton highscoreButton;
     private TextButton exitButton;
-//    private TextButton task3Btn;
-
-    Stage stage;
-
-
 
 
     public MenuState(GameStateManager gsm) {
@@ -52,18 +43,7 @@ public class MenuState implements State {
         font.setColor(Color.BLUE);
 
         createSkin();
-
-        playButton = new TextButton("Play now", skin);
-        playButton.setPosition((MyGdxGame.WIDTH - playButton.getWidth())/2, ((MyGdxGame.HEIGHT + 3 * playButton.getHeight())/2));
-
-        settingsButton = new TextButton("Settings", skin);
-        settingsButton.setPosition((MyGdxGame.WIDTH - settingsButton.getWidth())/2, (MyGdxGame.HEIGHT/2));
-
-        powerUpButton = new TextButton("Power ups", skin);
-        powerUpButton.setPosition((MyGdxGame.WIDTH - powerUpButton.getWidth())/2, ((MyGdxGame.HEIGHT - 3 * powerUpButton.getHeight())/2));
-
-        exitButton = new TextButton("Exit", skin);
-        exitButton.setPosition((MyGdxGame.WIDTH - exitButton.getWidth())/2, (MyGdxGame.HEIGHT/2) - 3 * exitButton.getHeight());
+        initializeButtons();
 
         stage.addActor(playButton);
         stage.addActor(settingsButton);
@@ -120,7 +100,23 @@ public class MenuState implements State {
         textButtonStyle.over = skin.newDrawable("background", Color.LIGHT_GRAY);
         textButtonStyle.font = skin.getFont("default");
         skin.add("default", textButtonStyle);
+    }
 
+    private void initializeButtons(){
+        playButton = new TextButton("Play now", skin);
+        playButton.setPosition((MyGdxGame.WIDTH - playButton.getWidth())/2, ((MyGdxGame.HEIGHT + 4 * playButton.getHeight())/2));
+
+        settingsButton = new TextButton("Settings", skin);
+        settingsButton.setPosition((MyGdxGame.WIDTH - settingsButton.getWidth())/2, ((MyGdxGame.HEIGHT + playButton.getHeight())/2));
+
+        powerUpButton = new TextButton("Power ups", skin);
+        powerUpButton.setPosition((MyGdxGame.WIDTH - powerUpButton.getWidth())/2, ((MyGdxGame.HEIGHT - 2 * powerUpButton.getHeight())/2));
+
+        highscoreButton = new TextButton("Highscore", skin);
+        highscoreButton.setPosition((MyGdxGame.WIDTH - highscoreButton.getWidth())/2, ((MyGdxGame.HEIGHT - 5 * highscoreButton.getHeight())/2));
+
+        exitButton = new TextButton("Exit", skin);
+        exitButton.setPosition((MyGdxGame.WIDTH - exitButton.getWidth())/2, (MyGdxGame.HEIGHT/2) - 4 * exitButton.getHeight());
     }
 
 }
