@@ -26,7 +26,7 @@ public class MenuState implements State {
     @Override
     public void handleInput() {
         if (Gdx.input.isKeyPressed(Input.Keys.NUM_1)){
-            gsm.set(new PlayState(gsm,5,6,3));
+            gsm.set(new PlayState(gsm,5,5,3));
             dispose();
         }
     }
