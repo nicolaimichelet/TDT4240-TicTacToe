@@ -30,6 +30,7 @@ public class PlayState implements State {
     private String midBoard;
     private int amountToWin;
     private GameLogic gameLogic;
+    private int currentState = 1;
 
 
     public PlayState(GameStateManager gsm,int rows,int cols,int amountToWin) {
@@ -65,7 +66,6 @@ public class PlayState implements State {
             dispose();
         }
         else if (!gameLogic.hasWinner() && gameLogic.getWinner() == 'D'){
-            System.out.println("DRAW AGAIN");
             gsm.set(new MenuState(gsm));
             dispose();
         }
@@ -84,7 +84,6 @@ public class PlayState implements State {
         for (TileState ts : boardState){
             Tile tile = ts.getTile();
             Mark m = new Mark(tile, ts.getState());
-
             if (ts.getState() == 1){
                 //gameLogic.setTile(tile.getX(),tile.getY(),'O');
                 gameLogic.Move(tile.getX(),tile.getY(),'O');
@@ -93,6 +92,7 @@ public class PlayState implements State {
                 //gameLogic.setTile(tile.getX(),tile.getY(),'X');
                 gameLogic.Move(tile.getX(),tile.getY(),'X');
             }
+
             Sprite s = new Sprite(m.getTexture());
             s.setPosition(tile.getPosition().x, tile.getPosition().y);
             s.setSize(tile.getWidth(), tile.getHeight());

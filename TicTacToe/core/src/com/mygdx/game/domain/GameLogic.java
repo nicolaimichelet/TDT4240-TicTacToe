@@ -198,35 +198,28 @@ public class GameLogic {
         return false;
     }
 
-
-    //enum char{'-', 'X', 'O'};
-
-    int n = amountToWin;
     int moveCount;
 
     public void Move(int x, int y, char c){
         if(brett[x][y] == '-'){
             brett[x][y] = c;
+            moveCount++;
         }
-        moveCount++;
-
         //check end conditions
-
         //check col
-        for(int i = 0; i < n; i++){
+        for (int i = 0; i < amountToWin; i++){
             if(brett[x][i] != c)
                 break;
-            if(i == n-1){
+            if(i == amountToWin-1){
                 hasWinner = true;
                 winner = c;
             }
         }
-
         //check row
-        for(int i = 0; i < n; i++){
+        for(int i = 0; i < amountToWin; i++){
             if(brett[i][y] != c)
                 break;
-            if(i == n-1){
+            if(i == amountToWin-1){
                 hasWinner = true;
                 winner = c;
             }
@@ -235,10 +228,10 @@ public class GameLogic {
         //check diag
         if(x == y){
             //we're on a diagonal
-            for(int i = 0; i < n; i++){
+            for(int i = 0; i < amountToWin; i++){
                 if(brett[i][i] != c)
                     break;
-                if(i == n-1){
+                if(i == amountToWin-1){
                     hasWinner = true;
                     winner = c;
                 }
@@ -246,11 +239,11 @@ public class GameLogic {
         }
 
         //check anti diag (thanks rampion)
-        if(x + y == n - 1){
-            for(int i = 0; i < n; i++){
-                if(brett[i][(n-1)-i] != c)
+        if(x + y == amountToWin - 1){
+            for(int i = 0; i < amountToWin; i++){
+                if(brett[i][(amountToWin-1)-i] != c)
                     break;
-                if(i == n-1){
+                if(i == amountToWin-1){
                     hasWinner = true;
                     winner = c;
                 }
@@ -258,12 +251,9 @@ public class GameLogic {
         }
 
         //check draw
-        if(moveCount == (Math.pow(n, 2) - 1)){
+        if(moveCount == (Math.pow(amountToWin, 2) - 1)){
             hasWinner = false;
             winner = 'D';
-            System.out.println("DRAWWWWWWWW");
         }
     }
-
-
 }

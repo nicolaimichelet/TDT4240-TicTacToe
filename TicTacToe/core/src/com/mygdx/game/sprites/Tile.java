@@ -26,6 +26,7 @@ import com.mygdx.game.domain.TileState;
         private int id;
         private boolean isMarked;
 
+
         private int x,y;
         Singleton singleton = Singleton.getInstance();
 
@@ -54,7 +55,6 @@ import com.mygdx.game.domain.TileState;
                 if (isClicked(Gdx.input.getX(), Gdx.input.getY())){
                     if (!isMarked){
                         singleton.addBoardState(new TileState(this, singleton.getPlayerState()));
-
                         singleton.changePlayerState();
                         isMarked = true;
                         System.out.println("X: "+x+" , Y: "+y);

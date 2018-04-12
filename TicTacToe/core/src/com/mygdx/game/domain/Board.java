@@ -62,7 +62,7 @@ public class Board {
         int id = 0;
         for (int row = 0; row < board.getRows(); row++){
             for (int column = 0; column < board.getColumns(); column++){
-                tiles.add(new Tile(xPosition, yPosition, xFactor, yFactor, id,row,column));
+                tiles.add(new Tile(xPosition, yPosition, xFactor, yFactor, id, row,column));
                 xPosition += xFactor;
                 id++;
             }
