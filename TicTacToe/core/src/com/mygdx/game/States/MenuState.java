@@ -1,7 +1,6 @@
 package com.mygdx.game.States;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
@@ -9,23 +8,18 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.mygdx.game.MyGdxGame;
-import com.mygdx.game.Singleton.Singleton;
 
 /**
  * Created by eiriksandberg on 22.01.2018.
  */
 
 public class MenuState implements State {
-//    BitmapFont font = new BitmapFont();
-    private Singleton singleton = Singleton.getInstance();
     private GameStateManager gsm;
     private Stage stage;
 
     private Skin skin;
-    private BitmapFont font;
     private TextButton playButton;
     private TextButton settingsButton;
     private TextButton powerUpButton;
@@ -38,19 +32,15 @@ public class MenuState implements State {
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
 
-        // Create font for button
-        font = new BitmapFont();
-        font.setColor(Color.BLUE);
-
-        createSkin();
+        createSkin(); // Create skin for buttons
         initializeButtons();
 
+//        Add buttons to stage
         stage.addActor(playButton);
         stage.addActor(settingsButton);
         stage.addActor(powerUpButton);
         stage.addActor(highscoreButton);
         stage.addActor(exitButton);
-
 
     }
 
@@ -81,18 +71,18 @@ public class MenuState implements State {
 
 //    Create skin for buttons
     private void createSkin(){
-        //Create a font
+        // Create a font
         BitmapFont font = new BitmapFont();
         skin = new Skin();
         skin.add("default", font);
 
-        //Create a texture
+        // Create a texture
         Pixmap pixmap = new Pixmap(Gdx.graphics.getWidth()/4,Gdx.graphics.getHeight()/15, Pixmap.Format.RGB888);
         pixmap.setColor(Color.WHITE);
         pixmap.fill();
-        skin.add("background",new Texture(pixmap));
+        skin.add("background", new Texture(pixmap));
 
-        //Create a button style
+        // Create a button style
         TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
         textButtonStyle.up = skin.newDrawable("background", Color.GRAY);
         textButtonStyle.down = skin.newDrawable("background", Color.DARK_GRAY);
