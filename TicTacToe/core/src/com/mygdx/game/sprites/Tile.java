@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.Singleton.Singleton;
 import com.mygdx.game.domain.TileState;
 
@@ -24,15 +25,28 @@ import com.mygdx.game.domain.TileState;
         private Texture tile;
         private int id;
         private boolean isMarked;
+
+        private int x,y;
         Singleton singleton = Singleton.getInstance();
 
-        public Tile(float positionX, float positionY, float width, float height, int id){
+        public Tile(float positionX, float positionY, float width, float height, int id, int x, int y){
             this.position = new Vector3(positionX, positionY, 0);
             this.tile = new Texture("tile.png");
             this.height = height;
             this.width = width;
             this.id = id;
             this.isMarked = false;
+            this.x = x;
+            this.y = y;
+            //System.out.println("Width: "+width+" , Height: "+height);
+        }
+
+        public int getX() {
+            return x;
+        }
+
+        public int getY() {
+            return y;
         }
 
         public void update(float dt){
@@ -40,9 +54,10 @@ import com.mygdx.game.domain.TileState;
                 if (isClicked(Gdx.input.getX(), Gdx.input.getY())){
                     if (!isMarked){
                         singleton.addBoardState(new TileState(this, singleton.getPlayerState()));
-                        System.out.println(singleton.getPlayerState());
+
                         singleton.changePlayerState();
                         isMarked = true;
+                        System.out.println("X: "+x+" , Y: "+y);
                     } else {
 
                     }
@@ -52,12 +67,19 @@ import com.mygdx.game.domain.TileState;
 
         public boolean isClicked(int x, int y){
             float tileX = getPosition().x;
-            float tileY = getPosition().y;
+            float tileY = MyGdxGame.HEIGHT-60-getPosition().y;
+            /*
+            System.out.print("x: "+x+", y:"+y);
+            System.out.println();
+            System.out.print("    TileX: "+tileX+", TileY:"+tileY);
+            System.out.println();
+            */
             if (x >= tileX && x <= tileX + width && y >= tileY && y <= tileY + height){
                 return true;
             } else{
                 return false;
             }
+
         }
 
         public Vector3 getPosition() {
