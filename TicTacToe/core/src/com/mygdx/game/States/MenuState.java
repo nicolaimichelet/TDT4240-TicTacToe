@@ -3,6 +3,7 @@ package com.mygdx.game.States;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -17,14 +18,13 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 public class MenuState implements State {
     private GameStateManager gsm;
     private Stage stage;
-
     private Skin skin;
     private TextButton playButton;
     private TextButton settingsButton;
     private TextButton powerUpButton;
     private TextButton highscoreButton;
     private TextButton exitButton;
-
+    private Texture background = new Texture("white.png");
 
     public MenuState(GameStateManager gsm) {
         this.gsm = gsm;
@@ -46,7 +46,9 @@ public class MenuState implements State {
     @Override
     public void handleInput() {
         if(playButton.isPressed()){
-            gsm.set(new PlayState(gsm));
+            singleton.resetSingleton();
+            gsm.set(new PlayState(gsm,5,5,5));
+            dispose();
         }
         if(exitButton.isPressed()){
             Gdx.app.exit();
@@ -69,8 +71,7 @@ public class MenuState implements State {
 
     @Override
     public void dispose() {}
-
-
+  
 //    Create skin for buttons
     private void createSkin(){
         // Create a font

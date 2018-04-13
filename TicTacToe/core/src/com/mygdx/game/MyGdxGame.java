@@ -9,8 +9,8 @@ import com.mygdx.game.States.GameStateManager;
 import com.mygdx.game.States.MenuState;
 
 public class MyGdxGame extends ApplicationAdapter {
-	public static final int WIDTH = 480;
-	public static final int HEIGHT = 800;
+	public static final int WIDTH = 300;
+	public static final int HEIGHT = 450;
 
 	public static final String TITLE = "Chopper";
 	private GameStateManager gsm;
