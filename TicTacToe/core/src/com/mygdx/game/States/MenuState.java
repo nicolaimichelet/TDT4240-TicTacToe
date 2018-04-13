@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.mygdx.game.Singleton.Singleton;
 
 /**
  * Created by eiriksandberg on 22.01.2018.
@@ -25,6 +26,7 @@ public class MenuState implements State {
     private TextButton highscoreButton;
     private TextButton exitButton;
     private Texture background = new Texture("white.png");
+    private Singleton singleton = Singleton.getInstance();
 
     public MenuState(GameStateManager gsm) {
         this.gsm = gsm;
