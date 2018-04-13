@@ -1,5 +1,6 @@
 package com.mygdx.game.States;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -13,6 +14,7 @@ import com.mygdx.game.domain.Board;
 import com.mygdx.game.domain.Player;
 import com.mygdx.game.domain.TileState;
 import com.mygdx.game.powerups.ExpandBoardPowerup;
+import com.mygdx.game.domain.GameLogic;
 import com.mygdx.game.sprites.Mark;
 import com.mygdx.game.powerups.Powerup;
 import com.mygdx.game.sprites.Tile;
@@ -26,15 +28,24 @@ import java.util.ArrayList;
 public class PlayState implements State {
 
     private Singleton singleton = Singleton.getInstance();
+
     private GameStateManager gsm;
     private ArrayList<Player> players = new ArrayList<Player>();
     private Table table = new Table();
+    private char brett [][];
+    private GameLogic gameLogic;
+    private String midBoard;
+    private Board matrix;
 
-    public PlayState(GameStateManager gsm) {
+    public PlayState(GameStateManager gsm, int rows, int cols, int amountToWin) {
+        brett = new char[rows][cols];
+        matrix = new Board(rows,cols);
         singleton.setBoard(new Board(3, 3));
-        singleton.setTiles(generateBoard(singleton.getBoard()));
-        singleton.setBoardTiles(setBoardTiles());
+        singleton.setTiles(matrix.generateBoard(singleton.getBoard()));
+        singleton.setBoardTiles(matrix.setBoardTiles());
         this.gsm = gsm;
+        this.amountToWin = amountToWin;
+        gameLogic = new GameLogic(brett,amountToWin);
 
         // Mock players with powerup
         ArrayList<Powerup> powerups = new ArrayList<Powerup>();
@@ -42,9 +53,6 @@ public class PlayState implements State {
         players.add(new Player(0, powerups));
         players.add(new Player(1, powerups));
 
-
-        // Add table
-        table.add();
     }
 
     @Override
@@ -53,9 +61,8 @@ public class PlayState implements State {
             gsm.set(new MenuState(gsm));
             dispose();
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.NUM_3)) {
-            table.setVisible(true);
-        }
+        else if (Gdx.input.isKeyPressed(Input.Keys.NUM_3)){
+            System.out.println(gameLogic.printBoard(brett));
     }
 
     @Override
@@ -64,9 +71,19 @@ public class PlayState implements State {
         for (Tile t : singleton.getTiles()){
             t.update(dt);
         }
+        if (gameLogic.hasWinner()){
+            System.out.println("Vinneren er spiller "+gameLogic.getWinner());
+            gsm.set(new MenuState(gsm));
+            dispose();
+        }
+        else if (!gameLogic.hasWinner() && gameLogic.getWinner() == 'D'){
+            gsm.set(new MenuState(gsm));
+            dispose();
+        }
         /*for (Powerup pu : players.get(singleton.getPlayerState()).getPowerups()){
             pu.update(dt);
         }*/
+
     }
 
     @Override
@@ -93,36 +110,6 @@ public class PlayState implements State {
 
     }
 
-    public ArrayList<Sprite> setBoardTiles(){
-        ArrayList<Sprite> boardTiles = new ArrayList<Sprite>();
-        for (Tile t : singleton.getTiles()){
-            Sprite s = new Sprite(t.getTexture());
-            s.setSize(t.getWidth(), t.getHeight());
-            s.setPosition(t.getPosition().x , t.getPosition().y);
-            boardTiles.add(s);
-        }
-        return boardTiles;
-    }
-
-    public ArrayList<Tile> generateBoard(Board board){
-        ArrayList<Tile> tiles = new ArrayList<Tile>();
-        float xFactor = MyGdxGame.WIDTH / board.getRows();
-        float yFactor = MyGdxGame.HEIGHT / board.getColumns();
-        float xPosition = 0;
-        float yPosition = 0;
-        int id = 0;
-        for (int row = 0; row < board.getRows(); row++){
-            for (int column = 0; column < board.getColumns(); column++){
-                tiles.add(new Tile(xPosition, yPosition, xFactor, yFactor, id));
-                yPosition += yFactor;
-                id++;
-            }
-            id++;
-            xPosition += xFactor;
-            yPosition = 0;
-        }
-        return tiles;
-    }
 
     public void renderPowerups(ArrayList<Powerup> powerups, SpriteBatch sb){
         ArrayList<Sprite> sprites = new ArrayList<Sprite>();
@@ -143,6 +130,14 @@ public class PlayState implements State {
         for (TileState ts : singleton.getBoardState()){
                 Tile tile = ts.getTile();
                 Mark m = new Mark(tile, ts.getState());
+                if (ts.getState() == 1){
+                    //gameLogic.setTile(tile.getX(),tile.getY(),'O');
+                    gameLogic.Move(tile.getX(),tile.getY(),'O');
+                }
+                else{
+                    //gameLogic.setTile(tile.getX(),tile.getY(),'X');
+                    gameLogic.Move(tile.getX(),tile.getY(),'X');
+                }
                 Sprite s = new Sprite(m.getTexture());
                 s.setPosition(tile.getPosition().x, tile.getPosition().y);
                 s.setSize(tile.getWidth(), tile.getHeight());

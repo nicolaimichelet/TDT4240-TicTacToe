@@ -23,22 +23,38 @@ import com.mygdx.game.powerups.ExpandBoardPowerup;
         private Texture tile;
         private int id;
         private boolean isMarked;
+
+
+        private int x,y;
         Singleton singleton = Singleton.getInstance();
 
-        public Tile(float positionX, float positionY, float width, float height, int id){
+        public Tile(float positionX, float positionY, float width, float height, int id, int x, int y){
             setPosition(new Vector3(positionX, positionY, 0));
             setHeight(height);
             setWidth(width);
             this.tile = new Texture("tile.png");
             this.id = id;
             this.isMarked = false;
+            this.x = x;
+            this.y = y;
+            //System.out.println("Width: "+width+" , Height: "+height);
+        }
+
+        public int getX() {
+            return x;
+        }
+
+        public int getY() {
+            return y;
         }
 
         public void update(float dt){
+
             if (singleton.getPowerupSelected() != null){
                 handlePowerups();
             } else{
                 placeMark();
+                System.out.println("X: "+x+" , Y: "+y);
             }
         }
 
@@ -62,6 +78,7 @@ import com.mygdx.game.powerups.ExpandBoardPowerup;
             }
         }
 
+
         public void placeMark(){
             if (touchDown()){
                 if (!isMarked){
@@ -70,6 +87,7 @@ import com.mygdx.game.powerups.ExpandBoardPowerup;
                     isMarked = true;
                 }
             }
+
         }
 
 

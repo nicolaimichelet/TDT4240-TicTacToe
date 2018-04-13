@@ -2,6 +2,7 @@ package com.mygdx.game.States;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.MyGdxGame;
@@ -15,6 +16,7 @@ public class MenuState implements State {
     BitmapFont font = new BitmapFont();
     private Singleton singleton = Singleton.getInstance();
     private GameStateManager gsm;
+    private Texture background = new Texture("white.png");
 
 
     public MenuState(GameStateManager gsm) {
@@ -24,7 +26,7 @@ public class MenuState implements State {
     @Override
     public void handleInput() {
         if (Gdx.input.isKeyPressed(Input.Keys.NUM_1) || (Gdx.input.justTouched())){
-            gsm.set(new PlayState(gsm));
+            gsm.set(new PlayState(gsm,5,5,5));
             dispose();
         }
     }
@@ -37,10 +39,12 @@ public class MenuState implements State {
     @Override
     public void render(SpriteBatch sb) {
         sb.begin();
-        font.draw(sb, "Press 1 or 2 on the keyboard for fun", 100, MyGdxGame.HEIGHT/2);
+        sb.draw(background,0,0,MyGdxGame.WIDTH,MyGdxGame.HEIGHT);
+        font.draw(sb, "Press 1 on the keyboard for fun", MyGdxGame.WIDTH/4, MyGdxGame.HEIGHT/2);
         sb.end();
     }
 
     @Override
     public void dispose() {}
+
 }

@@ -1,8 +1,5 @@
 package com.mygdx.game.sprites;
 
-/**
- * Created by eiriksandberg on 09.04.2018.
- */
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector3;
@@ -10,10 +7,6 @@ import com.badlogic.gdx.math.Vector3;
 
 /**
  * Created by eiriksandberg on 09.04.2018.
- */
-
-/**
- * Created by eiriksandberg on 22.01.2018.
  */
 
 public class Mark {
