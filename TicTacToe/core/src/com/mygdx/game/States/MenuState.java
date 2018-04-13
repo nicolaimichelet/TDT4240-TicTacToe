@@ -23,7 +23,7 @@ public class MenuState implements State {
 
     @Override
     public void handleInput() {
-        if (Gdx.input.isKeyPressed(Input.Keys.NUM_1)){
+        if (Gdx.input.isKeyPressed(Input.Keys.NUM_1) || (Gdx.input.justTouched())){
             gsm.set(new PlayState(gsm));
             dispose();
         }
