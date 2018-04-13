@@ -9,7 +9,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.mygdx.game.MyGdxGame;
 
 /**
  * Created by eiriksandberg on 22.01.2018.
@@ -56,13 +55,16 @@ public class MenuState implements State {
 
     @Override
     public void update(float dt) {
+        resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()); // Resize stage viewport
         handleInput();
     }
 
     @Override
     public void render(SpriteBatch sb) {
+        sb.begin();
         stage.act();
         stage.draw();
+        sb.end();
     }
 
     @Override
@@ -94,21 +96,25 @@ public class MenuState implements State {
 
     private void initializeButtons(){
         playButton = new TextButton("Play now", skin);
-        playButton.setPosition((MyGdxGame.WIDTH - playButton.getWidth())/2, ((MyGdxGame.HEIGHT + 4 * playButton.getHeight())/2));
+        playButton.setPosition((Gdx.graphics.getWidth() - playButton.getWidth())/2, ((Gdx.graphics.getHeight() + 4 * playButton.getHeight())/2));
 
         settingsButton = new TextButton("Settings", skin);
-        settingsButton.setPosition((MyGdxGame.WIDTH - settingsButton.getWidth())/2, ((MyGdxGame.HEIGHT + playButton.getHeight())/2));
+        settingsButton.setPosition((Gdx.graphics.getWidth() - settingsButton.getWidth())/2, ((Gdx.graphics.getHeight() + playButton.getHeight())/2));
 
         powerUpButton = new TextButton("Power ups", skin);
-        powerUpButton.setPosition((MyGdxGame.WIDTH - powerUpButton.getWidth())/2, ((MyGdxGame.HEIGHT - 2 * powerUpButton.getHeight())/2));
+        powerUpButton.setPosition((Gdx.graphics.getWidth() - powerUpButton.getWidth())/2, ((Gdx.graphics.getHeight() - 2 * powerUpButton.getHeight())/2));
 
         highscoreButton = new TextButton("Highscore", skin);
-        highscoreButton.setPosition((MyGdxGame.WIDTH - highscoreButton.getWidth())/2, ((MyGdxGame.HEIGHT - 5 * highscoreButton.getHeight())/2));
+        highscoreButton.setPosition((Gdx.graphics.getWidth() - highscoreButton.getWidth())/2, ((Gdx.graphics.getHeight() - 5 * highscoreButton.getHeight())/2));
 
         exitButton = new TextButton("Exit", skin);
-        exitButton.setPosition((MyGdxGame.WIDTH - exitButton.getWidth())/2, (MyGdxGame.HEIGHT/2) - 4 * exitButton.getHeight());
+        exitButton.setPosition((Gdx.graphics.getWidth() - exitButton.getWidth())/2, (Gdx.graphics.getHeight()/2) - 4 * exitButton.getHeight());
     }
 
+//    Update stage viewport when screen is resized
+    public void resize(int width, int height){
+        stage.getViewport().update(width, height, true);
+    }
 }
 
 
