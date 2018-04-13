@@ -28,6 +28,10 @@ public class Singleton {
         tiles = new ArrayList<Tile>();
     }
 
+    public void resetSingleton(){
+        mySingletonInstance = new Singleton();
+    }
+
     public static Singleton getInstance(){
         if(mySingletonInstance == null){
             mySingletonInstance = new Singleton();

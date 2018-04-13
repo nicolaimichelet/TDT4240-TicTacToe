@@ -19,7 +19,6 @@ public class Board {
     public Board(int rows, int columns) {
         this.rows = rows;
         this.columns = columns;
-        this.tiles = new ArrayList<Tile>();
     }
 
     public int getRows() {
@@ -54,7 +53,8 @@ public class Board {
         return boardTiles;
     }
 
-    public void generateBoard(Board board){
+    public ArrayList<Tile> generateBoard(Board board){
+        this.tiles = new ArrayList<Tile>();
         float xFactor = MyGdxGame.WIDTH / board.getColumns();
         float yFactor = MyGdxGame.HEIGHT / board.getRows();
         float xPosition = 0;
@@ -70,6 +70,7 @@ public class Board {
             yPosition += yFactor;
             xPosition = 0;
         }
+        return tiles;
     }
 
 }

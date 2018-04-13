@@ -15,6 +15,16 @@ public class GameLogic {
     public GameLogic(char[][] brett, int amountToWin){
         this.brett=brett;
         this.amountToWin=amountToWin;
+        clearBoard();
+    }
+
+
+    public void clearBoard(){
+        for(int i = 0; i<brett.length; i++){
+            for(int j = 0; j<brett[i].length; j++){
+                brett[i][j]='-';
+            }
+        }
     }
 
     public void update(float dt){
@@ -25,35 +35,12 @@ public class GameLogic {
         return winner;
     }
 
-    public void setAmountToWin(int amountToWin) {
-        this.amountToWin = amountToWin;
-    }
-
-    public void setBrett(char[][] brett) {
-        this.brett = brett;
-    }
-
-    public char[][] getBrett() {
-        return brett;
-    }
-
     public boolean hasWinner() {
         return hasWinner;
     }
 
-    public void clearBoard(char[][] board){
-        for(int i = 0; i<brett.length; i++){
-            for(int j = 0; j<brett[i].length; j++){
-                brett[i][j]='-';
-            }
-        }
-    }
-
-    public void setTile(int row, int col,char player){
-        brett[brett.length-row-1][col] = player;
-    }
-
-    public String printBoard(char[][] matrix){
+    public String printBoard(){
+        char[][] matrix = brett;
         String midBoard = "\n";
         for (int row = 0; row < matrix.length; row++){
             for (int column = 0; column < matrix.length; column++){
@@ -201,9 +188,10 @@ public class GameLogic {
     int moveCount;
 
     public void Move(int x, int y, char c){
-        if(brett[x][y] == '-'){
-            brett[x][y] = c;
+        if(brett[brett.length-1-x][y] == '-'){
+            brett[brett.length-1-x][y] = c;
             moveCount++;
+            System.out.println(printBoard());
         }
         //check end conditions
         //check col
@@ -251,7 +239,7 @@ public class GameLogic {
         }
 
         //check draw
-        if(moveCount == (Math.pow(amountToWin, 2) - 1)){
+        else if(moveCount == (Math.pow(amountToWin, 2))){
             hasWinner = false;
             winner = 'D';
         }

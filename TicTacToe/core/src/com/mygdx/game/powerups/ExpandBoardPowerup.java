@@ -53,10 +53,10 @@ public class ExpandBoardPowerup extends InputHandler implements com.mygdx.game.p
         float xPosition = 0;
         float yPosition = 0;
         int id = 0;
-        for (int row = 0; row < board.getRows(); row++){
+        /*for (int row = 0; row < board.getRows(); row++){
             for (int column = 0; column < board.getColumns(); column++){
                 if (row < board.getRows() - 1){
-                    tiles.add(new Tile(xPosition, yPosition, xFactor, yFactor, oldTiles.get(column).getId()));
+                    tiles.add(new Tile(xPosition, yPosition, xFactor, yFactor, oldTiles.get(column).getId(),));
                 } else {
                     tiles.add(new Tile(xPosition, yPosition, xFactor, yFactor, id));
                 }
@@ -66,7 +66,7 @@ public class ExpandBoardPowerup extends InputHandler implements com.mygdx.game.p
             id++;
             xPosition += xFactor;
             yPosition = 0;
-        }
+        }*/
         return tiles;
     }
 

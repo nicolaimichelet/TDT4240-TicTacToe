@@ -54,7 +54,6 @@ import com.mygdx.game.powerups.ExpandBoardPowerup;
                 handlePowerups();
             } else{
                 placeMark();
-                System.out.println("X: "+x+" , Y: "+y);
             }
         }
 
