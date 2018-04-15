@@ -29,54 +29,19 @@ public class ExpandBoardPowerup extends InputHandler implements com.mygdx.game.p
 
     public void expand(Board currentBoard){
         Board newBoard = new Board(currentBoard.getRows() + 1, currentBoard.getColumns() + 1);
-        singleton.setBoardTiles(setBoardTiles(newBoard));
+        ArrayList<Tile> newTiles = newBoard.generateBoard();
+        singleton.setTiles(newTiles);
+        updateMarks(newTiles);
+        singleton.setBoardTiles(newBoard.setBoardTiles());
     }
 
-    public ArrayList<Sprite> setBoardTiles(Board board){
-        ArrayList<Sprite> boardTiles = new ArrayList<Sprite>();
-        ArrayList<Tile> tiles = updateBoard(board, singleton.getTiles());
-        updateMarks(tiles);
-        for (Tile t : tiles){
-            Sprite s = new Sprite(t.getTexture());
-            s.setSize(t.getWidth(), t.getHeight());
-            s.setPosition(t.getPosition().x , t.getPosition().y);
-            boardTiles.add(s);
-        }
-        return boardTiles;
-    }
-
-    public ArrayList<Tile> updateBoard(Board board, ArrayList<Tile> oldTiles){
-        ArrayList<Tile> tiles = new ArrayList<Tile>();
-
-        float xFactor = MyGdxGame.WIDTH / board.getRows();
-        float yFactor = MyGdxGame.HEIGHT / board.getColumns();
-        float xPosition = 0;
-        float yPosition = 0;
-        int id = 0;
-        /*for (int row = 0; row < board.getRows(); row++){
-            for (int column = 0; column < board.getColumns(); column++){
-                if (row < board.getRows() - 1){
-                    tiles.add(new Tile(xPosition, yPosition, xFactor, yFactor, oldTiles.get(column).getId(),));
-                } else {
-                    tiles.add(new Tile(xPosition, yPosition, xFactor, yFactor, id));
-                }
-                yPosition += yFactor;
-                id++;
-            }
-            id++;
-            xPosition += xFactor;
-            yPosition = 0;
-        }*/
-        return tiles;
-    }
-
-    public void updateMarks(ArrayList<Tile> tiles){
+    public void updateMarks(ArrayList<Tile> newTiles){
         ArrayList<TileState> newBoardState = new ArrayList<TileState>();
-        for (TileState ts : singleton.getBoardState()){
-            for (Tile t : tiles){
-                if (ts.getTile().getId() == t.getId()){
-                    newBoardState.add(new TileState(t, t.getId()));
-                    break;
+        for (Tile t : newTiles) {
+            for (TileState ts : singleton.getBoardState()) {
+                if (t.getX() == ts.getTile().getX() && t.getY() == ts.getTile().getY()){
+                    TileState newTileState = new TileState(t, ts.getState());
+                    newBoardState.add(newTileState);
                 }
             }
         }

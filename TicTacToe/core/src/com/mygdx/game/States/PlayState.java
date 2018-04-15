@@ -15,6 +15,8 @@ import com.mygdx.game.domain.Player;
 import com.mygdx.game.domain.TileState;
 import com.mygdx.game.powerups.ExpandBoardPowerup;
 import com.mygdx.game.domain.GameLogic;
+import com.mygdx.game.powerups.ObstaclePowerup;
+import com.mygdx.game.powerups.SwapPowerup;
 import com.mygdx.game.sprites.Mark;
 import com.mygdx.game.powerups.Powerup;
 import com.mygdx.game.sprites.Tile;
@@ -31,28 +33,24 @@ public class PlayState implements State {
 
     private GameStateManager gsm;
     private ArrayList<Player> players = new ArrayList<Player>();
-    private Table table = new Table();
-    private char brett[][];
     private GameLogic gameLogic;
-    private String midBoard;
     private Board matrix;
-    private int amountToWin;
 
     public PlayState(GameStateManager gsm, int rows, int cols, int amountToWin) {
         matrix = new Board(rows, cols);
         singleton.setBoard(matrix);
-        singleton.setTiles(matrix.generateBoard(singleton.getBoard()));
+        singleton.setTiles(matrix.generateBoard());
         singleton.setBoardTiles(matrix.setBoardTiles());
+
         this.gsm = gsm;
-        this.amountToWin = amountToWin;
         gameLogic = new GameLogic(new char[rows][cols], amountToWin);
 
         // Mock players with powerup
         ArrayList<Powerup> powerups = new ArrayList<Powerup>();
         powerups.add(new ExpandBoardPowerup());
+        powerups.add(new ObstaclePowerup());
         players.add(new Player(0, powerups));
         players.add(new Player(1, powerups));
-
     }
 
     @Override
@@ -62,6 +60,7 @@ public class PlayState implements State {
             dispose();
         }
     }
+
 
         @Override
         public void update ( float dt){
@@ -79,10 +78,9 @@ public class PlayState implements State {
                 gsm.set(new MenuState(gsm));
                 dispose();
             }
-        /*for (Powerup pu : players.get(singleton.getPlayerState()).getPowerups()){
-            pu.update(dt);
-        }*/
-
+            for (Powerup pu : players.get(singleton.getPlayerState()).getPowerups()){
+                pu.update(dt);
+            }
         }
 
         @Override
@@ -96,13 +94,13 @@ public class PlayState implements State {
             // Draw marks when pressed
             renderMarks(sb);
 
-            // Powerups
-       /* Player activePlayer = players.get(singleton.getPlayerState());
+        // Powerups
+        Player activePlayer = players.get(singleton.getPlayerState());
         if (activePlayer.havePowerupsAvailable()){
             renderPowerups(activePlayer.getPowerups(), sb);
-        }*/
-            sb.end();
         }
+        sb.end();
+    }
 
         @Override
         public void dispose () {
@@ -111,17 +109,16 @@ public class PlayState implements State {
 
 
     public void renderPowerups(ArrayList<Powerup> powerups, SpriteBatch sb) {
-        ArrayList<Sprite> sprites = new ArrayList<Sprite>();
-        float i = 50;
-        for (Powerup pu : powerups) {
+        float factor = MyGdxGame.WIDTH / powerups.size();
+        for (Powerup pu : powerups){
             Sprite s = new Sprite(pu.getTexture());
-            s.setPosition(i, 50); // Fix this to appear in own menu
-            pu.setPosition(new Vector3(i, 50f, 0f));
             s.setSize(50, 50);
+            s.setPosition((factor / 2) + 25, MyGdxGame.HEIGHT - MyGdxGame.BAR + 10); // Fix this to appear in own menu
+            pu.setPosition(new Vector3((factor / 2) + 25, MyGdxGame.HEIGHT - MyGdxGame.BAR + 10 , 0f));
             pu.setHeight(50);
             pu.setWidth(50);
             s.draw(sb);
-            i += 50;
+            factor += factor;
         }
     }
 
@@ -131,7 +128,7 @@ public class PlayState implements State {
             Mark m = new Mark(tile, ts.getState());
             if (ts.getState() == 1) {
                 gameLogic.Move(tile.getX(), tile.getY(), 'O');
-            } else {
+            } else if (ts.getState() == 0) {
                 gameLogic.Move(tile.getX(), tile.getY(), 'X');
             }
             Sprite s = new Sprite(m.getTexture());

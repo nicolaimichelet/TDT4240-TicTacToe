@@ -9,10 +9,11 @@ import com.mygdx.game.States.GameStateManager;
 import com.mygdx.game.States.MenuState;
 
 public class MyGdxGame extends ApplicationAdapter {
-	public static final int WIDTH = 300;
-	public static final int HEIGHT = 450;
+	public static final int BAR = 70;
+	public static final int WIDTH = 480;
+	public static final int HEIGHT = 800;
 
-	public static final String TITLE = "Chopper";
+	public static final String TITLE = "Tic Tac Toe UNLEASHED";
 	private GameStateManager gsm;
 	private SpriteBatch batch;
 	Texture img;

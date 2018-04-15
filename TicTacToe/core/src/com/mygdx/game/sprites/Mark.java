@@ -20,6 +20,9 @@ public class Mark {
         } else if (type == 1) {
             this.mark = new Texture("circleplayer.png");
         }
+        else if (type == -1){
+            this.mark = new Texture("white.png");
+        }
         else {
             System.out.println("Something is wrong. Class: Mark");
         }

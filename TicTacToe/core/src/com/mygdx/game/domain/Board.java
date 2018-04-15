@@ -43,7 +43,7 @@ public class Board {
 
     public ArrayList<Sprite> setBoardTiles(){
         ArrayList<Sprite> boardTiles = new ArrayList<Sprite>();
-        generateBoard(this);
+        generateBoard();
         for (Tile t : tiles){
             Sprite s = new Sprite(t.getTexture());
             s.setSize(t.getWidth(), t.getHeight());
@@ -53,20 +53,17 @@ public class Board {
         return boardTiles;
     }
 
-    public ArrayList<Tile> generateBoard(Board board){
+    public ArrayList<Tile> generateBoard(){
         this.tiles = new ArrayList<Tile>();
-        float xFactor = MyGdxGame.WIDTH / board.getColumns();
-        float yFactor = MyGdxGame.HEIGHT / board.getRows();
+        float xFactor = MyGdxGame.WIDTH / getColumns();
+        float yFactor = (MyGdxGame.HEIGHT - MyGdxGame.BAR) / getRows();
         float xPosition = 0;
         float yPosition = 0;
-        int id = 0;
-        for (int row = 0; row < board.getRows(); row++){
-            for (int column = 0; column < board.getColumns(); column++){
-                tiles.add(new Tile(xPosition, yPosition, xFactor, yFactor, id, row,column));
+        for (int row = 0; row < getRows(); row++){
+            for (int column = 0; column < getColumns(); column++){
+                tiles.add(new Tile(xPosition, yPosition, xFactor, yFactor, row,column));
                 xPosition += xFactor;
-                id++;
             }
-            id++;
             yPosition += yFactor;
             xPosition = 0;
         }

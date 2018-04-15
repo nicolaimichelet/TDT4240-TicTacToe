@@ -96,24 +96,5 @@ public class Singleton {
         return playerState;
     }
 
-    public void removeBoardState(int tileID){
-        int index = 0;
-        for (TileState ts : boardState){
-            if (ts.getTile().getId() == tileID){
-                boardState.remove(index);
-                return;
-            }
-            index++;
-        }
-    }
 
-    /*public void updateBoardSize(int x, int y){
-        Tile[][] newBoard = new Tile[x][y];
-        for (int i = 0; i < x; i++){
-            for (int j = 0; j < y; j++){
-                newBoard[i][j] = boardState[i][j];
-            }
-        }
-        boardState = newBoard;
-    }*/
 }
