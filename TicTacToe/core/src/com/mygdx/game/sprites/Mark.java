@@ -1,8 +1,5 @@
 package com.mygdx.game.sprites;
 
-/**
- * Created by eiriksandberg on 09.04.2018.
- */
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector3;
@@ -10,10 +7,6 @@ import com.badlogic.gdx.math.Vector3;
 
 /**
  * Created by eiriksandberg on 09.04.2018.
- */
-
-/**
- * Created by eiriksandberg on 22.01.2018.
  */
 
 public class Mark {
@@ -26,6 +19,9 @@ public class Mark {
             this.mark = new Texture("xplayer.png");
         } else if (type == 1) {
             this.mark = new Texture("circleplayer.png");
+        }
+        else if (type == -1){
+            this.mark = new Texture("white.png");
         }
         else {
             System.out.println("Something is wrong. Class: Mark");
