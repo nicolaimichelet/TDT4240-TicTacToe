@@ -12,7 +12,7 @@ public class MyGdxGame extends ApplicationAdapter {
 	public static final int WIDTH = 300;
 	public static final int HEIGHT = 450;
 
-	public static final String TITLE = "Chopper";
+	public static final String TITLE = "TicTacToeUNLEASHED";
 	private GameStateManager gsm;
 	private SpriteBatch batch;
 	Texture img;
