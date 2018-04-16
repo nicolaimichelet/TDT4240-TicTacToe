@@ -51,6 +51,11 @@ public class MenuState implements State {
             singleton.resetSingleton();
             gsm.set(new PlayState(gsm,5,5,5));
             dispose();
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
         if(exitButton.isPressed()){
             Gdx.app.exit();
