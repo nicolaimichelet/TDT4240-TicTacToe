@@ -7,28 +7,51 @@ package com.mygdx.game.domain;
 public class GameLogic {
 
 
-    private char[][] brett;
-    private int amountToWin;
+    private char[][] board;
+    private int n;
     private boolean hasWinner;
     private char winner = '-';
 
-    public GameLogic(char[][] brett, int amountToWin){
-        this.brett=brett;
-        this.amountToWin=amountToWin;
+
+    public GameLogic(int n){
+        this.board=new char[n][n];
+        this.n=n;
         clearBoard();
+    }
+
+    public void expandBoard(){
+        this.n++;
+        char[][] newBoard = new char[n][n];
+        for(int i = 0; i<newBoard.length; i++){
+            for(int j = 0; j<newBoard[i].length; j++){
+                newBoard[i][j]='-';
+            }
+        }
+        for(int i = 0; i<board.length; i++){
+            for(int j = 0; j<board[i].length; j++){
+                //System.out.println("Tile "+i+", "+j+": "+board[i][j]);
+                newBoard[i+1][j] = board[i][j];
+            }
+        }
+        this.board = newBoard;
+        System.out.println(printBoard(this.board));
     }
 
 
     public void clearBoard(){
-        for(int i = 0; i<brett.length; i++){
-            for(int j = 0; j<brett[i].length; j++){
-                brett[i][j]='-';
+        for(int i = 0; i<board.length; i++){
+            for(int j = 0; j<board[i].length; j++){
+                board[i][j]='-';
             }
         }
     }
 
     public void update(float dt){
 
+    }
+
+    public int getN(){
+        return n;
     }
 
     public char getWinner() {
@@ -39,15 +62,15 @@ public class GameLogic {
         return hasWinner;
     }
 
-    public String printBoard(){
-        char[][] matrix = brett;
+    public String printBoard(char[][] board){
+        char[][] matrix = board;
         String midBoard = "\n";
         for (int row = 0; row < matrix.length; row++){
             for (int column = 0; column < matrix.length; column++){
                 if(column ==0){
                     midBoard+=" ";
                 }
-                midBoard += brett[row][column];
+                midBoard += board[row][column];
                 if(column !=(matrix.length-1)){
                     midBoard+= " | ";
                 }
@@ -187,59 +210,69 @@ public class GameLogic {
 
     int moveCount;
 
+    //Place move and check for end conditions
+
     public void Move(int x, int y, char c){
-        if(brett[brett.length-1-x][y] == '-'){
-            brett[brett.length-1-x][y] = c;
+        if(board[board.length-1-x][y] == '-'){
+            board[board.length-1-x][y] = c;
             moveCount++;
-            System.out.println(printBoard());
+            System.out.println("Satt koordinat: "+y+", "+(board.length-1-x));
+            System.out.println(printBoard(this.board));
         }
         //check end conditions
         //check col
-        for (int i = 0; i < amountToWin; i++){
-            if(brett[x][i] != c)
+        for (int i = 0; i < n; i++){
+            if(board[i][x] != c)
                 break;
-            if(i == amountToWin-1){
+            if(i == n-1){
                 hasWinner = true;
                 winner = c;
+                System.out.println("Winning by col");
             }
         }
         //check row
-        for(int i = 0; i < amountToWin; i++){
-            if(brett[i][y] != c)
+        for(int i = 0; i < n; i++){
+            if(board[y][i] != c)
                 break;
-            if(i == amountToWin-1){
+            if(i == n-1){
                 hasWinner = true;
                 winner = c;
+                System.out.println("Winning by row");
             }
         }
 
-        //check diag
-        if(x == y){
-            //we're on a diagonal
-            for(int i = 0; i < amountToWin; i++){
-                if(brett[i][i] != c)
+        //Checking diagonals
+
+        //anti diag
+
+        if(x + y == n - 1){
+            for(int i = 0; i < n; i++){
+                if(board[i][i] != c)
                     break;
-                if(i == amountToWin-1){
+                if(i == n-1){
                     hasWinner = true;
                     winner = c;
+                    System.out.println("Winning by anti diag");
                 }
             }
         }
 
-        //check anti diag (thanks rampion)
-        if(x + y == amountToWin - 1){
-            for(int i = 0; i < amountToWin; i++){
-                if(brett[i][(amountToWin-1)-i] != c)
+
+        //diag
+        if(x == y){
+            for(int i = 0; i < n; i++){
+                if(board[i][(n-1)-i] != c)
                     break;
-                if(i == amountToWin-1){
+                if(i == n-1){
                     hasWinner = true;
                     winner = c;
+                    System.out.println("Winning by diag");
                 }
             }
         }
 
         //check draw
-        else if(moveCount == (Math.pow(amountToWin, 2))){
+        else if(moveCount == (Math.pow(n, 2))){
             hasWinner = false;
             winner = 'D';
         }

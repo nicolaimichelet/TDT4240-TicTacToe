@@ -16,7 +16,6 @@ import java.util.ArrayList;
  */
 
 public class SwapPowerup extends InputHandler implements com.mygdx.game.powerups.Powerup {
-    private Vector3 position;
     private Texture swapIcon;
     private Tile selectedTile1;
     private Tile selectedTile2;
@@ -28,14 +27,6 @@ public class SwapPowerup extends InputHandler implements com.mygdx.game.powerups
 
     public void swap(Tile t1, Tile t2){
         ArrayList<TileState> boardState = singleton.getBoardState();
-        for (TileState ts : boardState){
-            if (ts.getTile().getId() == t1.getId()){
-                ts.setTile(t2);
-            }
-            if (ts.getTile().getId() == t2.getId()){
-                ts.setTile(t1);
-            }
-        }
         System.out.println("Swapped");
     }
     public void update(float dt){
