@@ -9,6 +9,7 @@ import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.Singleton.Singleton;
 import com.mygdx.game.domain.Board;
 import com.mygdx.game.domain.InputHandler;
+import com.mygdx.game.domain.Player;
 import com.mygdx.game.domain.TileState;
 import com.mygdx.game.sprites.Tile;
 
@@ -42,24 +43,40 @@ public class ExpandBoardPowerup extends InputHandler implements com.mygdx.game.p
             for (TileState ts : singleton.getBoardState()) {
                 if (t.getX() == ts.getTile().getX() && t.getY() == ts.getTile().getY()){
                     TileState newTileState = new TileState(t, ts.getState());
+                    t.setMarked(true);
                     newBoardState.add(newTileState);
                 }
             }
         }
         singleton.setBoardState(newBoardState);
+        setIndexToRemovePowerup();
     }
 
     @Override
     public void update(float dt) {
         if (touchDown()){
             expand(singleton.getBoard());
-            //TODO: Remove powerup from player. Used
+            singleton.setpowerupSelected(null);
         }
     }
 
     @Override
     public Texture getTexture() {
         return expandIcon;
+    }
+
+    public void setIndexToRemovePowerup(){
+        Player player = singleton.getPlayers().get(singleton.getPlayerState());
+        int index = 0;
+        if (player.getPowerups().size() > 0){
+            for (Powerup pu : player.getPowerups()){
+                if (pu instanceof ExpandBoardPowerup){
+                    singleton.setIndexTopowerupToRemove(index);
+                    break;
+                }
+                index++;
+            }
+        }
     }
 
 }

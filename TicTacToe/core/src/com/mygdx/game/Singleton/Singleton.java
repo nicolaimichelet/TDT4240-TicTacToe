@@ -2,6 +2,7 @@ package com.mygdx.game.Singleton;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.mygdx.game.domain.Board;
+import com.mygdx.game.domain.Player;
 import com.mygdx.game.domain.TileState;
 import com.mygdx.game.powerups.Powerup;
 import com.mygdx.game.sprites.Tile;
@@ -20,12 +21,16 @@ public class Singleton {
     private ArrayList<Tile> tiles;
     private int playerState, n;
     private Powerup powerupSelected;
+    private ArrayList<Player> players;
+    private int indexTopowerupToRemove;
 
     private Singleton() {
         boardState = new ArrayList<TileState>();
         boardTiles = new ArrayList<Sprite>();
+        players = new ArrayList<Player>();
         playerState = 0;
         tiles = new ArrayList<Tile>();
+        indexTopowerupToRemove = -1;
     }
 
     public int getN(){
@@ -101,5 +106,19 @@ public class Singleton {
         return playerState;
     }
 
+    public ArrayList<Player> getPlayers() {
+        return players;
+    }
 
+    public void setPlayers(ArrayList<Player> players) {
+        this.players = players;
+    }
+
+    public int getIndexTopowerupToRemove() {
+        return indexTopowerupToRemove;
+    }
+
+    public void setIndexTopowerupToRemove(int indexTopowerupToRemove) {
+        this.indexTopowerupToRemove = indexTopowerupToRemove;
+    }
 }

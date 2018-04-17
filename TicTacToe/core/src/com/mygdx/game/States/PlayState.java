@@ -30,9 +30,7 @@ import java.util.ArrayList;
 public class PlayState implements State {
 
     private Singleton singleton = Singleton.getInstance();
-
     private GameStateManager gsm;
-    private ArrayList<Player> players = new ArrayList<Player>();
     private GameLogic gameLogic;
     private Board matrix;
 
@@ -49,8 +47,13 @@ public class PlayState implements State {
         ArrayList<Powerup> powerups = new ArrayList<Powerup>();
         powerups.add(new ExpandBoardPowerup());
         powerups.add(new ObstaclePowerup());
+
+        ArrayList<Powerup> powerups2 = new ArrayList<Powerup>();
+        powerups2.add(new SwapPowerup());
+        ArrayList<Player> players = new ArrayList<Player>();
         players.add(new Player(0, powerups));
-        players.add(new Player(1, powerups));
+        players.add(new Player(1, powerups2));
+        singleton.setPlayers(players);
     }
 
     @Override
@@ -67,6 +70,7 @@ public class PlayState implements State {
 
         @Override
         public void update ( float dt){
+            ArrayList<Player> players = singleton.getPlayers();
             dispose();
             handleInput();
             for (Tile t : singleton.getTiles()) {
@@ -88,6 +92,11 @@ public class PlayState implements State {
             if (singleton.getN() > gameLogic.getN()){
                 gameLogic.expandBoard();
             }
+
+            if (singleton.getIndexTopowerupToRemove() >= 0){
+                players.get(singleton.getPlayerState()).getPowerups().remove(singleton.getIndexTopowerupToRemove());
+                singleton.setIndexTopowerupToRemove(-1);
+            }
         }
 
         @Override
@@ -102,7 +111,7 @@ public class PlayState implements State {
             renderMarks(sb);
 
         // Powerups
-        Player activePlayer = players.get(singleton.getPlayerState());
+        Player activePlayer = singleton.getPlayers().get(singleton.getPlayerState());
         if (activePlayer.havePowerupsAvailable()){
             renderPowerups(activePlayer.getPowerups(), sb);
         }

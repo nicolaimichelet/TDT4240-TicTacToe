@@ -10,6 +10,7 @@ import com.mygdx.game.domain.InputHandler;
 import com.mygdx.game.domain.TileState;
 import com.mygdx.game.powerups.ExpandBoardPowerup;
 import com.mygdx.game.powerups.ObstaclePowerup;
+import com.mygdx.game.powerups.SwapPowerup;
 
 
 /**
@@ -47,7 +48,6 @@ import com.mygdx.game.powerups.ObstaclePowerup;
         }
 
         public void update(float dt){
-
             if (singleton.getPowerupSelected() != null){
                 handlePowerups();
             } else{
@@ -57,7 +57,7 @@ import com.mygdx.game.powerups.ObstaclePowerup;
 
         public void handlePowerups(){
             com.mygdx.game.powerups.Powerup pu = singleton.getPowerupSelected();
-            if (pu instanceof com.mygdx.game.powerups.SwapPowerup){
+            if (pu instanceof SwapPowerup){
                 //System.out.println("Swap selected");
                 if (touchDown()){
                     if (((com.mygdx.game.powerups.SwapPowerup) pu).getSelectedTile1() == null){
@@ -75,12 +75,19 @@ import com.mygdx.game.powerups.ObstaclePowerup;
             }
             if (pu instanceof ObstaclePowerup){
                 if (touchDown()){
-                    System.out.println("HEEEY");
                     ((ObstaclePowerup) pu).setObstacle(this);
+                    singleton.setpowerupSelected(null);
                 }
             }
         }
 
+        public void setMarked(boolean marked) {
+            isMarked = marked;
+        }
+
+        public boolean isMarked() {
+            return isMarked;
+        }
 
         public void placeMark(){
             if (touchDown()){
@@ -92,9 +99,6 @@ import com.mygdx.game.powerups.ObstaclePowerup;
             }
 
         }
-
-
-
 
         public Texture getTexture() {
             return tile;
