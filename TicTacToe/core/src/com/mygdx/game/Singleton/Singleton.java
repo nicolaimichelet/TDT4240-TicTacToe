@@ -18,7 +18,7 @@ public class Singleton {
     private ArrayList<TileState> boardState;
     private ArrayList<Sprite> boardTiles;
     private ArrayList<Tile> tiles;
-    private int playerState;
+    private int playerState, n;
     private Powerup powerupSelected;
 
     private Singleton() {
@@ -26,6 +26,13 @@ public class Singleton {
         boardTiles = new ArrayList<Sprite>();
         playerState = 0;
         tiles = new ArrayList<Tile>();
+    }
+
+    public int getN(){
+        return n;
+    }
+    public void setN(int n){
+        this.n = n;
     }
 
     public void resetSingleton(){
@@ -72,9 +79,7 @@ public class Singleton {
         return boardTiles;
     }
 
-    public void setBoardTiles(ArrayList<Sprite> boardTiles) {
-        this.boardTiles = boardTiles;
-    }
+    public void setBoardTiles(ArrayList<Sprite> boardTiles) {this.boardTiles = boardTiles;}
 
     public Powerup getPowerupSelected() {
         return powerupSelected;

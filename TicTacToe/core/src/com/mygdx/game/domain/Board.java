@@ -56,8 +56,14 @@ public class Board {
 
     public ArrayList<Tile> generateBoard(){
         this.tiles = new ArrayList<Tile>();
+        /*
+        float xFactor = MyGdxGame.WIDTH / getColumns();
+        float yFactor = (MyGdxGame.HEIGHT - MyGdxGame.BAR) / getRows();
+        */
+
         float xFactor = Gdx.graphics.getWidth() / getColumns();
         float yFactor = (Gdx.graphics.getHeight()- MyGdxGame.BAR) / getRows();
+      
         float xPosition = 0;
         float yPosition = 0;
         for (int row = 0; row < getRows(); row++){
