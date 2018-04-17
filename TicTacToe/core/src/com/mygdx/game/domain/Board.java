@@ -70,5 +70,11 @@ public class Board {
         }
         return tiles;
     }
+    public void dispose(){
+        for (Sprite s: setBoardTiles()
+             ) {
+            s.getTexture().dispose();
+        }
+    }
 
 }

@@ -64,6 +64,7 @@ public class PlayState implements State {
 
         @Override
         public void update ( float dt){
+            dispose();
             handleInput();
             for (Tile t : singleton.getTiles()) {
                 t.update(dt);
@@ -104,7 +105,10 @@ public class PlayState implements State {
 
         @Override
         public void dispose () {
-
+            matrix.dispose();
+            for (TileState ts : singleton.getBoardState()) {
+                ts.getTile().getTexture().dispose();
+            }
         }
 
 
