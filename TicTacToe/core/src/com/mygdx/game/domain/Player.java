@@ -18,12 +18,15 @@ public class Player {
     }
 
     public boolean havePowerupsAvailable(){
-        if (powerups.size() > 0){
-            return true;
-        } else {
+        if (powerups != null){
+            if (powerups.size() > 0){
+                return true;
+            } else {
+                return false;
+            }
+        } else{
             return false;
         }
-
     }
 
     public int getId() {

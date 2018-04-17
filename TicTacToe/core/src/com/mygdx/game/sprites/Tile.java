@@ -7,10 +7,14 @@ import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.Singleton.Singleton;
 import com.mygdx.game.domain.InputHandler;
+import com.mygdx.game.domain.Player;
 import com.mygdx.game.domain.TileState;
 import com.mygdx.game.powerups.ExpandBoardPowerup;
 import com.mygdx.game.powerups.ObstaclePowerup;
+import com.mygdx.game.powerups.Powerup;
 import com.mygdx.game.powerups.SwapPowerup;
+
+import java.util.ArrayList;
 
 
 /**
@@ -27,6 +31,7 @@ import com.mygdx.game.powerups.SwapPowerup;
         private boolean isMarked;
         private int x,y;
         Singleton singleton = Singleton.getInstance();
+        private Powerup powerup;
 
         public Tile(float positionX, float positionY, float width, float height, int x, int y){
             setPosition(new Vector3(positionX, positionY, 0));
@@ -96,6 +101,17 @@ import com.mygdx.game.powerups.SwapPowerup;
                     singleton.changePlayerState();
                     isMarked = true;
                 }
+                if (powerup != null){
+                    Player player = singleton.getPlayers().get(singleton.getPlayerState());
+                    if (player.getPowerups() == null){
+                        ArrayList<Powerup> pulist = new ArrayList<Powerup>();
+                        pulist.add(powerup);
+                        player.setPowerups(pulist);
+                    } else{
+                        player.getPowerups().add(powerup);
+                    }
+                    powerup = null;
+                }
             }
 
         }
@@ -108,5 +124,11 @@ import com.mygdx.game.powerups.SwapPowerup;
             return tile;
         }
 
+        public Powerup getPowerup() {
+            return powerup;
+        }
 
+        public void setPowerup(Powerup powerup) {
+            this.powerup = powerup;
+        }
     }

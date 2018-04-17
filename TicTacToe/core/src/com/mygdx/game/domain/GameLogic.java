@@ -277,4 +277,8 @@ public class GameLogic {
             winner = 'D';
         }
     }
+
+    public int getMoveCount() {
+        return moveCount;
+    }
 }

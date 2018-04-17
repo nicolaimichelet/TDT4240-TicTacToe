@@ -3,6 +3,7 @@ package com.mygdx.game.domain;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.mygdx.game.MyGdxGame;
+import com.mygdx.game.powerups.ExpandBoardPowerup;
 import com.mygdx.game.sprites.Tile;
 
 import java.util.ArrayList;
@@ -68,7 +69,8 @@ public class Board {
         float yPosition = 0;
         for (int row = 0; row < getRows(); row++){
             for (int column = 0; column < getColumns(); column++){
-                tiles.add(new Tile(xPosition, yPosition, xFactor, yFactor, row,column));
+                Tile t = new Tile(xPosition, yPosition, xFactor, yFactor, row,column);
+                tiles.add(t);
                 xPosition += xFactor;
             }
             yPosition += yFactor;

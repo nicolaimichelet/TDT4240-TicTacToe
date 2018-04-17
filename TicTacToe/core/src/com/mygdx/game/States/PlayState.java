@@ -22,6 +22,7 @@ import com.mygdx.game.powerups.Powerup;
 import com.mygdx.game.sprites.Tile;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * Created by eiriksandberg on 22.01.2018.
@@ -33,6 +34,9 @@ public class PlayState implements State {
     private GameStateManager gsm;
     private GameLogic gameLogic;
     private Board matrix;
+    private ArrayList<Powerup> powerups;
+    private Random rm = new Random();
+    private int currentMoveCount = rm.nextInt(3);
 
     public PlayState(GameStateManager gsm, int n) {
         matrix = new Board(n, n);
@@ -44,15 +48,13 @@ public class PlayState implements State {
         gameLogic = new GameLogic(n);
 
         // Mock players with powerup
-        ArrayList<Powerup> powerups = new ArrayList<Powerup>();
+        powerups = new ArrayList<Powerup>();
         powerups.add(new ExpandBoardPowerup());
         powerups.add(new ObstaclePowerup());
-
-        ArrayList<Powerup> powerups2 = new ArrayList<Powerup>();
-        powerups2.add(new SwapPowerup());
+        powerups.add(new SwapPowerup());
         ArrayList<Player> players = new ArrayList<Player>();
-        players.add(new Player(0, powerups));
-        players.add(new Player(1, powerups2));
+        players.add(new Player(0, null));
+        players.add(new Player(1, null));
         singleton.setPlayers(players);
     }
 
@@ -86,8 +88,10 @@ public class PlayState implements State {
                 gsm.set(new MenuState(gsm));
                 dispose();
             }
-            for (Powerup pu : players.get(singleton.getPlayerState()).getPowerups()){
-                pu.update(dt);
+            if (players.get(singleton.getPlayerState()).getPowerups() != null){
+                for (Powerup pu : players.get(singleton.getPlayerState()).getPowerups()){
+                    pu.update(dt);
+                }
             }
             if (singleton.getN() > gameLogic.getN()){
                 gameLogic.expandBoard();
@@ -107,15 +111,24 @@ public class PlayState implements State {
                 s.draw(sb);
             }
 
+            // render tiles and powerups
+            //renderTiles(singleton.getTiles(), sb);
+            renderPowerupsOnBoard(singleton.getTiles(), sb);
+
             // Draw marks when pressed
             renderMarks(sb);
 
-        // Powerups
-        Player activePlayer = singleton.getPlayers().get(singleton.getPlayerState());
-        if (activePlayer.havePowerupsAvailable()){
-            renderPowerups(activePlayer.getPowerups(), sb);
-        }
-        sb.end();
+            // Powerups
+            Player activePlayer = singleton.getPlayers().get(singleton.getPlayerState());
+            if (activePlayer.havePowerupsAvailable()){
+                renderPowerups(activePlayer.getPowerups(), sb);
+            }
+
+            if (currentMoveCount - gameLogic.getMoveCount() == 0){
+                spawnRandomPowerup();
+                currentMoveCount = rm.nextInt(3) + 1 + gameLogic.getMoveCount();
+            }
+            sb.end();
     }
 
         @Override
@@ -126,17 +139,26 @@ public class PlayState implements State {
             }
         }
 
+    public void renderPowerupsOnBoard(ArrayList<Tile> tiles, SpriteBatch sb){
+        for (Tile t : tiles){
+            if (t.getPowerup() != null) {
+                Sprite pu = new Sprite(t.getPowerup().getTexture());
+                Vector3 tilePosition = t.getPosition();
+                pu.setSize(50, 50);
+                float xPosition = (tilePosition.x + (t.getWidth() / 2) - 25);
+                float yPosition = (tilePosition.y + (t.getHeight() / 2) - 25);
+                pu.setPosition(xPosition, yPosition);
+                pu.draw(sb);
+            }
+        }
+    }
+
 
     public void renderPowerups(ArrayList<Powerup> powerups, SpriteBatch sb) {
         float factor = MyGdxGame.WIDTH / powerups.size();
         for (Powerup pu : powerups){
             Sprite s = new Sprite(pu.getTexture());
             s.setSize(50, 50);
-            /*
-            s.setPosition((factor / 2) + 25, MyGdxGame.HEIGHT - MyGdxGame.BAR + 10); // Fix this to appear in own menu
-            pu.setPosition(new Vector3((factor / 2) + 25, MyGdxGame.HEIGHT - MyGdxGame.BAR + 10 , 0f));
-            */
-
             s.setPosition((factor / 2) + 25, Gdx.graphics.getHeight()  - MyGdxGame.BAR + 10); // Fix this to appear in own menu
             pu.setPosition(new Vector3((factor / 2) + 25, Gdx.graphics.getHeight()  - MyGdxGame.BAR + 10 , 0f));
             pu.setHeight(50);
@@ -159,6 +181,21 @@ public class PlayState implements State {
             s.setPosition(tile.getPosition().x, tile.getPosition().y);
             s.setSize(tile.getWidth(), tile.getHeight());
             s.draw(sb);
+        }
+    }
+
+    public void spawnRandomPowerup(){
+        Tile t = singleton.getTiles().get(rm.nextInt((singleton.getBoard().getColumns() * singleton.getBoard().getRows())));
+        Powerup pu = powerups.get(rm.nextInt(2));
+        boolean canPlacePowerup = true;
+        for (TileState tileState : singleton.getBoardState()) {
+            if (tileState.getTile().getX() == t.getX() && tileState.getTile().getY() == t.getY()){
+                canPlacePowerup = false;
+            }
+        }
+        if (canPlacePowerup){
+            pu.setPosition(new Vector3(-10f,-10f,0f)); // powerup needs position to work. Random position for init
+            t.setPowerup(pu);
         }
     }
 }
