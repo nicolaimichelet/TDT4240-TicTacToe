@@ -36,14 +36,14 @@ public class PlayState implements State {
     private GameLogic gameLogic;
     private Board matrix;
 
-    public PlayState(GameStateManager gsm, int rows, int cols, int amountToWin) {
-        matrix = new Board(rows, cols);
+    public PlayState(GameStateManager gsm, int n) {
+        matrix = new Board(n, n);
         singleton.setBoard(matrix);
         singleton.setTiles(matrix.generateBoard());
         singleton.setBoardTiles(matrix.setBoardTiles());
 
         this.gsm = gsm;
-        gameLogic = new GameLogic(new char[rows][cols], amountToWin);
+        gameLogic = new GameLogic(n);
 
         // Mock players with powerup
         ArrayList<Powerup> powerups = new ArrayList<Powerup>();
@@ -59,6 +59,9 @@ public class PlayState implements State {
             gsm.set(new MenuState(gsm));
             dispose();
         }
+        if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_5)) {
+            gameLogic.expandBoard();
+        }
     }
 
 
@@ -70,16 +73,19 @@ public class PlayState implements State {
             }
             if (gameLogic.hasWinner()) {
                 System.out.println("Vinneren er spiller " + gameLogic.getWinner());
-                System.out.println(gameLogic.printBoard());
                 gsm.set(new MenuState(gsm));
                 dispose();
-            } else if (!gameLogic.hasWinner() && gameLogic.getWinner() == 'D') {
+            }
+            else if (!gameLogic.hasWinner() && gameLogic.getWinner() == 'D') {
                 System.out.println("UAVGJORT");
                 gsm.set(new MenuState(gsm));
                 dispose();
             }
             for (Powerup pu : players.get(singleton.getPlayerState()).getPowerups()){
                 pu.update(dt);
+            }
+            if (singleton.getN() > gameLogic.getN()){
+                gameLogic.expandBoard();
             }
         }
 
@@ -113,6 +119,11 @@ public class PlayState implements State {
         for (Powerup pu : powerups){
             Sprite s = new Sprite(pu.getTexture());
             s.setSize(50, 50);
+            /*
+            s.setPosition((factor / 2) + 25, MyGdxGame.HEIGHT - MyGdxGame.BAR + 10); // Fix this to appear in own menu
+            pu.setPosition(new Vector3((factor / 2) + 25, MyGdxGame.HEIGHT - MyGdxGame.BAR + 10 , 0f));
+            */
+
             s.setPosition((factor / 2) + 25, Gdx.graphics.getHeight()  - MyGdxGame.BAR + 10); // Fix this to appear in own menu
             pu.setPosition(new Vector3((factor / 2) + 25, Gdx.graphics.getHeight()  - MyGdxGame.BAR + 10 , 0f));
             pu.setHeight(50);

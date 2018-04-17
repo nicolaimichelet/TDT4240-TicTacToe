@@ -33,6 +33,7 @@ public class ExpandBoardPowerup extends InputHandler implements com.mygdx.game.p
         singleton.setTiles(newTiles);
         updateMarks(newTiles);
         singleton.setBoardTiles(newBoard.setBoardTiles());
+        singleton.setN(currentBoard.getRows()+1);
     }
 
     public void updateMarks(ArrayList<Tile> newTiles){
