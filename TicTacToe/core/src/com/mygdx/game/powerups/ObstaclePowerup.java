@@ -60,8 +60,15 @@ public class ObstaclePowerup extends InputHandler implements Powerup {
 
     @Override
     public void update(float dt) {
-        if (touchDown()){
-            singleton.setpowerupSelected(this);
+        if (touchDown()) {
+            if (singleton.getPowerupSelected() != null) {
+                if (singleton.getPowerupSelected().equals(this)) {
+                    singleton.setpowerupSelected(null);
+                }
+            } else {
+                singleton.setpowerupSelected(this);
+                System.out.println("Swapped selected");
+            }
         }
     }
 

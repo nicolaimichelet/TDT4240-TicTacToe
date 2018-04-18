@@ -43,7 +43,6 @@ public class PlayState implements State {
 
         this.gsm = gsm;
         gameLogic = new GameLogic(n);
-
         // Mock players with powerup
         powerups = new ArrayList<Powerup>();
         powerups.add(new ExpandBoardPowerup());
@@ -53,8 +52,8 @@ public class PlayState implements State {
 
         ArrayList<Powerup> mocklist = new ArrayList<Powerup>();
         mocklist.add(new SwapPowerup());
-        //mocklist.add(new ObstaclePowerup());
-        //mocklist.add(new ExpandBoardPowerup());
+        mocklist.add(new ObstaclePowerup());
+        mocklist.add(new ExpandBoardPowerup());
         players.add(new Player(0, mocklist));
         players.add(new Player(1, null));
         singleton.setPlayers(players);
@@ -161,8 +160,10 @@ public class PlayState implements State {
         float blankspace = powerups.size() > 1 ? factor / powerups.size() : 0;
         float renderIterator = powerups.size() > 1 ? 0 : MyGdxGame.WIDTH / 2;
         for (Powerup pu : powerups){
-            System.out.println(renderIterator);
             Sprite s = new Sprite(pu.getTexture());
+            if (pu.equals(singleton.getPowerupSelected())){
+                s.setAlpha(0.5f);
+            }
             s.setSize(50, 50);
             s.setPosition(renderIterator + blankspace - 25, Gdx.graphics.getHeight() - MyGdxGame.BAR + 10); // Fix this to appear in own menu
             pu.setPosition(new Vector3(renderIterator + blankspace - 25, Gdx.graphics.getHeight()  - MyGdxGame.BAR + 10 , 0f));

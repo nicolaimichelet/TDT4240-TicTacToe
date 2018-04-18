@@ -16,7 +16,7 @@ public abstract class InputHandler {
     private Vector3 position;
 
     public boolean touchDown(){
-        if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)){
+        if (Gdx.input.justTouched()){
             Vector3 positionClicked = new Vector3(Gdx.input.getX(), Gdx.graphics.getHeight()-Gdx.input.getY(), 0);
             if (isHit(positionClicked, position, width, height)){
                 return true;
