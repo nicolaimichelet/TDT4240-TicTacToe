@@ -24,6 +24,7 @@ public class MainMenuState implements State {
     private TextButton settingsButton;
     private TextButton powerUpButton;
     private TextButton exitButton;
+    private Label titleLabel;
     private Singleton singleton = Singleton.getInstance();
 
     public MainMenuState(GameStateManager gsm) {
@@ -33,13 +34,19 @@ public class MainMenuState implements State {
 
         createSkin(); // Create skin for buttons
         initializeButtons();
-        //initializeLabels();
+        initializeLabels();
+
+        // Add labels to stage
+
+        stage.addActor(titleLabel);
 
 //        Add buttons to stage
         stage.addActor(playButton);
         stage.addActor(settingsButton);
         stage.addActor(powerUpButton);
         stage.addActor(exitButton);
+
+        singleton.playSound(0);
 
     }
 
@@ -48,7 +55,7 @@ public class MainMenuState implements State {
         if(playButton.isPressed()){
             singleton.resetSingleton();
             gsm.set(new PlayState(gsm,5));
-
+            singleton.stopSound(0);
             dispose();
             try {
                 Thread.sleep(500);
@@ -114,8 +121,8 @@ public class MainMenuState implements State {
         Label.LabelStyle style = new Label.LabelStyle();
         style.font = font;
 
-        Label TitleText = new Label("TicTacToeUNLEASHED",style);
-        TitleText.setPosition((Gdx.graphics.getWidth()-TitleText.getWidth())/2,Gdx.graphics.getHeight()-50);
+        titleLabel = new Label("TicTacToeUNLEASHED",style);
+        titleLabel.setPosition((Gdx.graphics.getWidth()-titleLabel.getWidth())/2,Gdx.graphics.getHeight()-150);
     }
 
     private void initializeButtons(){

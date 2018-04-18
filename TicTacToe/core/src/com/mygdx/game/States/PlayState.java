@@ -68,7 +68,7 @@ public class PlayState implements State {
     public void handleInput() {
         if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
             gsm.set(new MainMenuState(gsm));
-            singleton.stopSound();
+            singleton.stopSound(1);
             dispose();
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_5)) {
@@ -86,17 +86,17 @@ public class PlayState implements State {
                 t.update(dt);
             }
             if (gameLogic.hasWinner()) {
+                singleton.playSound(2);
                 System.out.println("Vinneren er spiller " + gameLogic.getWinner());
                 gsm.set(new AfterGameMenuState(gsm, gameLogic.getWinner()));
                 dispose();
-                singleton.stopSound();
-                singleton.playSound(2);
+                singleton.stopSound(1);
             }
             else if (!gameLogic.hasWinner() && gameLogic.getWinner() == 'D') {
                 System.out.println("UAVGJORT");
                 gsm.set(new AfterGameMenuState(gsm, gameLogic.getWinner()));
                 dispose();
-                singleton.stopSound();
+                singleton.stopSound(1);
                 singleton.playSound(3);
             }
             if (players.get(singleton.getPlayerState()).getPowerups() != null){

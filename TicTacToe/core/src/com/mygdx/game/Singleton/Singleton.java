@@ -29,7 +29,7 @@ public class Singleton {
     private ArrayList<Player> players;
     private int indexTopowerupToRemove;
     private ArrayList<Powerup> powerups;
-    private Sound sound, winningSound;
+    private Sound lobbySound, gameSound, winningSound, drawSound;
 
     public ArrayList<Powerup> getPowerups() {
         return powerups;
@@ -53,29 +53,42 @@ public class Singleton {
         playerState = 0;
         tiles = new ArrayList<Tile>();
         indexTopowerupToRemove = -1;
-        sound = Gdx.audio.newSound(Gdx.files.internal("music.mp3"));
+        lobbySound = Gdx.audio.newSound(Gdx.files.internal("lobby.mp3"));
+        gameSound = Gdx.audio.newSound(Gdx.files.internal("music.mp3"));
+        winningSound = Gdx.audio.newSound(Gdx.files.internal("winning.mp3"));
+
     }
 
     public void playSound(int i){
-        if (i == 1){
-            sound.play(1.0f);
+        if (i == 0){
+            lobbySound.loop(1.0f);
+        }
+        else if (i == 1){
+            gameSound.play(1.0f);
         }
         else if (i == 2){
-            System.out.println("Play winning sound");
+            winningSound.play(1.0f);
         }
         else if (i == 3){
             System.out.println("Play draw sound");
         }
     }
 
-    public void stopSound(){
-        sound.dispose();
-        //sound.pause();
+    public void stopSound(int i){
+        if (i == 0){
+            lobbySound.dispose();
+        }
+        else if (i == 1){
+            gameSound.dispose();
+        }
+        else if (i == 2){
+            winningSound.dispose();
+        }
+        else if (i == 3){
+            System.out.println("Play draw sound");
+        }
     }
 
-    public void resumeSound(){
-        sound.resume();
-    }
 
     public int getN(){
         return n;
