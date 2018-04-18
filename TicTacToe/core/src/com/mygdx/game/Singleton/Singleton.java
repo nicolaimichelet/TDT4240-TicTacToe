@@ -1,5 +1,7 @@
 package com.mygdx.game.Singleton;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.mygdx.game.domain.Board;
 import com.mygdx.game.domain.Player;
@@ -27,6 +29,7 @@ public class Singleton {
     private ArrayList<Player> players;
     private int indexTopowerupToRemove;
     private ArrayList<Powerup> powerups;
+    private Sound sound, winningSound;
 
     public ArrayList<Powerup> getPowerups() {
         return powerups;
@@ -50,6 +53,28 @@ public class Singleton {
         playerState = 0;
         tiles = new ArrayList<Tile>();
         indexTopowerupToRemove = -1;
+        sound = Gdx.audio.newSound(Gdx.files.internal("music.mp3"));
+    }
+
+    public void playSound(int i){
+        if (i == 1){
+            sound.play(1.0f);
+        }
+        else if (i == 2){
+            System.out.println("Play winning sound");
+        }
+        else if (i == 3){
+            System.out.println("Play draw sound");
+        }
+    }
+
+    public void stopSound(){
+        sound.dispose();
+        //sound.pause();
+    }
+
+    public void resumeSound(){
+        sound.resume();
     }
 
     public int getN(){

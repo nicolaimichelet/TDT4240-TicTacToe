@@ -2,6 +2,8 @@ package com.mygdx.game.States;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
@@ -41,9 +43,9 @@ public class PlayState implements State {
         singleton.setBoard(matrix);
         singleton.setTiles(matrix.generateBoard());
         singleton.setBoardTiles(matrix.setBoardTiles());
-
         this.gsm = gsm;
         gameLogic = new GameLogic(n);
+
 
         singleton.setPowerup(new ExpandBoardPowerup());
         singleton.setPowerup(new ObstaclePowerup());
@@ -59,12 +61,14 @@ public class PlayState implements State {
         players.add(new Player(1, null));
 
         singleton.setPlayers(players);
+        singleton.playSound(1);
     }
 
     @Override
     public void handleInput() {
         if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
             gsm.set(new MainMenuState(gsm));
+            singleton.stopSound();
             dispose();
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_5)) {
@@ -85,11 +89,15 @@ public class PlayState implements State {
                 System.out.println("Vinneren er spiller " + gameLogic.getWinner());
                 gsm.set(new AfterGameMenuState(gsm, gameLogic.getWinner()));
                 dispose();
+                singleton.stopSound();
+                singleton.playSound(2);
             }
             else if (!gameLogic.hasWinner() && gameLogic.getWinner() == 'D') {
                 System.out.println("UAVGJORT");
                 gsm.set(new AfterGameMenuState(gsm, gameLogic.getWinner()));
                 dispose();
+                singleton.stopSound();
+                singleton.playSound(3);
             }
             if (players.get(singleton.getPlayerState()).getPowerups() != null){
                 for (Powerup pu : players.get(singleton.getPlayerState()).getPowerups()){
@@ -118,8 +126,14 @@ public class PlayState implements State {
             //renderTiles(singleton.getTiles(), sb);
             renderPowerupsOnBoard(singleton.getTiles(), sb);
 
+
+
             // Draw marks when pressed
             renderMarks(sb);
+
+
+            // Draw bottom bar
+            //renderBottomBar(sb);
 
             // Powerups
             Player activePlayer = singleton.getPlayers().get(singleton.getPlayerState());
@@ -134,13 +148,19 @@ public class PlayState implements State {
             sb.end();
     }
 
-        @Override
-        public void dispose () {
-            matrix.dispose();
-            for (TileState ts : singleton.getBoardState()) {
-                ts.getTile().getTexture().dispose();
-            }
+    public void renderBottomBar(SpriteBatch sb){
+        sb.draw(new Texture("white.png"),0,0,MyGdxGame.WIDTH,MyGdxGame.BOTTOMBAR);
+
+
+    }
+
+    @Override
+    public void dispose () {
+        matrix.dispose();
+        for (TileState ts : singleton.getBoardState()) {
+            ts.getTile().getTexture().dispose();
         }
+    }
 
     public void renderPowerupsOnBoard(ArrayList<Tile> tiles, SpriteBatch sb){
         for (Tile t : tiles){

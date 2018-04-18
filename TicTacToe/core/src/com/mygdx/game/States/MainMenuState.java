@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.mygdx.game.Singleton.Singleton;
@@ -22,7 +23,6 @@ public class MainMenuState implements State {
     private TextButton playButton;
     private TextButton settingsButton;
     private TextButton powerUpButton;
-    private TextButton highscoreButton;
     private TextButton exitButton;
     private Singleton singleton = Singleton.getInstance();
 
@@ -33,12 +33,12 @@ public class MainMenuState implements State {
 
         createSkin(); // Create skin for buttons
         initializeButtons();
+        //initializeLabels();
 
 //        Add buttons to stage
         stage.addActor(playButton);
         stage.addActor(settingsButton);
         stage.addActor(powerUpButton);
-        stage.addActor(highscoreButton);
         stage.addActor(exitButton);
 
     }
@@ -61,9 +61,6 @@ public class MainMenuState implements State {
         }
         if(powerUpButton.isPressed()){
 //            Change to power-up state
-        }
-        if(highscoreButton.isPressed()){
-//            Change to highscore state
         }
         if(exitButton.isPressed()){
             Gdx.app.exit();
@@ -110,6 +107,17 @@ public class MainMenuState implements State {
         skin.add("default", textButtonStyle);
     }
 
+    private void initializeLabels(){
+        BitmapFont font = new BitmapFont();
+        skin = new Skin();
+        skin.add("default", font);
+        Label.LabelStyle style = new Label.LabelStyle();
+        style.font = font;
+
+        Label TitleText = new Label("TicTacToeUNLEASHED",style);
+        TitleText.setPosition((Gdx.graphics.getWidth()-TitleText.getWidth())/2,Gdx.graphics.getHeight()-50);
+    }
+
     private void initializeButtons(){
         playButton = new TextButton("Play now", skin);
         playButton.setPosition((Gdx.graphics.getWidth() - playButton.getWidth())/2, ((Gdx.graphics.getHeight() + 4 * playButton.getHeight())/2));
@@ -120,9 +128,9 @@ public class MainMenuState implements State {
         powerUpButton = new TextButton("Power ups", skin);
         powerUpButton.setPosition((Gdx.graphics.getWidth() - powerUpButton.getWidth())/2, ((Gdx.graphics.getHeight() - 2 * powerUpButton.getHeight())/2));
 
-        highscoreButton = new TextButton("Highscore", skin);
+        /*highscoreButton = new TextButton("Highscore", skin);
         highscoreButton.setPosition((Gdx.graphics.getWidth() - highscoreButton.getWidth())/2, ((Gdx.graphics.getHeight() - 5 * highscoreButton.getHeight())/2));
-
+        */
         exitButton = new TextButton("Exit", skin);
         exitButton.setPosition((Gdx.graphics.getWidth() - exitButton.getWidth())/2, (Gdx.graphics.getHeight()/2) - 4 * exitButton.getHeight());
     }
