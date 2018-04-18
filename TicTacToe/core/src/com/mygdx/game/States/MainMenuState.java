@@ -3,7 +3,6 @@ package com.mygdx.game.States;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -16,7 +15,7 @@ import com.mygdx.game.Singleton.Singleton;
  * Created by eiriksandberg on 22.01.2018.
  */
 
-public class MenuState implements State {
+public class MainMenuState implements State {
     private GameStateManager gsm;
     private Stage stage;
     private Skin skin;
@@ -25,10 +24,9 @@ public class MenuState implements State {
     private TextButton powerUpButton;
     private TextButton highscoreButton;
     private TextButton exitButton;
-    private Texture background = new Texture("white.png");
     private Singleton singleton = Singleton.getInstance();
 
-    public MenuState(GameStateManager gsm) {
+    public MainMenuState(GameStateManager gsm) {
         this.gsm = gsm;
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
@@ -57,6 +55,15 @@ public class MenuState implements State {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+        }
+        if(settingsButton.isPressed()){
+//            Change to settings state
+        }
+        if(powerUpButton.isPressed()){
+//            Change to power-up state
+        }
+        if(highscoreButton.isPressed()){
+//            Change to highscore state
         }
         if(exitButton.isPressed()){
             Gdx.app.exit();

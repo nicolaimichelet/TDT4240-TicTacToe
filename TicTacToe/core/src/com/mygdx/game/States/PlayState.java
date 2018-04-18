@@ -1,13 +1,10 @@
 package com.mygdx.game.States;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.Singleton.Singleton;
 import com.mygdx.game.domain.Board;
@@ -66,7 +63,7 @@ public class PlayState implements State {
     @Override
     public void handleInput() {
         if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
-            gsm.set(new MenuState(gsm));
+            gsm.set(new MainMenuState(gsm));
             dispose();
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_5)) {
@@ -85,12 +82,12 @@ public class PlayState implements State {
             }
             if (gameLogic.hasWinner()) {
                 System.out.println("Vinneren er spiller " + gameLogic.getWinner());
-                gsm.set(new MenuState(gsm));
+                gsm.set(new AfterGameMenuState(gsm, gameLogic.getWinner()));
                 dispose();
             }
             else if (!gameLogic.hasWinner() && gameLogic.getWinner() == 'D') {
                 System.out.println("UAVGJORT");
-                gsm.set(new MenuState(gsm));
+                gsm.set(new MainMenuState(gsm));
                 dispose();
             }
             if (players.get(singleton.getPlayerState()).getPowerups() != null){
