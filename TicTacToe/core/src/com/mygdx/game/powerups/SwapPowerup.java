@@ -46,8 +46,14 @@ public class SwapPowerup extends InputHandler implements com.mygdx.game.powerups
 
     public void update(float dt){
         if (touchDown()){
-            singleton.setpowerupSelected(this);
-            System.out.println("Swapped selected");
+            if (singleton.getPowerupSelected() != null){
+                if (singleton.getPowerupSelected().equals(this)){
+                    singleton.setpowerupSelected(null);
+                }
+            } else{
+                singleton.setpowerupSelected(this);
+                System.out.println("Swapped selected");
+            }
         }
     }
 
