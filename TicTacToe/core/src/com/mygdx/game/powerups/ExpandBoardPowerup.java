@@ -38,7 +38,10 @@ public class ExpandBoardPowerup extends InputHandler implements com.mygdx.game.p
             singleton.setBoard(newBoard);
             singleton.setN(currentBoard.getRows()+1);
         }
-        // remove from powerup list
+        else {
+            singleton.updatePowerupList();
+            System.out.println("kan ikke forstørre brettet mer");
+        }
     }
 
     public void updateMarks(ArrayList<Tile> newTiles){

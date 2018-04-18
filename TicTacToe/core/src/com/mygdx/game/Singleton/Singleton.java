@@ -4,7 +4,10 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.mygdx.game.domain.Board;
 import com.mygdx.game.domain.Player;
 import com.mygdx.game.domain.TileState;
+import com.mygdx.game.powerups.ExpandBoardPowerup;
+import com.mygdx.game.powerups.ObstaclePowerup;
 import com.mygdx.game.powerups.Powerup;
+import com.mygdx.game.powerups.SwapPowerup;
 import com.mygdx.game.sprites.Tile;
 
 import java.util.ArrayList;
@@ -23,10 +26,26 @@ public class Singleton {
     private Powerup powerupSelected;
     private ArrayList<Player> players;
     private int indexTopowerupToRemove;
+    private ArrayList<Powerup> powerups;
+
+    public ArrayList<Powerup> getPowerups() {
+        return powerups;
+    }
+
+    public void updatePowerupList(){
+        this.powerups = new ArrayList<Powerup>();
+        this.powerups.add(new ObstaclePowerup());
+        this.powerups.add(new SwapPowerup());
+    }
+
+    public void setPowerup(Powerup powerup){
+        powerups.add(powerup);
+    }
 
     private Singleton() {
         boardState = new ArrayList<TileState>();
         boardTiles = new ArrayList<Sprite>();
+        powerups = new ArrayList<Powerup>();
         players = new ArrayList<Player>();
         playerState = 0;
         tiles = new ArrayList<Tile>();
