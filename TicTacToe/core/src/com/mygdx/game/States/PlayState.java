@@ -205,7 +205,7 @@ public class PlayState implements State {
 
     public void spawnRandomPowerup(){
         Tile t = singleton.getTiles().get(rm.nextInt((singleton.getBoard().getColumns() * singleton.getBoard().getRows())));
-        Powerup pu = singleton.getPowerups().get(rm.nextInt(singleton.getPowerups().size()));
+        Powerup pu = gameLogic.getMoveCount() > 2 ? singleton.getPowerups().get(rm.nextInt(singleton.getPowerups().size())) : singleton.getPowerups().get(rm.nextInt(singleton.getPowerups().size() - 1));
         boolean canPlacePowerup = true;
         for (TileState tileState : singleton.getBoardState()) {
             if (tileState.getTile().getX() == t.getX() && tileState.getTile().getY() == t.getY()){
