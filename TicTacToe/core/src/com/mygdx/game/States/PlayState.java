@@ -34,6 +34,7 @@ public class PlayState implements State {
     private ArrayList<Powerup> powerups;
     private Random rm = new Random();
     private int currentMoveCount = rm.nextInt(3);
+    private int updateMoveCount;
 
     public PlayState(GameStateManager gsm, int n) {
         matrix = new Board(n, n);
@@ -54,7 +55,7 @@ public class PlayState implements State {
         mocklist.add(new SwapPowerup());
         mocklist.add(new ObstaclePowerup());
         mocklist.add(new ExpandBoardPowerup());
-        players.add(new Player(0, mocklist));
+        players.add(new Player(0, null));
         players.add(new Player(1, null));
         singleton.setPlayers(players);
     }
@@ -86,7 +87,7 @@ public class PlayState implements State {
             }
             else if (!gameLogic.hasWinner() && gameLogic.getWinner() == 'D') {
                 System.out.println("UAVGJORT");
-                gsm.set(new MainMenuState(gsm));
+                gsm.set(new AfterGameMenuState(gsm,gameLogic.getWinner()));
                 dispose();
             }
             if (players.get(singleton.getPlayerState()).getPowerups() != null){
@@ -175,6 +176,8 @@ public class PlayState implements State {
     }
 
     public void renderMarks(SpriteBatch sb) {
+        gameLogic.clearBoard();
+        gameLogic.setZeroMoveCount();
         for (TileState ts : singleton.getBoardState()) {
             Tile tile = ts.getTile();
             Mark m = new Mark(tile, ts.getState());
@@ -187,6 +190,10 @@ public class PlayState implements State {
             s.setPosition(tile.getPosition().x, tile.getPosition().y);
             s.setSize(tile.getWidth(), tile.getHeight());
             s.draw(sb);
+        }
+        if (gameLogic.getMoveCount()>updateMoveCount){
+            updateMoveCount=gameLogic.getMoveCount();
+            System.out.println(gameLogic.printBoard());
         }
     }
 

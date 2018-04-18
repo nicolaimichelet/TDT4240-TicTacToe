@@ -29,12 +29,11 @@ public class GameLogic {
         }
         for(int i = 0; i<board.length; i++){
             for(int j = 0; j<board[i].length; j++){
-                //System.out.println("Tile "+i+", "+j+": "+board[i][j]);
                 newBoard[i+1][j] = board[i][j];
             }
         }
         this.board = newBoard;
-        System.out.println(printBoard(this.board));
+        System.out.println(printBoard());
     }
 
 
@@ -62,7 +61,7 @@ public class GameLogic {
         return hasWinner;
     }
 
-    public String printBoard(char[][] board){
+    public String printBoard(){
         char[][] matrix = board;
         String midBoard = "\n";
         for (int row = 0; row < matrix.length; row++){
@@ -208,7 +207,12 @@ public class GameLogic {
         return false;
     }
 
-    int moveCount;
+    private int moveCount;
+
+    public void setZeroMoveCount(){
+        moveCount=0;
+    }
+
 
     //Place move and check for end conditions
 
@@ -216,8 +220,6 @@ public class GameLogic {
         if(board[board.length-1-x][y] == '-'){
             board[board.length-1-x][y] = c;
             moveCount++;
-            System.out.println("Satt koordinat: "+y+", "+(board.length-1-x));
-            System.out.println(printBoard(this.board));
         }
         //check end conditions
         //check col
