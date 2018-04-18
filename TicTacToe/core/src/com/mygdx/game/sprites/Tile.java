@@ -105,11 +105,6 @@ import java.util.ArrayList;
 
         public void placeMark(){
             if (touchDown()){
-                if (!isMarked){
-                    singleton.addBoardState(new TileState(this, singleton.getPlayerState()));
-                    singleton.changePlayerState();
-                    isMarked = true;
-                }
                 if (powerup != null){
                     Player player = singleton.getPlayers().get(singleton.getPlayerState());
                     if (player.getPowerups() == null){
@@ -121,6 +116,12 @@ import java.util.ArrayList;
                     }
                     powerup = null;
                 }
+                if (!isMarked){
+                    singleton.addBoardState(new TileState(this, singleton.getPlayerState()));
+                    singleton.changePlayerState();
+                    isMarked = true;
+                }
+
             }
 
         }

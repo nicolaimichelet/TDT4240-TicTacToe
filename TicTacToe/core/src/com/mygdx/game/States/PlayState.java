@@ -56,6 +56,8 @@ public class PlayState implements State {
 
         ArrayList<Powerup> mocklist = new ArrayList<Powerup>();
         mocklist.add(new SwapPowerup());
+        //mocklist.add(new ObstaclePowerup());
+        //mocklist.add(new ExpandBoardPowerup());
         players.add(new Player(0, mocklist));
         players.add(new Player(1, null));
         singleton.setPlayers(players);
@@ -158,16 +160,19 @@ public class PlayState implements State {
 
 
     public void renderPowerups(ArrayList<Powerup> powerups, SpriteBatch sb) {
-        float factor = MyGdxGame.WIDTH / powerups.size();
+        float factor = powerups.size() > 1 ? MyGdxGame.WIDTH / powerups.size() : MyGdxGame.WIDTH / 2;
+        float blankspace = powerups.size() > 1 ? factor / powerups.size() : 0;
+        float renderIterator = powerups.size() > 1 ? 0 : MyGdxGame.WIDTH / 2;
         for (Powerup pu : powerups){
+            System.out.println(renderIterator);
             Sprite s = new Sprite(pu.getTexture());
             s.setSize(50, 50);
-            s.setPosition((factor / 2) + 25, Gdx.graphics.getHeight()  - MyGdxGame.BAR + 10); // Fix this to appear in own menu
-            pu.setPosition(new Vector3((factor / 2) + 25, Gdx.graphics.getHeight()  - MyGdxGame.BAR + 10 , 0f));
+            s.setPosition(renderIterator + blankspace - 25, Gdx.graphics.getHeight() - MyGdxGame.BAR + 10); // Fix this to appear in own menu
+            pu.setPosition(new Vector3(renderIterator + blankspace - 25, Gdx.graphics.getHeight()  - MyGdxGame.BAR + 10 , 0f));
             pu.setHeight(50);
             pu.setWidth(50);
             s.draw(sb);
-            factor += factor;
+            renderIterator += factor;
         }
     }
 
@@ -189,7 +194,7 @@ public class PlayState implements State {
 
     public void spawnRandomPowerup(){
         Tile t = singleton.getTiles().get(rm.nextInt((singleton.getBoard().getColumns() * singleton.getBoard().getRows())));
-        Powerup pu = powerups.get(rm.nextInt(2));
+        Powerup pu = powerups.get(rm.nextInt(powerups.size()));
         boolean canPlacePowerup = true;
         for (TileState tileState : singleton.getBoardState()) {
             if (tileState.getTile().getX() == t.getX() && tileState.getTile().getY() == t.getY()){

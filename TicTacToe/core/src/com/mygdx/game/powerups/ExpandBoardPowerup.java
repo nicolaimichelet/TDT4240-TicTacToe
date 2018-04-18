@@ -29,12 +29,16 @@ public class ExpandBoardPowerup extends InputHandler implements com.mygdx.game.p
     }
 
     public void expand(Board currentBoard){
-        Board newBoard = new Board(currentBoard.getRows() + 1, currentBoard.getColumns() + 1);
-        ArrayList<Tile> newTiles = newBoard.generateBoard();
-        singleton.setTiles(newTiles);
-        updateMarks(newTiles);
-        singleton.setBoardTiles(newBoard.setBoardTiles());
-        singleton.setN(currentBoard.getRows()+1);
+        if (currentBoard.getRows() <= 7){
+            Board newBoard = new Board(currentBoard.getRows() + 1, currentBoard.getColumns() + 1);
+            ArrayList<Tile> newTiles = newBoard.generateBoard();
+            singleton.setTiles(newTiles);
+            updateMarks(newTiles);
+            singleton.setBoardTiles(newBoard.setBoardTiles());
+            singleton.setBoard(newBoard);
+            singleton.setN(currentBoard.getRows()+1);
+        }
+        // remove from powerup list
     }
 
     public void updateMarks(ArrayList<Tile> newTiles){
