@@ -123,14 +123,28 @@ public class AfterGameMenuState implements State {
         BitmapFont fontWinner = new BitmapFont(Gdx.files.internal("winnerFont.fnt"));
         Label.LabelStyle style = new Label.LabelStyle();
         style.font = fontWinner;
+        if (winner=='D'){
 
-        String congratulationsText = "Congratulations!";
-        congratulationsLabel = new Label(congratulationsText, style);
-        congratulationsLabel.setPosition((Gdx.graphics.getWidth() - congratulationsLabel.getWidth())/2, (float)(Gdx.graphics.getHeight() / 1.2));
 
-        String winnerText = "Player " + winner + " has won!";
-        winnerLabel = new Label(winnerText, style);
-        winnerLabel.setPosition((Gdx.graphics.getWidth() - winnerLabel.getWidth())/2, (float)(congratulationsLabel.getY() - winnerLabel.getHeight() * 1.5));
+            String congratulationsText = "It's a draw!";
+            congratulationsLabel = new Label(congratulationsText, style);
+            congratulationsLabel.setPosition((Gdx.graphics.getWidth() - congratulationsLabel.getWidth())/2, (float)(Gdx.graphics.getHeight() / 1.2));
+
+            String winnerText = "No winner..";
+            winnerLabel = new Label(winnerText, style);
+            winnerLabel.setPosition((Gdx.graphics.getWidth() - winnerLabel.getWidth())/2, (float)(congratulationsLabel.getY() - winnerLabel.getHeight() * 1.5));
+
+        }
+        else{
+            String congratulationsText = "Congratulations!";
+            congratulationsLabel = new Label(congratulationsText, style);
+            congratulationsLabel.setPosition((Gdx.graphics.getWidth() - congratulationsLabel.getWidth())/2, (float)(Gdx.graphics.getHeight() / 1.2));
+
+            String winnerText = "Player " + winner + " has won!";
+            winnerLabel = new Label(winnerText, style);
+            winnerLabel.setPosition((Gdx.graphics.getWidth() - winnerLabel.getWidth())/2, (float)(congratulationsLabel.getY() - winnerLabel.getHeight() * 1.5));
+
+        }
     }
 
     //    Update stage viewport when screen is resized
