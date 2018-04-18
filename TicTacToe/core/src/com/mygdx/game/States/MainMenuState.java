@@ -55,6 +55,15 @@ public class MainMenuState implements State {
                 e.printStackTrace();
             }
         }
+        if(settingsButton.isPressed()){
+//            Change to settings state
+        }
+        if(powerUpButton.isPressed()){
+//            Change to power-up state
+        }
+        if(highscoreButton.isPressed()){
+//            Change to highscore state
+        }
         if(exitButton.isPressed()){
             Gdx.app.exit();
         }
