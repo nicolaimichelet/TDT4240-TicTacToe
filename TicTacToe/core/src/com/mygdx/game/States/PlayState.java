@@ -88,7 +88,7 @@ public class PlayState implements State {
             }
             else if (!gameLogic.hasWinner() && gameLogic.getWinner() == 'D') {
                 System.out.println("UAVGJORT");
-                gsm.set(new AfterGameMenuState(gsm,gameLogic.getWinner()));
+                gsm.set(new AfterGameMenuState(gsm, gameLogic.getWinner()));
                 dispose();
             }
             if (players.get(singleton.getPlayerState()).getPowerups() != null){
