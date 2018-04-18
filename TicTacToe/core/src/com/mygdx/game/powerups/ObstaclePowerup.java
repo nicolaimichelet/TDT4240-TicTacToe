@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.mygdx.game.Singleton.Singleton;
 import com.mygdx.game.domain.InputHandler;
+import com.mygdx.game.domain.Player;
 import com.mygdx.game.domain.TileState;
 import com.mygdx.game.sprites.Tile;
 
@@ -31,6 +32,7 @@ public class ObstaclePowerup extends InputHandler implements Powerup {
                     }
                 }
                 if (canPlaceObstacle){
+                    t.setMarked(true);
                     ArrayList<TileState> newTileState = singleton.getBoardState();
                     newTileState.add(new TileState(t, -1));
                     singleton.setBoardState(newTileState);
@@ -39,13 +41,27 @@ public class ObstaclePowerup extends InputHandler implements Powerup {
                 }
             }
         }
+        setIndexToRemovePowerup();
+    }
+
+    public void setIndexToRemovePowerup(){
+        Player player = singleton.getPlayers().get(singleton.getPlayerState());
+        int index = 0;
+        if (player.getPowerups().size() > 0){
+            for (Powerup pu : player.getPowerups()){
+                if (pu instanceof ObstaclePowerup){
+                    singleton.setIndexTopowerupToRemove(index);
+                    break;
+                }
+                index++;
+            }
+        }
     }
 
     @Override
     public void update(float dt) {
         if (touchDown()){
             singleton.setpowerupSelected(this);
-            System.out.println("Obstacle selected");
         }
     }
 

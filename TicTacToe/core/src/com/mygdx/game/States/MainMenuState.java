@@ -47,7 +47,8 @@ public class MainMenuState implements State {
     public void handleInput() {
         if(playButton.isPressed()){
             singleton.resetSingleton();
-            gsm.set(new PlayState(gsm,5,5,5));
+            gsm.set(new PlayState(gsm,5));
+
             dispose();
             try {
                 Thread.sleep(500);

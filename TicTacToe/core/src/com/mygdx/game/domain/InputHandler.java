@@ -17,7 +17,7 @@ public abstract class InputHandler {
 
     public boolean touchDown(){
         if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)){
-            Vector3 positionClicked = new Vector3(Gdx.input.getX(), MyGdxGame.HEIGHT-Gdx.input.getY(), 0);
+            Vector3 positionClicked = new Vector3(Gdx.input.getX(), Gdx.graphics.getHeight()-Gdx.input.getY(), 0);
             if (isHit(positionClicked, position, width, height)){
                 return true;
             }
@@ -27,7 +27,7 @@ public abstract class InputHandler {
 
     public boolean isHit(Vector3 positionClicked, Vector3 objPosition, float width, float height){
         float objX = objPosition.x;
-        float objY = objPosition.y ;
+        float objY = objPosition.y;
         float x = positionClicked.x;
         float y = positionClicked.y;
         if (x >= objX && x <= objX + width && y >= objY && y <= objY + height){

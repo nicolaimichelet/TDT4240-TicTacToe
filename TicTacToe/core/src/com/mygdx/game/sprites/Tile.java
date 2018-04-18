@@ -7,9 +7,14 @@ import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.Singleton.Singleton;
 import com.mygdx.game.domain.InputHandler;
+import com.mygdx.game.domain.Player;
 import com.mygdx.game.domain.TileState;
 import com.mygdx.game.powerups.ExpandBoardPowerup;
 import com.mygdx.game.powerups.ObstaclePowerup;
+import com.mygdx.game.powerups.Powerup;
+import com.mygdx.game.powerups.SwapPowerup;
+
+import java.util.ArrayList;
 
 
 /**
@@ -26,6 +31,7 @@ import com.mygdx.game.powerups.ObstaclePowerup;
         private boolean isMarked;
         private int x,y;
         Singleton singleton = Singleton.getInstance();
+        private Powerup powerup;
 
         public Tile(float positionX, float positionY, float width, float height, int x, int y){
             setPosition(new Vector3(positionX, positionY, 0));
@@ -47,7 +53,6 @@ import com.mygdx.game.powerups.ObstaclePowerup;
         }
 
         public void update(float dt){
-
             if (singleton.getPowerupSelected() != null){
                 handlePowerups();
             } else{
@@ -57,16 +62,25 @@ import com.mygdx.game.powerups.ObstaclePowerup;
 
         public void handlePowerups(){
             com.mygdx.game.powerups.Powerup pu = singleton.getPowerupSelected();
-            if (pu instanceof com.mygdx.game.powerups.SwapPowerup){
+            if (pu instanceof SwapPowerup){
                 //System.out.println("Swap selected");
                 if (touchDown()){
                     if (((com.mygdx.game.powerups.SwapPowerup) pu).getSelectedTile1() == null){
-                        ((com.mygdx.game.powerups.SwapPowerup) pu).setSelectedTile1(this);
-                        System.out.println("Sucessfully selected first tile");
+                        if (((com.mygdx.game.powerups.SwapPowerup) pu).setSelectedTile1(this)){
+                            System.out.println("Sucessfully selected first tile");
+                        } else{
+                            System.out.println("Failed setting first tile");
+                        }
                     } else {
-                        ((com.mygdx.game.powerups.SwapPowerup) pu).setSelectedTile2(this);
-                        ((com.mygdx.game.powerups.SwapPowerup) pu).swap(((com.mygdx.game.powerups.SwapPowerup) pu).getSelectedTile1(), ((com.mygdx.game.powerups.SwapPowerup) pu).getSelectedTile2());
-                        System.out.println("Successfully swapped");
+                        if (((SwapPowerup) pu).getSelectedTile1() != this){
+                            if (((com.mygdx.game.powerups.SwapPowerup) pu).setSelectedTile2(this)){
+                                ((com.mygdx.game.powerups.SwapPowerup) pu).swap(((com.mygdx.game.powerups.SwapPowerup) pu).getSelectedTile1(), ((com.mygdx.game.powerups.SwapPowerup) pu).getSelectedTile2());
+                                System.out.println("Successfully swapped");
+                                singleton.setpowerupSelected(null);
+                            } else{
+                                System.out.println("Failed setting second tile");
+                            }
+                        }
                     }
                 }
             }
@@ -75,12 +89,19 @@ import com.mygdx.game.powerups.ObstaclePowerup;
             }
             if (pu instanceof ObstaclePowerup){
                 if (touchDown()){
-                    System.out.println("HEEEY");
                     ((ObstaclePowerup) pu).setObstacle(this);
+                    singleton.setpowerupSelected(null);
                 }
             }
         }
 
+        public void setMarked(boolean marked) {
+            isMarked = marked;
+        }
+
+        public boolean isMarked() {
+            return isMarked;
+        }
 
         public void placeMark(){
             if (touchDown()){
@@ -89,12 +110,20 @@ import com.mygdx.game.powerups.ObstaclePowerup;
                     singleton.changePlayerState();
                     isMarked = true;
                 }
+                if (powerup != null){
+                    Player player = singleton.getPlayers().get(singleton.getPlayerState());
+                    if (player.getPowerups() == null){
+                        ArrayList<Powerup> pulist = new ArrayList<Powerup>();
+                        pulist.add(powerup);
+                        player.setPowerups(pulist);
+                    } else{
+                        player.getPowerups().add(powerup);
+                    }
+                    powerup = null;
+                }
             }
 
         }
-
-
-
 
         public Texture getTexture() {
             return tile;
@@ -104,5 +133,11 @@ import com.mygdx.game.powerups.ObstaclePowerup;
             return tile;
         }
 
+        public Powerup getPowerup() {
+            return powerup;
+        }
 
+        public void setPowerup(Powerup powerup) {
+            this.powerup = powerup;
+        }
     }
