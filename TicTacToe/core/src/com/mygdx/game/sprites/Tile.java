@@ -66,12 +66,21 @@ import java.util.ArrayList;
                 //System.out.println("Swap selected");
                 if (touchDown()){
                     if (((com.mygdx.game.powerups.SwapPowerup) pu).getSelectedTile1() == null){
-                        ((com.mygdx.game.powerups.SwapPowerup) pu).setSelectedTile1(this);
-                        System.out.println("Sucessfully selected first tile");
+                        if (((com.mygdx.game.powerups.SwapPowerup) pu).setSelectedTile1(this)){
+                            System.out.println("Sucessfully selected first tile");
+                        } else{
+                            System.out.println("Failed setting first tile");
+                        }
                     } else {
-                        ((com.mygdx.game.powerups.SwapPowerup) pu).setSelectedTile2(this);
-                        ((com.mygdx.game.powerups.SwapPowerup) pu).swap(((com.mygdx.game.powerups.SwapPowerup) pu).getSelectedTile1(), ((com.mygdx.game.powerups.SwapPowerup) pu).getSelectedTile2());
-                        System.out.println("Successfully swapped");
+                        if (((SwapPowerup) pu).getSelectedTile1() != this){
+                            if (((com.mygdx.game.powerups.SwapPowerup) pu).setSelectedTile2(this)){
+                                ((com.mygdx.game.powerups.SwapPowerup) pu).swap(((com.mygdx.game.powerups.SwapPowerup) pu).getSelectedTile1(), ((com.mygdx.game.powerups.SwapPowerup) pu).getSelectedTile2());
+                                System.out.println("Successfully swapped");
+                                singleton.setpowerupSelected(null);
+                            } else{
+                                System.out.println("Failed setting second tile");
+                            }
+                        }
                     }
                 }
             }
