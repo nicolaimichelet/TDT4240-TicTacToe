@@ -123,10 +123,10 @@ public class AfterGameMenuState implements State {
         BitmapFont fontWinner = new BitmapFont(Gdx.files.internal("winnerFont.fnt"));
         Label.LabelStyle style = new Label.LabelStyle();
         style.font = fontWinner;
-        if (winner=='D'){
+        String congratulationsText;
 
-
-            String congratulationsText = "It's a draw!";
+        if (winner == 'D'){
+            congratulationsText = "It's a draw!";
             congratulationsLabel = new Label(congratulationsText, style);
             congratulationsLabel.setPosition((Gdx.graphics.getWidth() - congratulationsLabel.getWidth())/2, (float)(Gdx.graphics.getHeight() / 1.2));
 
@@ -136,14 +136,13 @@ public class AfterGameMenuState implements State {
 
         }
         else{
-            String congratulationsText = "Congratulations!";
+            congratulationsText = "Congratulations!";
             congratulationsLabel = new Label(congratulationsText, style);
             congratulationsLabel.setPosition((Gdx.graphics.getWidth() - congratulationsLabel.getWidth())/2, (float)(Gdx.graphics.getHeight() / 1.2));
 
             String winnerText = "Player " + winner + " has won!";
             winnerLabel = new Label(winnerText, style);
             winnerLabel.setPosition((Gdx.graphics.getWidth() - winnerLabel.getWidth())/2, (float)(congratulationsLabel.getY() - winnerLabel.getHeight() * 1.5));
-
         }
     }
 
