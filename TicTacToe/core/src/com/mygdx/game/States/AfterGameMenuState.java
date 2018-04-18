@@ -17,7 +17,7 @@ import com.mygdx.game.Singleton.Singleton;
  * Created by eiriksandberg on 22.01.2018.
  */
 
-public class AfterGameState implements State {
+public class AfterGameMenuState implements State {
     private GameStateManager gsm;
     private Stage stage;
     private Skin skin;
@@ -29,13 +29,13 @@ public class AfterGameState implements State {
     Label congratulationsLabel;
     Label winnerLabel;
 
-    public AfterGameState(GameStateManager gsm) {
+    public AfterGameMenuState(GameStateManager gsm, char winner) {
         this.gsm = gsm;
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
 
         createSkin(); // Create skin for buttons
-        initializeLabels();
+        initializeLabels(winner);
         initializeButtons();
 
 //        Add buttons to stage
@@ -119,7 +119,7 @@ public class AfterGameState implements State {
         exitButton.setPosition((Gdx.graphics.getWidth() - exitButton.getWidth())/2, ((Gdx.graphics.getHeight() * (float)0.8 - 2 * exitButton.getHeight())/2));
     }
 
-    private void initializeLabels(){
+    private void initializeLabels(char winner){
         BitmapFont fontWinner = new BitmapFont(Gdx.files.internal("winnerFont.fnt"));
         Label.LabelStyle style = new Label.LabelStyle();
         style.font = fontWinner;
@@ -128,7 +128,7 @@ public class AfterGameState implements State {
         congratulationsLabel = new Label(congratulationsText, style);
         congratulationsLabel.setPosition((Gdx.graphics.getWidth() - congratulationsLabel.getWidth())/2, (float)(Gdx.graphics.getHeight() / 1.2));
 
-        String winnerText = "Player X has won!";
+        String winnerText = "Player " + winner + " has won!";
         winnerLabel = new Label(winnerText, style);
         winnerLabel.setPosition((Gdx.graphics.getWidth() - winnerLabel.getWidth())/2, (float)(congratulationsLabel.getY() - winnerLabel.getHeight() * 1.5));
     }

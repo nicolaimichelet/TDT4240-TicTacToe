@@ -67,7 +67,7 @@ public class PlayState implements State {
             if (gameLogic.hasWinner()) {
                 System.out.println("Vinneren er spiller " + gameLogic.getWinner());
                 System.out.println(gameLogic.printBoard());
-                gsm.set(new MainMenuState(gsm));
+                gsm.set(new AfterGameMenuState(gsm, gameLogic.getWinner()));
                 dispose();
             } else if (!gameLogic.hasWinner() && gameLogic.getWinner() == 'D') {
                 System.out.println("UAVGJORT");
