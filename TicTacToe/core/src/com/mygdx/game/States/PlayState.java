@@ -53,7 +53,10 @@ public class PlayState implements State {
         powerups.add(new ObstaclePowerup());
         powerups.add(new SwapPowerup());
         ArrayList<Player> players = new ArrayList<Player>();
-        players.add(new Player(0, null));
+
+        ArrayList<Powerup> mocklist = new ArrayList<Powerup>();
+        mocklist.add(new SwapPowerup());
+        players.add(new Player(0, mocklist));
         players.add(new Player(1, null));
         singleton.setPlayers(players);
     }
