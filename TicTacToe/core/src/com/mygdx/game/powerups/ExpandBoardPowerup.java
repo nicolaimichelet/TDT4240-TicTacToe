@@ -29,7 +29,7 @@ public class ExpandBoardPowerup extends InputHandler implements com.mygdx.game.p
     }
 
     public void expand(Board currentBoard){
-        if (currentBoard.getRows() <= 7){
+        if (currentBoard.getRows() <= 6){
             System.out.println("Calling expand");
             Board newBoard = new Board(currentBoard.getRows() + 1, currentBoard.getColumns() + 1);
             ArrayList<Tile> newTiles = newBoard.generateBoard();

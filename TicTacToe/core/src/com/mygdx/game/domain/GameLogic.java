@@ -224,7 +224,7 @@ public class GameLogic {
         //check end conditions
         //check col
         for (int i = 0; i < n; i++){
-            if(board[i][x] != c)
+            if(board[i][y] != c)
                 break;
             if(i == n-1){
                 hasWinner = true;
@@ -234,7 +234,7 @@ public class GameLogic {
         }
         //check row
         for(int i = 0; i < n; i++){
-            if(board[y][i] != c)
+            if(board[n-1-x][i] != c)
                 break;
             if(i == n-1){
                 hasWinner = true;

@@ -12,7 +12,8 @@ import com.mygdx.game.States.MainMenuState;
 public class MyGdxGame extends ApplicationAdapter {
 	public static final int BAR = 70;
 	public static final int WIDTH = 480;
-	public static final int HEIGHT = 800;
+	public static final int HEIGHT = 730;
+	public static final int BOTTOMBAR = 70;
 
 
 
