@@ -30,6 +30,7 @@ public class ExpandBoardPowerup extends InputHandler implements com.mygdx.game.p
 
     public void expand(Board currentBoard){
         if (currentBoard.getRows() <= 7){
+            System.out.println("Calling expand");
             Board newBoard = new Board(currentBoard.getRows() + 1, currentBoard.getColumns() + 1);
             ArrayList<Tile> newTiles = newBoard.generateBoard();
             singleton.setTiles(newTiles);
@@ -62,8 +63,7 @@ public class ExpandBoardPowerup extends InputHandler implements com.mygdx.game.p
     @Override
     public void update(float dt) {
         if (touchDown()){
-            expand(singleton.getBoard());
-            singleton.setpowerupSelected(null);
+            singleton.setpowerupSelected(this);
         }
     }
 
@@ -86,4 +86,8 @@ public class ExpandBoardPowerup extends InputHandler implements com.mygdx.game.p
         }
     }
 
+    @Override
+    public String getType() {
+        return "ExpandBoardPowerup";
+    }
 }

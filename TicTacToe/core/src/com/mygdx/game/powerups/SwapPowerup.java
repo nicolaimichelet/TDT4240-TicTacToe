@@ -118,4 +118,8 @@ public class SwapPowerup extends InputHandler implements com.mygdx.game.powerups
         return swapIcon;
     }
 
+    @Override
+    public String getType() {
+        return "SwapPowerup";
+    }
 }

@@ -16,4 +16,5 @@ public interface Powerup {
     float getHeight();
     void setWidth(float width);
     float getWidth();
+    String getType();
 }

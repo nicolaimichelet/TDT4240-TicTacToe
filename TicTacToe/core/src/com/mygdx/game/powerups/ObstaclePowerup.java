@@ -76,4 +76,9 @@ public class ObstaclePowerup extends InputHandler implements Powerup {
     public Texture getTexture() {
         return texture;
     }
+
+    @Override
+    public String getType() {
+        return "ObstaclePowerup";
+    }
 }

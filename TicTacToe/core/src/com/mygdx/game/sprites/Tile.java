@@ -86,6 +86,7 @@ import java.util.ArrayList;
             }
             if (pu instanceof ExpandBoardPowerup){
                 ((ExpandBoardPowerup) pu).expand(singleton.getBoard());
+                singleton.setpowerupSelected(null);
             }
             if (pu instanceof ObstaclePowerup){
                 if (touchDown()){
@@ -112,7 +113,15 @@ import java.util.ArrayList;
                         pulist.add(powerup);
                         player.setPowerups(pulist);
                     } else{
-                        player.getPowerups().add(powerup);
+                        boolean shouldAdd = true;
+                        for (Powerup p : player.getPowerups()){
+                            if (p.getType().equals(powerup.getType())){
+                                shouldAdd = false;
+                            }
+                        }
+                        if (shouldAdd){
+                            player.getPowerups().add(powerup);
+                        }
                     }
                     powerup = null;
                 }
