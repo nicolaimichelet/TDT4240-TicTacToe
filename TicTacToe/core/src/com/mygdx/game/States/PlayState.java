@@ -126,14 +126,9 @@ public class PlayState implements State {
 
     @Override
     public void handleInput() {
-        if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
-            gsm.set(new MainMenuState(gsm));
-            singleton.stopSound(1);
-            dispose();
-        }
         if (backButton.isPressed()){
-            gsm.set(new MainMenuState(gsm));
             singleton.stopSound(1);
+            gsm.set(new MainMenuState(gsm));
             dispose();
         }
         if (soundButton.isPressed()){

@@ -24,13 +24,14 @@ public class Singleton {
     private ArrayList<TileState> boardState;
     private ArrayList<Sprite> boardTiles;
     private ArrayList<Tile> tiles;
-    private int playerState, n;
+    private int playerState;
+    private int n = 3;
     private Powerup powerupSelected;
     private ArrayList<Player> players;
     private int indexTopowerupToRemove;
     private ArrayList<Powerup> powerups;
     private Sound lobbySound, gameSound, winningSound, drawSound;
-    private boolean isMuted;
+    private boolean isMuted, isPlaying;
 
     public ArrayList<Powerup> getPowerups() {
         return powerups;
@@ -66,9 +67,11 @@ public class Singleton {
         if (!isMuted){
             if (i == 0){
                 lobbySound.loop(1.0f);
+                isPlaying=true;
             }
             else if (i == 1){
                 gameSound.play(1.0f);
+                isPlaying=true;
             }
             else if (i == 2){
                 winningSound.play(1.0f);
@@ -90,6 +93,10 @@ public class Singleton {
         }
     }
 
+    public boolean isPlaying(){
+        return isPlaying;
+    }
+
     public void muteSound() {
         isMuted = true;
     }
@@ -105,9 +112,11 @@ public class Singleton {
     public void stopSound(int i){
         if (i == 0){
             lobbySound.dispose();
+            isPlaying=false;
         }
         else if (i == 1){
             gameSound.dispose();
+            isPlaying=false;
         }
         else if (i == 2){
             winningSound.dispose();

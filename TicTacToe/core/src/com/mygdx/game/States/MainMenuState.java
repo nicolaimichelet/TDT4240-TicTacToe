@@ -24,7 +24,7 @@ public class MainMenuState implements State {
     private TextButton settingsButton;
     private TextButton powerUpButton;
     private TextButton exitButton;
-    private Label titleLabel;
+    private Label titleLabel, NxNLabel;
     private Singleton singleton = Singleton.getInstance();
 
     public MainMenuState(GameStateManager gsm) {
@@ -39,6 +39,7 @@ public class MainMenuState implements State {
         // Add labels to stage
 
         stage.addActor(titleLabel);
+        stage.addActor(NxNLabel);
 
 //        Add buttons to stage
         stage.addActor(playButton);
@@ -46,7 +47,9 @@ public class MainMenuState implements State {
         stage.addActor(powerUpButton);
         stage.addActor(exitButton);
 
-        singleton.playSound(0);
+        if (!singleton.isPlaying()){
+            singleton.playSound(0);
+        }
 
     }
 
@@ -54,7 +57,7 @@ public class MainMenuState implements State {
     public void handleInput() {
         if(playButton.isPressed()){
             singleton.resetSingleton();
-            gsm.set(new PlayState(gsm,5));
+            gsm.set(new PlayState(gsm,singleton.getN()));
             singleton.stopSound(0);
             dispose();
             try {
@@ -64,7 +67,7 @@ public class MainMenuState implements State {
             }
         }
         if(settingsButton.isPressed()){
-//            Change to settings state
+            gsm.set(new SettingsMenuState(gsm));
         }
         if(powerUpButton.isPressed()){
 //            Change to power-up state
@@ -123,6 +126,8 @@ public class MainMenuState implements State {
 
         titleLabel = new Label("TicTacToeUNLEASHED",style);
         titleLabel.setPosition((Gdx.graphics.getWidth()-titleLabel.getWidth())/2,Gdx.graphics.getHeight()-150);
+        NxNLabel = new Label(singleton.getN()+"x"+singleton.getN(),style);
+        NxNLabel.setPosition((Gdx.graphics.getWidth()-NxNLabel.getWidth())/2,Gdx.graphics.getHeight()-200);
     }
 
     private void initializeButtons(){
