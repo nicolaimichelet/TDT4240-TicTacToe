@@ -75,7 +75,7 @@ public class PlayState implements State {
         ArrayList<Player> players = new ArrayList<Player>();
 
         ArrayList<Powerup> mocklist = new ArrayList<Powerup>();
-        //mocklist.add(new SwapPowerup());
+        mocklist.add(new SwapPowerup());
         //mocklist.add(new ObstaclePowerup());
         //mocklist.add(new ExpandBoardPowerup());
         players.add(new Player(0, null));
