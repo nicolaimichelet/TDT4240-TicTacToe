@@ -163,17 +163,17 @@ public class PlayState implements State {
             }
             if (gameLogic.hasWinner()) {
                 singleton.playSound(2);
+                singleton.stopSound(1);
                 System.out.println("Vinneren er spiller " + gameLogic.getWinner());
                 gsm.set(new AfterGameMenuState(gsm, gameLogic.getWinner()));
                 dispose();
-                singleton.stopSound(1);
             }
             else if (!gameLogic.hasWinner() && gameLogic.getWinner() == 'D') {
                 System.out.println("UAVGJORT");
-                gsm.set(new AfterGameMenuState(gsm, gameLogic.getWinner()));
-                dispose();
                 singleton.stopSound(1);
                 singleton.playSound(3);
+                gsm.set(new AfterGameMenuState(gsm, gameLogic.getWinner()));
+                dispose();
             }
             if (players.get(singleton.getPlayerState()).getPowerups() != null){
                 for (Powerup pu : players.get(singleton.getPlayerState()).getPowerups()){
