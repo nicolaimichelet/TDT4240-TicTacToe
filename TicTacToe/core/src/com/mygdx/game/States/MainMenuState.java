@@ -64,7 +64,7 @@ public class MainMenuState implements State {
             }
         }
         if(settingsButton.isPressed()){
-//            Change to settings state
+            gsm.set(new SettingsMenuState(gsm));
         }
         if(powerUpButton.isPressed()){
 //            Change to power-up state
@@ -135,11 +135,8 @@ public class MainMenuState implements State {
         powerUpButton = new TextButton("Power ups", skin);
         powerUpButton.setPosition((Gdx.graphics.getWidth() - powerUpButton.getWidth())/2, ((Gdx.graphics.getHeight() - 2 * powerUpButton.getHeight())/2));
 
-        /*highscoreButton = new TextButton("Highscore", skin);
-        highscoreButton.setPosition((Gdx.graphics.getWidth() - highscoreButton.getWidth())/2, ((Gdx.graphics.getHeight() - 5 * highscoreButton.getHeight())/2));
-        */
         exitButton = new TextButton("Exit", skin);
-        exitButton.setPosition((Gdx.graphics.getWidth() - exitButton.getWidth())/2, (Gdx.graphics.getHeight()/2) - 4 * exitButton.getHeight());
+        exitButton.setPosition((Gdx.graphics.getWidth() - exitButton.getWidth())/2, ((Gdx.graphics.getHeight() - 5 * exitButton.getHeight())/2));
     }
 
 //    Update stage viewport when screen is resized
