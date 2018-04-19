@@ -3,10 +3,17 @@ package com.mygdx.game.States;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.Singleton.Singleton;
 import com.mygdx.game.domain.Board;
@@ -37,6 +44,12 @@ public class PlayState implements State {
     private Random rm = new Random();
     private int currentMoveCount = rm.nextInt(3);
     private int updateMoveCount;
+    private Stage stage;
+    private Skin skin;
+    private TextButton backButton,soundButton;
+    private Label playerTurn;
+    private boolean isSoundMuted;
+    private String soundButtontext;
 
     public PlayState(GameStateManager gsm, int n) {
         matrix = new Board(n, n);
@@ -45,6 +58,14 @@ public class PlayState implements State {
         singleton.setBoardTiles(matrix.setBoardTiles());
         this.gsm = gsm;
         gameLogic = new GameLogic(n);
+        stage = new Stage();
+        Gdx.input.setInputProcessor(stage);
+
+        initializeButtons();
+        stage.addActor(backButton);
+        stage.addActor(soundButton);
+
+        stage.addActor(playerTurn);
 
 
         singleton.setPowerup(new ExpandBoardPowerup());
@@ -62,6 +83,45 @@ public class PlayState implements State {
 
         singleton.setPlayers(players);
         singleton.playSound(1);
+        isSoundMuted = false;
+    }
+
+    private void initializeButtons(){
+        BitmapFont font = new BitmapFont();
+        skin = new Skin();
+        skin.add("default", font);
+
+        // Create a texture
+        Pixmap pixmap = new Pixmap(Gdx.graphics.getWidth()/4,Gdx.graphics.getHeight()/15, Pixmap.Format.RGB888);
+        pixmap.setColor(Color.WHITE);
+        pixmap.fill();
+        skin.add("background", new Texture(pixmap));
+
+        // Create a button style
+        TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
+        textButtonStyle.up = skin.newDrawable("background", Color.GRAY);
+        textButtonStyle.down = skin.newDrawable("background", Color.DARK_GRAY);
+        textButtonStyle.checked = skin.newDrawable("background", Color.DARK_GRAY);
+        textButtonStyle.over = skin.newDrawable("background", Color.LIGHT_GRAY);
+        textButtonStyle.font = skin.getFont("default");
+        skin.add("default", textButtonStyle);
+
+        BitmapFont playerFont = new BitmapFont(Gdx.files.internal("playerTurnText.fnt"));
+
+        Label.LabelStyle style = new Label.LabelStyle();
+        style.font = playerFont;
+        String playerText = "Player "+singleton.getPlayerState()+"'s turn";
+
+        playerTurn = new Label(playerText,style);
+        playerTurn.setPosition((Gdx.graphics.getWidth()-playerTurn.getWidth())/2,Gdx.graphics.getHeight()-playerTurn.getHeight()-5);
+
+
+        backButton = new TextButton("Back", skin);
+        backButton.setPosition(5, Gdx.graphics.getHeight()-backButton.getHeight()-5);
+
+        soundButton = new TextButton("Sound off",skin);
+        soundButton.setPosition(Gdx.graphics.getWidth()-5-soundButton.getWidth(),Gdx.graphics.getHeight()-soundButton.getHeight()-5);
+
     }
 
     @Override
@@ -71,8 +131,29 @@ public class PlayState implements State {
             singleton.stopSound(1);
             dispose();
         }
-        if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_5)) {
-            gameLogic.expandBoard();
+        if (backButton.isPressed()){
+            gsm.set(new MainMenuState(gsm));
+            singleton.stopSound(1);
+            dispose();
+        }
+        if (soundButton.isPressed()){
+            if (isSoundMuted){
+                isSoundMuted = false;
+                singleton.unMuteSound();
+                singleton.resumeSound(1);
+                soundButton.setText("Sound off");
+            }
+            else{
+                isSoundMuted = true;
+                singleton.pauseGameSound();
+                soundButton.setText("Sound on");
+            }
+            try {
+                Thread.sleep(100);
+            }
+            catch (Exception e){
+                System.out.println("SleepingError "+e);
+            }
         }
     }
 
@@ -112,6 +193,12 @@ public class PlayState implements State {
                 players.get(singleton.getPlayerState()).getPowerups().remove(singleton.getIndexTopowerupToRemove());
                 singleton.setIndexTopowerupToRemove(-1);
             }
+            if (singleton.getPlayerState()==0){
+                playerTurn.setText("Player X's turn");
+            }
+            else if (singleton.getPlayerState()==1){
+                playerTurn.setText("Player O's turn");
+            }
         }
 
         @Override
@@ -121,19 +208,12 @@ public class PlayState implements State {
             for (Sprite s : singleton.getBoardTiles()) {
                 s.draw(sb);
             }
-
             // render tiles and powerups
             //renderTiles(singleton.getTiles(), sb);
             renderPowerupsOnBoard(singleton.getTiles(), sb);
 
-
-
             // Draw marks when pressed
             renderMarks(sb);
-
-
-            // Draw bottom bar
-            //renderBottomBar(sb);
 
             // Powerups
             Player activePlayer = singleton.getPlayers().get(singleton.getPlayerState());
@@ -146,12 +226,10 @@ public class PlayState implements State {
                 currentMoveCount = rm.nextInt(3) + 1 + gameLogic.getMoveCount();
             }
             sb.end();
-    }
 
-    public void renderBottomBar(SpriteBatch sb){
-        sb.draw(new Texture("white.png"),0,0,MyGdxGame.WIDTH,MyGdxGame.BOTTOMBAR);
-
-
+            //Render top-bar
+            stage.act();
+            stage.draw();
     }
 
     @Override
@@ -187,8 +265,8 @@ public class PlayState implements State {
                 s.setAlpha(0.5f);
             }
             s.setSize(50, 50);
-            s.setPosition(renderIterator + blankspace - 25, Gdx.graphics.getHeight() - MyGdxGame.BAR + 10); // Fix this to appear in own menu
-            pu.setPosition(new Vector3(renderIterator + blankspace - 25, Gdx.graphics.getHeight()  - MyGdxGame.BAR + 10 , 0f));
+            s.setPosition(renderIterator + blankspace - 25, /*Gdx.graphics.getHeight() - MyGdxGame.BAR + 10*/10); // Fix this to appear in own menu
+            pu.setPosition(new Vector3(renderIterator + blankspace - 25, /*Gdx.graphics.getHeight()  - MyGdxGame.BAR + 10*/ 10, 0f));
             pu.setHeight(50);
             pu.setWidth(50);
             s.draw(sb);

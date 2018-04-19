@@ -115,7 +115,7 @@ public class MainMenuState implements State {
     }
 
     private void initializeLabels(){
-        BitmapFont font = new BitmapFont();
+        BitmapFont font = new BitmapFont(Gdx.files.internal("menuText.fnt"));
         skin = new Skin();
         skin.add("default", font);
         Label.LabelStyle style = new Label.LabelStyle();

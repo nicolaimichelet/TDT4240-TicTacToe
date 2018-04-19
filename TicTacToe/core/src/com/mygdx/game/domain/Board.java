@@ -63,10 +63,10 @@ public class Board {
         */
 
         float xFactor = Gdx.graphics.getWidth() / getColumns();
-        float yFactor = (Gdx.graphics.getHeight()- MyGdxGame.BAR) / getRows();
+        float yFactor = (Gdx.graphics.getHeight()- MyGdxGame.BAR-MyGdxGame.BOTTOMBAR) / getRows();
       
         float xPosition = 0;
-        float yPosition = 0;
+        float yPosition = MyGdxGame.BOTTOMBAR;
         for (int row = 0; row < getRows(); row++){
             for (int column = 0; column < getColumns(); column++){
                 Tile t = new Tile(xPosition, yPosition, xFactor, yFactor, row,column);
