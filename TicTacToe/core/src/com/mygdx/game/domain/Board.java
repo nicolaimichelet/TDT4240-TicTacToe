@@ -2,11 +2,17 @@ package com.mygdx.game.domain;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.MyGdxGame;
+import com.mygdx.game.Singleton.Singleton;
 import com.mygdx.game.powerups.ExpandBoardPowerup;
+import com.mygdx.game.powerups.Powerup;
+import com.mygdx.game.sprites.Mark;
 import com.mygdx.game.sprites.Tile;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * Created by eiriksandberg on 09.04.2018.
@@ -16,6 +22,9 @@ public class Board {
     private int rows;
     private int columns;
     private ArrayList<Tile> tiles;
+    private Singleton singleton = Singleton.getInstance();
+    private int updateMoveCount;
+    private Random rm = new Random();
 
 
     public Board(int rows, int columns) {
@@ -78,6 +87,83 @@ public class Board {
         }
         return tiles;
     }
+
+    public void renderPowerups(ArrayList<Powerup> powerups, SpriteBatch sb) {
+        float factor = powerups.size() > 1 ? MyGdxGame.WIDTH / powerups.size() : MyGdxGame.WIDTH / 2;
+        float blankspace = powerups.size() > 1 ? factor / powerups.size() : 0;
+        float renderIterator = powerups.size() > 1 ? 0 : MyGdxGame.WIDTH / 2;
+        for (Powerup pu : powerups){
+            Sprite s = new Sprite(pu.getTexture());
+            if (pu.equals(singleton.getPowerupSelected())){
+                s.setAlpha(0.5f);
+            }
+            s.setSize(50, 50);
+            s.setPosition(renderIterator + blankspace - 25, /*Gdx.graphics.getHeight() - MyGdxGame.BAR + 10*/10); // Fix this to appear in own menu
+            pu.setPosition(new Vector3(renderIterator + blankspace - 25, /*Gdx.graphics.getHeight()  - MyGdxGame.BAR + 10*/ 10, 0f));
+            pu.setHeight(50);
+            pu.setWidth(50);
+            s.draw(sb);
+            renderIterator += factor;
+        }
+    }
+
+    public void renderMarks(SpriteBatch sb,GameLogic gameLogic) {
+        gameLogic.clearBoard();
+        gameLogic.setZeroMoveCount();
+        for (TileState ts : singleton.getBoardState()) {
+            Tile tile = ts.getTile();
+            Mark m = new Mark(tile, ts.getState());
+            if (ts.getState() == 1) {
+                gameLogic.Move(tile.getX(), tile.getY(), 'O');
+            } else if (ts.getState() == 0) {
+                gameLogic.Move(tile.getX(), tile.getY(), 'X');
+            }
+            else if (ts.getState()==-1){
+                gameLogic.Move(tile.getX(), tile.getY(),'T');
+            }
+            Sprite s = new Sprite(m.getTexture());
+            s.setPosition(tile.getPosition().x, tile.getPosition().y);
+            s.setSize(tile.getWidth(), tile.getHeight());
+            s.draw(sb);
+        }
+        if (gameLogic.getMoveCount()>updateMoveCount){
+            //System.out.println("movecount "+gameLogic.getMoveCount());
+            //System.out.println("To draw: "+singleton.getN()*singleton.getN());
+            updateMoveCount=gameLogic.getMoveCount();
+            System.out.println(gameLogic.printBoard());
+        }
+    }
+
+    public void spawnRandomPowerup(GameLogic gameLogic){
+        Tile t = singleton.getTiles().get(rm.nextInt((singleton.getBoard().getColumns() * singleton.getBoard().getRows())));
+        Powerup pu = gameLogic.getMoveCount() > 2 ? singleton.getPowerups().get(rm.nextInt(singleton.getPowerups().size())) : singleton.getPowerups().get(rm.nextInt(singleton.getPowerups().size() - 1));
+        boolean canPlacePowerup = true;
+        for (TileState tileState : singleton.getBoardState()) {
+            if (tileState.getTile().getX() == t.getX() && tileState.getTile().getY() == t.getY()){
+                canPlacePowerup = false;
+            }
+        }
+        if (canPlacePowerup){
+            pu.setPosition(new Vector3(-10f,-10f,0f)); // powerup needs position to work. Random position for init
+            t.setPowerup(pu);
+        }
+    }
+
+    public void renderPowerupsOnBoard(ArrayList<Tile> tiles, SpriteBatch sb){
+        for (Tile t : tiles){
+            if (t.getPowerup() != null) {
+                Sprite pu = new Sprite(t.getPowerup().getTexture());
+                Vector3 tilePosition = t.getPosition();
+                pu.setSize(50, 50);
+                float xPosition = (tilePosition.x + (t.getWidth() / 2) - 25);
+                float yPosition = (tilePosition.y + (t.getHeight() / 2) - 25);
+                pu.setPosition(xPosition, yPosition);
+                pu.draw(sb);
+            }
+        }
+    }
+
+
     public void dispose(){
         for (Sprite s: setBoardTiles()
              ) {
