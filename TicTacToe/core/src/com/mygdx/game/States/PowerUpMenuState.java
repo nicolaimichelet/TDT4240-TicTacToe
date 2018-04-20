@@ -20,13 +20,18 @@ public class PowerUpMenuState implements State {
     private GameStateManager gsm;
     private Stage stage;
     private Skin skin;
-    private TextButton backButton;
-    private Label aboutTitleLabel, aboutGameLabel, powerUpLabel;
-
     private Singleton singleton = Singleton.getInstance();
 
-    private Texture swapIcon;
+//    Buttons
+    private TextButton backButton;
+
+//    Labels
+    private Label aboutTitleLabel, aboutGameLabel, powerUpLabel, aboutPowerUpLabel, swapLabel, expandBoardLabel, obstacleLabel;
+
+//    Textures
+    private Texture swap;
     private Texture expandBoard;
+    private Texture obstacle;
 
     public PowerUpMenuState(GameStateManager gsm) {
         this.gsm = gsm;
@@ -35,13 +40,17 @@ public class PowerUpMenuState implements State {
 
         createSkin(); // Create skin for buttons
         initializeButtons();
-        initializeLabels();
         initializeTextures();
+        initializeLabels();
 
         // Add labels to stage
         stage.addActor(aboutTitleLabel);
         stage.addActor(aboutGameLabel);
         stage.addActor(powerUpLabel);
+        stage.addActor(aboutPowerUpLabel);
+        stage.addActor(swapLabel);
+        stage.addActor(expandBoardLabel);
+        stage.addActor(obstacleLabel);
 
 //        Add buttons to stage
         stage.addActor(backButton);
@@ -70,8 +79,9 @@ public class PowerUpMenuState implements State {
         stage.act();
         stage.draw();
         sb.begin();
-        sb.draw(swapIcon, 40, Gdx.graphics.getHeight() - 350, 30, 30);
-        sb.draw(expandBoard, 40, Gdx.graphics.getHeight() - 410, 30, 30);
+        sb.draw(swap, 40, Gdx.graphics.getHeight() - 410, 30, 30);
+        sb.draw(expandBoard, 40, Gdx.graphics.getHeight() - 470, 30, 30);
+        sb.draw(obstacle, 40, Gdx.graphics.getHeight() - 530, 30, 30);
         sb.end();
     }
 
@@ -108,10 +118,16 @@ public class PowerUpMenuState implements State {
         Label.LabelStyle style = new Label.LabelStyle();
         style.font = font;
 
+//        Label text
         String aboutTitle = "About";
-        String aboutGameText = "TicTacToe Unleashed gives a new twist to the original game. By introducing \"power-ups\" and obstacles on the board, the game becomes rather fun to play.";
+        String aboutGameText = "TicTacToe Unleashed gives a new twist to the original game. By introducing \"power-ups\" and obstacles on the board, the game becomes rather fun to play";
         String powerUpText = "Power-ups";
+        String aboutPowerUpText = "Power-ups are spawned and can be picked up during gameplay";
+        String swapText = "Swap one of your marks with one of the other player's marks";
+        String expandBoardText = "Expand the board with one row and column";
+        String obstacleText = "Put an obstacle on the board, making it impossible to place a mark in that tile";
 
+//        Label initializations
         aboutTitleLabel = new Label(aboutTitle, style);
         aboutTitleLabel.setPosition((Gdx.graphics.getWidth() - aboutTitleLabel.getWidth()) / 2,Gdx.graphics.getHeight() - 150);
 
@@ -120,6 +136,18 @@ public class PowerUpMenuState implements State {
 
         powerUpLabel = new Label(powerUpText, style);
         powerUpLabel.setPosition((Gdx.graphics.getWidth() - powerUpLabel.getWidth()) / 2, Gdx.graphics.getHeight() - 300);
+
+        aboutPowerUpLabel = new Label(aboutPowerUpText, style);
+        aboutPowerUpLabel.setPosition((Gdx.graphics.getWidth() - aboutPowerUpLabel.getWidth()) / 2, Gdx.graphics.getHeight() - 350);
+
+        swapLabel = new Label(swapText, style);
+        swapLabel.setPosition(80, Gdx.graphics.getHeight() - 410);
+
+        expandBoardLabel = new Label(expandBoardText, style);
+        expandBoardLabel.setPosition(80, Gdx.graphics.getHeight() - 470);
+
+        obstacleLabel = new Label(obstacleText, style);
+        obstacleLabel.setPosition(80, Gdx.graphics.getHeight() - 530);
     }
 
     private void initializeButtons(){
@@ -128,8 +156,10 @@ public class PowerUpMenuState implements State {
     }
 
     private void initializeTextures(){
-        swapIcon = new Texture("swap.png");
+//        swap = new Texture("swap.png");
+        swap = new Texture("swap.png");
         expandBoard = new Texture("expand.png");
+        obstacle = new Texture("trash.png");
     }
 
     //    Update stage viewport when screen is resized
