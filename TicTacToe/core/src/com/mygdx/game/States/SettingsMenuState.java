@@ -21,10 +21,7 @@ public class SettingsMenuState implements State {
     private GameStateManager gsm;
     private Stage stage;
     private Skin skin;
-    private TextButton threeButton;
-    private TextButton fourButton;
-    private TextButton fiveButton;
-    private TextButton backButton;
+    private TextButton threeButton, fourButton, fiveButton, backButton, muteButton;
 
     private Label settingsLabel;
 
@@ -46,6 +43,7 @@ public class SettingsMenuState implements State {
         stage.addActor(fourButton);
         stage.addActor(fiveButton);
         stage.addActor(backButton);
+        stage.addActor(muteButton);
     }
 
     @Override
@@ -67,9 +65,23 @@ public class SettingsMenuState implements State {
             singleton.setN(5);
             gsm.set(new MainMenuState(gsm));
         }
-//        if(exitButton.isPressed()){
-//            Gdx.app.exit();
-//        }
+        else if(muteButton.isPressed()){
+            if (singleton.isMuted()){
+                singleton.unMuteSound();
+                singleton.resumeSound(0);
+                muteButton.setText("Mute sound");
+            }
+            else{
+                singleton.muteSound();
+                muteButton.setText("Unmute sound");
+            }
+            try {
+                Thread.sleep(100);
+            }
+            catch (Exception e){
+                System.out.println("SleepingError "+e);
+            }
+        }
     }
 
     @Override
@@ -113,27 +125,37 @@ public class SettingsMenuState implements State {
     }
 
     private void initializeButtons(){
+
+
         threeButton = new TextButton("3x3 Grid", skin);
-        threeButton.setPosition((Gdx.graphics.getWidth() - threeButton.getWidth())/2, ((Gdx.graphics.getHeight() * (float)0.8 + 4 * threeButton.getHeight())/2));
+        threeButton.setPosition((Gdx.graphics.getWidth() - threeButton.getWidth())/2, (Gdx.graphics.getHeight() + 4 * threeButton.getHeight())/2);//(Gdx.graphics.getHeight() * (float)0.8 + 1 * threeButton.getHeight())/2);
 
         fourButton = new TextButton("4x4 Grid", skin);
-        fourButton.setPosition((Gdx.graphics.getWidth() - fourButton.getWidth())/2, ((Gdx.graphics.getHeight() * (float)0.8 + fourButton.getHeight())/2));
+        fourButton.setPosition((Gdx.graphics.getWidth() - fourButton.getWidth())/2, ((Gdx.graphics.getHeight() * (float)0.8 + 4 * fourButton.getHeight())/2));
 
         fiveButton = new TextButton("5x5 Grid", skin);
-        fiveButton.setPosition((Gdx.graphics.getWidth() - fiveButton.getWidth())/2,((Gdx.graphics.getHeight() - 5 * fiveButton.getHeight())/2));
+        fiveButton.setPosition((Gdx.graphics.getWidth() - fiveButton.getWidth())/2,((Gdx.graphics.getHeight() * (float)0.8 + fiveButton.getHeight())/2));
+
+        if (singleton.isMuted()){
+            muteButton = new TextButton("Unmute sound",skin);
+        }
+        else{
+            muteButton = new TextButton("Mute sound",skin);
+        }
+        muteButton.setPosition((Gdx.graphics.getWidth() - muteButton.getWidth())/2,((Gdx.graphics.getHeight() - 5 * muteButton.getHeight())/2));
 
         backButton = new TextButton("Back", skin);
         backButton.setPosition((Gdx.graphics.getWidth() - fourButton.getWidth())/2, ((Gdx.graphics.getHeight() - 8 * backButton.getHeight())/2));
     }
 
     private void initializeLabels(){
-        BitmapFont settingsFont = new BitmapFont(Gdx.files.internal("winnerFont.fnt"));
+        BitmapFont settingsFont = new BitmapFont(Gdx.files.internal("menuText.fnt"));
         Label.LabelStyle style = new Label.LabelStyle();
         style.font = settingsFont;
         String settingsMenuText = "Settings";
 
         settingsLabel = new Label(settingsMenuText, style);
-        settingsLabel.setPosition((Gdx.graphics.getWidth() - settingsLabel.getWidth())/2, (float)(Gdx.graphics.getHeight() / 1.4));
+        settingsLabel.setPosition((Gdx.graphics.getWidth() - settingsLabel.getWidth())/2, (float)(Gdx.graphics.getHeight() / 1.2));
     }
 
     //    Update stage viewport when screen is resized

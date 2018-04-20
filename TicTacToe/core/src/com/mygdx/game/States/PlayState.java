@@ -51,7 +51,7 @@ public class PlayState implements State {
     private boolean isSoundMuted;
     private String soundButtontext;
 
-    public PlayState(GameStateManager gsm, int n) {
+    public PlayState(GameStateManager gsm, int n, boolean isMuted) {
         matrix = new Board(n, n);
         singleton.setBoard(matrix);
         singleton.setTiles(matrix.generateBoard());
@@ -60,6 +60,10 @@ public class PlayState implements State {
         gameLogic = new GameLogic(n);
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
+
+        //Play music
+        this.isSoundMuted = isMuted;
+        playMusic();
 
         initializeButtons();
         stage.addActor(backButton);
@@ -75,15 +79,22 @@ public class PlayState implements State {
         ArrayList<Player> players = new ArrayList<Player>();
 
         ArrayList<Powerup> mocklist = new ArrayList<Powerup>();
-        mocklist.add(new SwapPowerup());
+        //mocklist.add(new SwapPowerup());
         //mocklist.add(new ObstaclePowerup());
         //mocklist.add(new ExpandBoardPowerup());
         players.add(new Player(0, null));
         players.add(new Player(1, null));
-
         singleton.setPlayers(players);
-        singleton.playSound(1);
-        isSoundMuted = false;
+    }
+
+    private void playMusic(){
+        if (!isSoundMuted){
+            singleton.playSound(1);
+            soundButtontext = "Sound off";
+        }
+        else{
+            soundButtontext = "Sound on";
+        }
     }
 
     private void initializeButtons(){
@@ -119,7 +130,7 @@ public class PlayState implements State {
         backButton = new TextButton("Back", skin);
         backButton.setPosition(5, Gdx.graphics.getHeight()-backButton.getHeight()-5);
 
-        soundButton = new TextButton("Sound off",skin);
+        soundButton = new TextButton(soundButtontext,skin);
         soundButton.setPosition(Gdx.graphics.getWidth()-5-soundButton.getWidth(),Gdx.graphics.getHeight()-soundButton.getHeight()-5);
 
     }
@@ -128,6 +139,7 @@ public class PlayState implements State {
     public void handleInput() {
         if (backButton.isPressed()){
             singleton.stopSound(1);
+            //System.out.println(singleton.isMuted());
             gsm.set(new MainMenuState(gsm));
             dispose();
         }
@@ -140,7 +152,7 @@ public class PlayState implements State {
             }
             else{
                 isSoundMuted = true;
-                singleton.pauseGameSound();
+                singleton.pauseSound(1);
                 soundButton.setText("Sound on");
             }
             try {
@@ -162,17 +174,22 @@ public class PlayState implements State {
                 t.update(dt);
             }
             if (gameLogic.hasWinner()) {
-                singleton.playSound(2);
-                singleton.stopSound(1);
+                //singleton.playSound(2);
+                if (!isSoundMuted){
+                    singleton.stopSound(1);
+                    singleton.playSound(2);
+                }
                 System.out.println("Vinneren er spiller " + gameLogic.getWinner());
-                gsm.set(new AfterGameMenuState(gsm, gameLogic.getWinner()));
+                gsm.set(new AfterGameMenuState(gsm, gameLogic.getWinner(),isSoundMuted));
                 dispose();
             }
             else if (!gameLogic.hasWinner() && gameLogic.getWinner() == 'D') {
                 System.out.println("UAVGJORT");
-                singleton.stopSound(1);
-                singleton.playSound(3);
-                gsm.set(new AfterGameMenuState(gsm, gameLogic.getWinner()));
+                if (!isSoundMuted){
+                    singleton.stopSound(1);
+                    singleton.playSound(3);
+                }
+                gsm.set(new AfterGameMenuState(gsm, gameLogic.getWinner(),isSoundMuted));
                 dispose();
             }
             if (players.get(singleton.getPlayerState()).getPowerups() != null){

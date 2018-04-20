@@ -25,11 +25,12 @@ public class AfterGameMenuState implements State {
     private TextButton mainMenuButton;
     private TextButton exitButton;
     private Singleton singleton = Singleton.getInstance();
+    private boolean isMuted;
 
     Label congratulationsLabel;
     Label winnerLabel;
 
-    public AfterGameMenuState(GameStateManager gsm, char winner) {
+    public AfterGameMenuState(GameStateManager gsm, char winner, boolean isMuted) {
         this.gsm = gsm;
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
@@ -38,19 +39,26 @@ public class AfterGameMenuState implements State {
         initializeLabels(winner);
         initializeButtons();
 
-//        Add buttons to stage
+        //Add buttons to stage
         stage.addActor(congratulationsLabel);
         stage.addActor(winnerLabel);
         stage.addActor(playAgainButton);
         stage.addActor(mainMenuButton);
         stage.addActor(exitButton);
+
+
+        this.isMuted = isMuted;
+        if (!isMuted){
+            singleton.playSound(0);
+        }
     }
 
     @Override
     public void handleInput() {
         if(playAgainButton.isPressed()){
             singleton.resetSingleton();
-            gsm.set(new PlayState(gsm,5));
+            singleton.stopSound(0);
+            gsm.set(new PlayState(gsm,singleton.getN(),isMuted));
             dispose();
             try {
                 Thread.sleep(500);
@@ -59,7 +67,7 @@ public class AfterGameMenuState implements State {
             }
         }
         if(mainMenuButton.isPressed()){
-            singleton.resetSingleton();
+            //singleton.resetSingleton();
             gsm.set(new MainMenuState(gsm));
             dispose();
         }
@@ -106,6 +114,7 @@ public class AfterGameMenuState implements State {
         textButtonStyle.over = skin.newDrawable("background", Color.LIGHT_GRAY);
         textButtonStyle.font = skin.getFont("default");
         skin.add("default", textButtonStyle);
+
     }
 
     private void initializeButtons(){
