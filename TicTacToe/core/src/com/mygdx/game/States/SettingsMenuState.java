@@ -143,4 +143,3 @@ public class SettingsMenuState implements State {
     }
 }
 
-
