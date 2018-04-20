@@ -1,9 +1,11 @@
 package com.mygdx.game.Singleton;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.mygdx.game.domain.Board;
+import com.mygdx.game.domain.GameMusic;
 import com.mygdx.game.domain.Player;
 import com.mygdx.game.domain.TileState;
 import com.mygdx.game.powerups.ExpandBoardPowerup;
@@ -32,6 +34,7 @@ public class Singleton {
     private ArrayList<Powerup> powerups;
     private Sound lobbySound, gameSound, winningSound, drawSound;
     private boolean isMuted, isPlaying;
+    private GameMusic gameMusic;
 
     public ArrayList<Powerup> getPowerups() {
         return powerups;
@@ -48,6 +51,7 @@ public class Singleton {
     }
 
     private Singleton() {
+        gameMusic = new GameMusic();
         boardState = new ArrayList<TileState>();
         boardTiles = new ArrayList<Sprite>();
         powerups = new ArrayList<Powerup>();
@@ -64,6 +68,9 @@ public class Singleton {
 
 
     }
+    public GameMusic getGameMusic(){
+        return gameMusic;
+    }
 
     public void playSound(int i){
         if (!isMuted){
@@ -72,7 +79,7 @@ public class Singleton {
                 isPlaying=true;
             }
             else if (i == 1){
-                gameSound.play(1.0f);
+                gameSound.loop(1.0f);
                 isPlaying=true;
             }
             else if (i == 2){

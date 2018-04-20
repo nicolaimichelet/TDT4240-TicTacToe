@@ -27,7 +27,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		batch = new SpriteBatch();
 		gsm = new GameStateManager();
 		Gdx.gl.glClearColor(0, 1, 1, 1);
-		gsm.push(new MainMenuState(gsm));
+		gsm.push(new MainMenuState(gsm,3));
 	}
 
 	@Override
