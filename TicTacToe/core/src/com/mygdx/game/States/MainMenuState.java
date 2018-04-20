@@ -26,28 +26,30 @@ public class MainMenuState implements State {
     private TextButton exitButton;
     private Label titleLabel, NxNLabel;
     private Singleton singleton = Singleton.getInstance();
+    private boolean isMuted;
 
     public MainMenuState(GameStateManager gsm) {
         this.gsm = gsm;
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
 
-        createSkin(); // Create skin for buttons
+        // Create skin for buttons
+        createSkin();
         initializeButtons();
         initializeLabels();
 
         // Add labels to stage
-
         stage.addActor(titleLabel);
         stage.addActor(NxNLabel);
 
-//        Add buttons to stage
+        //Add buttons to stage
         stage.addActor(playButton);
         stage.addActor(settingsButton);
         stage.addActor(powerUpButton);
         stage.addActor(exitButton);
 
-        if (!singleton.isPlaying()){
+        // Start lobby music
+        if (!singleton.isPlaying() && !singleton.isMuted()){
             singleton.playSound(0);
         }
 
@@ -56,8 +58,9 @@ public class MainMenuState implements State {
     @Override
     public void handleInput() {
         if(playButton.isPressed()){
+            isMuted = singleton.isMuted();
             singleton.resetSingleton();
-            gsm.set(new PlayState(gsm,singleton.getN()));
+            gsm.set(new PlayState(gsm,singleton.getN(),isMuted));
             singleton.stopSound(0);
             dispose();
             try {
@@ -125,9 +128,9 @@ public class MainMenuState implements State {
         style.font = font;
 
         titleLabel = new Label("TicTacToeUNLEASHED",style);
-        titleLabel.setPosition((Gdx.graphics.getWidth()-titleLabel.getWidth())/2,Gdx.graphics.getHeight()-150);
+        titleLabel.setPosition((Gdx.graphics.getWidth()-titleLabel.getWidth())/2,(float)(Gdx.graphics.getHeight() / 1.2));
         NxNLabel = new Label(singleton.getN()+"x"+singleton.getN(),style);
-        NxNLabel.setPosition((Gdx.graphics.getWidth()-NxNLabel.getWidth())/2,Gdx.graphics.getHeight()-200);
+        NxNLabel.setPosition((Gdx.graphics.getWidth()-NxNLabel.getWidth())/2,(float)(Gdx.graphics.getHeight() / 1.3));
     }
 
     private void initializeButtons(){

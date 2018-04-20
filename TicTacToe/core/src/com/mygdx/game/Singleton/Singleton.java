@@ -25,7 +25,7 @@ public class Singleton {
     private ArrayList<Sprite> boardTiles;
     private ArrayList<Tile> tiles;
     private int playerState;
-    private int n = 3;
+    private int n;
     private Powerup powerupSelected;
     private ArrayList<Player> players;
     private int indexTopowerupToRemove;
@@ -58,7 +58,9 @@ public class Singleton {
         lobbySound = Gdx.audio.newSound(Gdx.files.internal("lobby.mp3"));
         gameSound = Gdx.audio.newSound(Gdx.files.internal("music.mp3"));
         winningSound = Gdx.audio.newSound(Gdx.files.internal("winning.mp3"));
+        drawSound = Gdx.audio.newSound(Gdx.files.internal("aah.mp3"));
         isMuted = false;
+        n = 3;
 
 
     }
@@ -77,7 +79,7 @@ public class Singleton {
                 winningSound.play(1.0f);
             }
             else if (i == 3){
-                System.out.println("Play draw sound");
+                drawSound.play(1.0f);
             }
         }
     }
@@ -86,9 +88,11 @@ public class Singleton {
         if (!isMuted){
             if (i == 0){
                 lobbySound.resume();
+                isPlaying=true;
             }
             else if (i == 1){
                 gameSound.resume();
+                isPlaying=true;
             }
         }
     }
@@ -97,16 +101,28 @@ public class Singleton {
         return isPlaying;
     }
 
+    public boolean isMuted(){
+        return isMuted;
+    }
+
     public void muteSound() {
         isMuted = true;
+        pauseSound(0);
     }
 
     public void unMuteSound(){
         isMuted = false;
     }
 
-    public void pauseGameSound(){
-        gameSound.pause();
+    public void pauseSound(int i){
+        if (i == 0){
+            lobbySound.pause();
+            isPlaying=false;
+        }
+        else if (i == 1){
+            gameSound.pause();
+            isPlaying=false;
+        }
     }
 
     public void stopSound(int i){
