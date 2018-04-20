@@ -29,7 +29,7 @@ public class MainMenuState implements State {
     private boolean isMuted;
     private int n;
 
-    public MainMenuState(GameStateManager gsm,int n) {
+    public MainMenuState(GameStateManager gsm, int n) {
         this.gsm = gsm;
         stage = new Stage();
         this.n = n;
