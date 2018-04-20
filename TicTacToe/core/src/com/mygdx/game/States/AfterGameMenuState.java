@@ -28,14 +28,16 @@ public class AfterGameMenuState implements State {
     private TextButton exitButton;
     private Singleton singleton = Singleton.getInstance();
     private boolean isMuted;
+    private int n;
 
 //    Labels
     Label congratulationsLabel;
     Label winnerLabel;
 
-    public AfterGameMenuState(GameStateManager gsm, char winner, boolean isMuted) {
+    public AfterGameMenuState(GameStateManager gsm, char winner, boolean isMuted,int n) {
         this.gsm = gsm;
         stage = new Stage();
+        this.n = n;
         Gdx.input.setInputProcessor(stage);
 
         createSkin(); // Create skin for buttons
@@ -61,7 +63,7 @@ public class AfterGameMenuState implements State {
         if(playAgainButton.isPressed()){
             singleton.resetSingleton();
             singleton.stopSound(0);
-            gsm.set(new PlayState(gsm,singleton.getN(),isMuted));
+            gsm.set(new PlayState(gsm,n,isMuted));
             dispose();
             try {
                 Thread.sleep(500);
@@ -71,7 +73,7 @@ public class AfterGameMenuState implements State {
         }
         if(mainMenuButton.isPressed()){
             //singleton.resetSingleton();
-            gsm.set(new MainMenuState(gsm));
+            gsm.set(new MainMenuState(gsm,n));
             dispose();
         }
         if(exitButton.isPressed()){

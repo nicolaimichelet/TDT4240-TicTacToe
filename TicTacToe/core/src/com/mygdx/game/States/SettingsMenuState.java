@@ -53,20 +53,20 @@ public class SettingsMenuState implements State {
     public void handleInput() {
         if(backButton.isPressed()){
             //singleton.resetSingleton();
-            gsm.set(new MainMenuState(gsm));
+            gsm.set(new MainMenuState(gsm,singleton.getN()));
             dispose();
         }
         else if (threeButton.isPressed()){
-            singleton.setN(3);
-            gsm.set(new MainMenuState(gsm));
+            //singleton.setN(3);
+            gsm.set(new MainMenuState(gsm,3));
         }
         else if (fourButton.isPressed()){
-            singleton.setN(4);
-            gsm.set(new MainMenuState(gsm));
+            //singleton.setN(4);
+            gsm.set(new MainMenuState(gsm,4));
         }
         else if (fiveButton.isPressed()){
-            singleton.setN(5);
-            gsm.set(new MainMenuState(gsm));
+            //singleton.setN(5);
+            gsm.set(new MainMenuState(gsm,5));
         }
 
         else if(muteButton.isPressed()){

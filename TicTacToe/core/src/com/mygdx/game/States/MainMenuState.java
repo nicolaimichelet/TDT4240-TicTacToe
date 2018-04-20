@@ -27,10 +27,13 @@ public class MainMenuState implements State {
     private Label titleLabel, NxNLabel;
     private Singleton singleton = Singleton.getInstance();
     private boolean isMuted;
+    private int n;
 
-    public MainMenuState(GameStateManager gsm) {
+    public MainMenuState(GameStateManager gsm,int n) {
         this.gsm = gsm;
         stage = new Stage();
+        this.n = n;
+        singleton.setN(n);
         Gdx.input.setInputProcessor(stage);
 
         // Create skin for buttons
@@ -95,7 +98,9 @@ public class MainMenuState implements State {
     }
 
     @Override
-    public void dispose() {}
+    public void dispose() {
+
+    }
   
 //    Create skin for buttons
     private void createSkin(){
@@ -129,6 +134,7 @@ public class MainMenuState implements State {
 
         titleLabel = new Label("TicTacToeUNLEASHED",style);
         titleLabel.setPosition((Gdx.graphics.getWidth()-titleLabel.getWidth())/2,(float)(Gdx.graphics.getHeight() / 1.2));
+
         NxNLabel = new Label(singleton.getN()+"x"+singleton.getN(),style);
         NxNLabel.setPosition((Gdx.graphics.getWidth()-NxNLabel.getWidth())/2,(float)(Gdx.graphics.getHeight() / 1.3));
     }

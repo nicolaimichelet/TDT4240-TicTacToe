@@ -36,8 +36,6 @@ public class ObstaclePowerup extends InputHandler implements Powerup {
                     ArrayList<TileState> newTileState = singleton.getBoardState();
                     newTileState.add(new TileState(t, -1));
                     singleton.setBoardState(newTileState);
-                } else{
-                    System.out.println("Cannot place obstacle there. Already in use");
                 }
             }
         }
@@ -67,7 +65,7 @@ public class ObstaclePowerup extends InputHandler implements Powerup {
                 }
             } else {
                 singleton.setpowerupSelected(this);
-                System.out.println("Swapped selected");
+                System.out.println("Obstacle selected");
             }
         }
     }

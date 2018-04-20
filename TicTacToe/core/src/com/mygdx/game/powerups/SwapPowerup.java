@@ -118,6 +118,11 @@ public class SwapPowerup extends InputHandler implements com.mygdx.game.powerups
         return swapIcon;
     }
 
+    public void resetSelectedTiles(){
+        selectedTile1 = null;
+        selectedTile2 = null;
+    }
+
     @Override
     public String getType() {
         return "SwapPowerup";
