@@ -21,8 +21,11 @@ public class SettingsMenuState implements State {
     private GameStateManager gsm;
     private Stage stage;
     private Skin skin;
+
+//    Buttons
     private TextButton threeButton, fourButton, fiveButton, backButton, muteButton;
 
+//    Labels
     private Label settingsLabel;
 
     private Singleton singleton = Singleton.getInstance();
