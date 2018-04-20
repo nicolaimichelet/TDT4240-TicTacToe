@@ -67,6 +67,7 @@ public class SettingsMenuState implements State {
             singleton.setN(5);
             gsm.set(new MainMenuState(gsm));
         }
+
 //        if(exitButton.isPressed()){
 //            Gdx.app.exit();
 //        }
@@ -141,4 +142,5 @@ public class SettingsMenuState implements State {
         stage.getViewport().update(width, height, true);
     }
 }
+
 
