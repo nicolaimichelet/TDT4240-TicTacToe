@@ -1,5 +1,9 @@
 package com.mygdx.game.States;
 
+/**
+ * Created by Simen on 20.04.2018.
+ */
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -12,22 +16,19 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.mygdx.game.Singleton.Singleton;
 
-/**
- * Created by eiriksandberg on 22.01.2018.
- */
-
-public class MainMenuState implements State {
+public class PowerUpMenuState implements State {
     private GameStateManager gsm;
     private Stage stage;
     private Skin skin;
-    private TextButton playButton;
-    private TextButton settingsButton;
-    private TextButton powerUpButton;
-    private TextButton exitButton;
-    private Label titleLabel, NxNLabel;
+    private TextButton backButton;
+    private Label aboutTitleLabel, aboutGameLabel, powerUpLabel;
+
     private Singleton singleton = Singleton.getInstance();
 
-    public MainMenuState(GameStateManager gsm) {
+    private Texture swapIcon;
+    private Texture expandBoard;
+
+    public PowerUpMenuState(GameStateManager gsm) {
         this.gsm = gsm;
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
@@ -35,18 +36,15 @@ public class MainMenuState implements State {
         createSkin(); // Create skin for buttons
         initializeButtons();
         initializeLabels();
+        initializeTextures();
 
         // Add labels to stage
-
-        stage.addActor(titleLabel);
-        stage.addActor(NxNLabel);
+        stage.addActor(aboutTitleLabel);
+        stage.addActor(aboutGameLabel);
+        stage.addActor(powerUpLabel);
 
 //        Add buttons to stage
-        stage.addActor(playButton);
-        stage.addActor(settingsButton);
-        stage.addActor(powerUpButton);
-        stage.addActor(exitButton);
-
+        stage.addActor(backButton);
         if (!singleton.isPlaying()){
             singleton.playSound(0);
         }
@@ -55,25 +53,9 @@ public class MainMenuState implements State {
 
     @Override
     public void handleInput() {
-        if(playButton.isPressed()){
-            singleton.resetSingleton();
-            gsm.set(new PlayState(gsm,singleton.getN()));
-            singleton.stopSound(0);
+        if(backButton.isPressed()){
+            gsm.set(new MainMenuState(gsm));
             dispose();
-            try {
-                Thread.sleep(500);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-        if(settingsButton.isPressed()){
-            gsm.set(new SettingsMenuState(gsm));
-        }
-        if(powerUpButton.isPressed()){
-            gsm.set(new PowerUpMenuState(gsm));
-        }
-        if(exitButton.isPressed()){
-            Gdx.app.exit();
         }
     }
 
@@ -85,16 +67,18 @@ public class MainMenuState implements State {
 
     @Override
     public void render(SpriteBatch sb) {
-        sb.begin();
         stage.act();
         stage.draw();
+        sb.begin();
+        sb.draw(swapIcon, 40, Gdx.graphics.getHeight() - 350, 30, 30);
+        sb.draw(expandBoard, 40, Gdx.graphics.getHeight() - 410, 30, 30);
         sb.end();
     }
 
     @Override
     public void dispose() {}
-  
-//    Create skin for buttons
+
+    //    Create skin for buttons
     private void createSkin(){
         // Create a font
         BitmapFont font = new BitmapFont();
@@ -124,31 +108,36 @@ public class MainMenuState implements State {
         Label.LabelStyle style = new Label.LabelStyle();
         style.font = font;
 
-        titleLabel = new Label("TicTacToeUNLEASHED",style);
-        titleLabel.setPosition((Gdx.graphics.getWidth()-titleLabel.getWidth())/2,Gdx.graphics.getHeight()-150);
-        NxNLabel = new Label(singleton.getN()+"x"+singleton.getN(),style);
-        NxNLabel.setPosition((Gdx.graphics.getWidth()-NxNLabel.getWidth())/2,Gdx.graphics.getHeight()-200);
+        String aboutTitle = "About";
+        String aboutGameText = "TicTacToe Unleashed gives a new twist to the original game. By introducing \"power-ups\" and obstacles on the board, the game becomes rather fun to play.";
+        String powerUpText = "Power-ups";
+
+        aboutTitleLabel = new Label(aboutTitle, style);
+        aboutTitleLabel.setPosition((Gdx.graphics.getWidth() - aboutTitleLabel.getWidth()) / 2,Gdx.graphics.getHeight() - 150);
+
+        aboutGameLabel = new Label(aboutGameText, style);
+        aboutGameLabel.setPosition((Gdx.graphics.getWidth() - aboutGameLabel.getWidth()) / 2, Gdx.graphics.getHeight() - 200);
+
+        powerUpLabel = new Label(powerUpText, style);
+        powerUpLabel.setPosition((Gdx.graphics.getWidth() - powerUpLabel.getWidth()) / 2, Gdx.graphics.getHeight() - 300);
     }
 
     private void initializeButtons(){
-        playButton = new TextButton("Play now", skin);
-        playButton.setPosition((Gdx.graphics.getWidth() - playButton.getWidth())/2, ((Gdx.graphics.getHeight() + 4 * playButton.getHeight())/2));
-
-        settingsButton = new TextButton("Settings", skin);
-        settingsButton.setPosition((Gdx.graphics.getWidth() - settingsButton.getWidth())/2, ((Gdx.graphics.getHeight() + playButton.getHeight())/2));
-
-        powerUpButton = new TextButton("Power ups", skin);
-        powerUpButton.setPosition((Gdx.graphics.getWidth() - powerUpButton.getWidth())/2, ((Gdx.graphics.getHeight() - 2 * powerUpButton.getHeight())/2));
-
-        exitButton = new TextButton("Exit", skin);
-        exitButton.setPosition((Gdx.graphics.getWidth() - exitButton.getWidth())/2, ((Gdx.graphics.getHeight() - 5 * exitButton.getHeight())/2));
+        backButton = new TextButton("Back", skin);
+        backButton.setPosition((Gdx.graphics.getWidth() - backButton.getWidth())/2, 100);
     }
 
-//    Update stage viewport when screen is resized
+    private void initializeTextures(){
+        swapIcon = new Texture("swap.png");
+        expandBoard = new Texture("expand.png");
+    }
+
+    //    Update stage viewport when screen is resized
     public void resize(int width, int height){
         stage.getViewport().update(width, height, true);
     }
 }
+
 
 
 
