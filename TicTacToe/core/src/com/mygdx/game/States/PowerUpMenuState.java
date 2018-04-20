@@ -62,8 +62,8 @@ public class PowerUpMenuState implements State {
 
     @Override
     public void handleInput() {
-        if(backButton.isPressed()){
-            gsm.set(new MainMenuState(gsm ,singleton.getN()));
+        if(backButton.isPressed()) {
+            gsm.set(new MainMenuState(gsm, singleton.getN()));
             dispose();
         }
     }
