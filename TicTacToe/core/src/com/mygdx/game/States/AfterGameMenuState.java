@@ -21,6 +21,8 @@ public class AfterGameMenuState implements State {
     private GameStateManager gsm;
     private Stage stage;
     private Skin skin;
+
+//    Buttons
     private TextButton playAgainButton;
     private TextButton mainMenuButton;
     private TextButton exitButton;
@@ -28,6 +30,7 @@ public class AfterGameMenuState implements State {
     private boolean isMuted;
     private int n;
 
+//    Labels
     Label congratulationsLabel;
     Label winnerLabel;
 
@@ -140,11 +143,6 @@ public class AfterGameMenuState implements State {
             congratulationsText = "It's a draw!";
             congratulationsLabel = new Label(congratulationsText, style);
             congratulationsLabel.setPosition((Gdx.graphics.getWidth() - congratulationsLabel.getWidth())/2, (float)(Gdx.graphics.getHeight() / 1.2));
-
-            String winnerText = "No winner..";
-            winnerLabel = new Label(winnerText, style);
-            winnerLabel.setPosition((Gdx.graphics.getWidth() - winnerLabel.getWidth())/2, (float)(congratulationsLabel.getY() - winnerLabel.getHeight() * 1.5));
-
         }
         else{
             congratulationsText = "Congratulations!";
