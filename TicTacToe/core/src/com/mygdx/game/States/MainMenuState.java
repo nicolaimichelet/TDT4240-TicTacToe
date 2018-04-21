@@ -5,11 +5,15 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.mygdx.game.Singleton.Singleton;
 
 /**
@@ -25,6 +29,9 @@ public class MainMenuState implements State {
     private TextButton powerUpButton;
     private TextButton exitButton;
     private Label titleLabel, NxNLabel;
+
+    private Texture menuPic;
+
     private Singleton singleton = Singleton.getInstance();
     private boolean isMuted;
     private int n;
@@ -41,8 +48,16 @@ public class MainMenuState implements State {
         initializeButtons();
         initializeLabels();
 
+        menuPic = new Texture("thinkOutsideTheBox.png");
+
+   /*     image = new Image();
+        image.setDrawable(new TextureRegionDrawable(new TextureRegion(menuPic)));
+        image.setSize(menuPic.getWidth() / 4, menuPic.getHeight() / 4);
+        menuPic.setPosition(Gdx.graphics.getWidth() - image.getImageWidth() / 2, Gdx.graphics.getHeight() - image.getImageHeight() / 2);
+*/
+
+
         // Add labels to stage
-        stage.addActor(titleLabel);
         stage.addActor(NxNLabel);
 
         //Add buttons to stage
@@ -91,15 +106,18 @@ public class MainMenuState implements State {
 
     @Override
     public void render(SpriteBatch sb) {
-        sb.begin();
+
+        stage.getBatch().begin();
+
+        stage.getBatch().draw(menuPic,Gdx.graphics.getWidth() * 0.13f, Gdx.graphics.getHeight()*0.6f,Gdx.graphics.getWidth()*0.90f, Gdx.graphics.getHeight()*0.4f);
+        stage.getBatch().end();
+
         stage.act();
         stage.draw();
-        sb.end();
     }
 
     @Override
     public void dispose() {
-
     }
   
 //    Create skin for buttons
@@ -132,25 +150,24 @@ public class MainMenuState implements State {
         Label.LabelStyle style = new Label.LabelStyle();
         style.font = font;
 
-        titleLabel = new Label("TicTacToeUNLEASHED",style);
-        titleLabel.setPosition((Gdx.graphics.getWidth()-titleLabel.getWidth())/2,(float)(Gdx.graphics.getHeight() / 1.2));
-
         NxNLabel = new Label(singleton.getN()+"x"+singleton.getN(),style);
-        NxNLabel.setPosition((Gdx.graphics.getWidth()-NxNLabel.getWidth())/2,(float)(Gdx.graphics.getHeight() / 1.3));
+        NxNLabel.setPosition((Gdx.graphics.getWidth()-NxNLabel.getWidth())/2,(float)(Gdx.graphics.getHeight() / 1.8));
     }
 
     private void initializeButtons(){
+
         playButton = new TextButton("Play now", skin);
-        playButton.setPosition((Gdx.graphics.getWidth() - playButton.getWidth())/2, ((Gdx.graphics.getHeight() + 4 * playButton.getHeight())/2));
+        playButton.setPosition((Gdx.graphics.getWidth() - playButton.getWidth())/2, ((Gdx.graphics.getHeight() - 2  * playButton.getHeight())/2));
 
         settingsButton = new TextButton("Settings", skin);
-        settingsButton.setPosition((Gdx.graphics.getWidth() - settingsButton.getWidth())/2, ((Gdx.graphics.getHeight() + playButton.getHeight())/2));
+        settingsButton.setPosition((Gdx.graphics.getWidth() - settingsButton.getWidth())/2, ((Gdx.graphics.getHeight() + (float)0.8 - 5 * settingsButton.getHeight())/2));
 
         powerUpButton = new TextButton("Power ups", skin);
-        powerUpButton.setPosition((Gdx.graphics.getWidth() - powerUpButton.getWidth())/2, ((Gdx.graphics.getHeight() - 2 * powerUpButton.getHeight())/2));
+        powerUpButton.setPosition((Gdx.graphics.getWidth() - powerUpButton.getWidth())/2, ((Gdx.graphics.getHeight() + (float)0.8 - 8 * powerUpButton.getHeight())/2));
 
         exitButton = new TextButton("Exit", skin);
-        exitButton.setPosition((Gdx.graphics.getWidth() - exitButton.getWidth())/2, ((Gdx.graphics.getHeight() - 5 * exitButton.getHeight())/2));
+        exitButton.setPosition((Gdx.graphics.getWidth() - exitButton.getWidth())/2, (Gdx.graphics.getHeight()/2) - 6 * exitButton.getHeight());
+
     }
 
 //    Update stage viewport when screen is resized

@@ -257,4 +257,80 @@ public class PlayState implements State {
             ts.getTile().getTexture().dispose();
         }
     }
+
+    public void renderPowerupsOnBoard(ArrayList<Tile> tiles, SpriteBatch sb){
+        for (Tile t : tiles){
+            if (t.getPowerup() != null) {
+                Sprite pu = new Sprite(t.getPowerup().getTexture());
+                Vector3 tilePosition = t.getPosition();
+                pu.setSize(t.getWidth()-t.getWidth()/4, t.getHeight()-t.getHeight()/4);
+                float xPosition = (tilePosition.x + t.getWidth()/2 - (t.getWidth())/(float)2.7);
+                float yPosition = (tilePosition.y + t.getHeight()/2 - (t.getHeight())/(float)2.7);
+                pu.setPosition(xPosition, yPosition);
+                pu.draw(sb);
+            }
+        }
+    }
+
+
+    public void renderPowerups(ArrayList<Powerup> powerups, SpriteBatch sb) {
+        float factor = powerups.size() > 1 ? MyGdxGame.WIDTH / powerups.size() : MyGdxGame.WIDTH / 2;
+        float blankspace = powerups.size() > 1 ? factor / powerups.size() : 0;
+        float renderIterator = powerups.size() > 1 ? 0 : MyGdxGame.WIDTH / 2;
+        for (Powerup pu : powerups){
+            Sprite s = new Sprite(pu.getTexture());
+            if (pu.equals(singleton.getPowerupSelected())){
+                s.setAlpha(0.5f);
+            }
+            s.setSize(50, 50);
+            s.setPosition(renderIterator + blankspace - 25, /*Gdx.graphics.getHeight() - MyGdxGame.BAR + 10*/10); // Fix this to appear in own menu
+            pu.setPosition(new Vector3(renderIterator + blankspace - 25, /*Gdx.graphics.getHeight()  - MyGdxGame.BAR + 10*/ 10, 0f));
+            pu.setHeight(50);
+            pu.setWidth(50);
+            s.draw(sb);
+            renderIterator += factor;
+        }
+    }
+
+    public void renderMarks(SpriteBatch sb) {
+        gameLogic.clearBoard();
+        gameLogic.setZeroMoveCount();
+        for (TileState ts : singleton.getBoardState()) {
+            Tile tile = ts.getTile();
+            Mark m = new Mark(tile, ts.getState());
+            if (ts.getState() == 1) {
+                gameLogic.Move(tile.getX(), tile.getY(), 'O');
+            } else if (ts.getState() == 0) {
+                gameLogic.Move(tile.getX(), tile.getY(), 'X');
+            }
+            else if (ts.getState()==-1){
+                gameLogic.Move(tile.getX(), tile.getY(),'T');
+            }
+            Sprite s = new Sprite(m.getTexture());
+            s.setPosition(tile.getPosition().x + tile.getWidth()/2 - (tile.getWidth())/3, tile.getPosition().y + tile.getHeight()/2 - (tile.getHeight())/3);
+            s.setSize(tile.getWidth()/(float)1.5, tile.getHeight()/(float)1.5);
+            s.draw(sb);
+        }
+        if (gameLogic.getMoveCount()>updateMoveCount){
+            //System.out.println("movecount "+gameLogic.getMoveCount());
+            //System.out.println("To draw: "+singleton.getN()*singleton.getN());
+            updateMoveCount=gameLogic.getMoveCount();
+            System.out.println(gameLogic.printBoard());
+        }
+    }
+
+    public void spawnRandomPowerup(){
+        Tile t = singleton.getTiles().get(rm.nextInt((singleton.getBoard().getColumns() * singleton.getBoard().getRows())));
+        Powerup pu = gameLogic.getMoveCount() > 2 ? singleton.getPowerups().get(rm.nextInt(singleton.getPowerups().size())) : singleton.getPowerups().get(rm.nextInt(singleton.getPowerups().size() - 1));
+        boolean canPlacePowerup = true;
+        for (TileState tileState : singleton.getBoardState()) {
+            if (tileState.getTile().getX() == t.getX() && tileState.getTile().getY() == t.getY()){
+                canPlacePowerup = false;
+            }
+        }
+        if (canPlacePowerup){
+            pu.setPosition(new Vector3(-10f,-10f,0f)); // powerup needs position to work. Random position for init
+            t.setPowerup(pu);
+        }
+    }
 }
