@@ -1,20 +1,16 @@
 package com.mygdx.game.States;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.Singleton.Singleton;
 import com.mygdx.game.domain.Board;
 import com.mygdx.game.domain.Player;
@@ -23,7 +19,6 @@ import com.mygdx.game.powerups.ExpandBoardPowerup;
 import com.mygdx.game.domain.GameLogic;
 import com.mygdx.game.powerups.ObstaclePowerup;
 import com.mygdx.game.powerups.SwapPowerup;
-import com.mygdx.game.sprites.Mark;
 import com.mygdx.game.powerups.Powerup;
 import com.mygdx.game.sprites.Tile;
 
