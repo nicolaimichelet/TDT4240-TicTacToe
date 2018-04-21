@@ -1,9 +1,6 @@
 package com.mygdx.game.powerups;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.Singleton.Singleton;
 import com.mygdx.game.domain.InputHandler;
 import com.mygdx.game.domain.Player;

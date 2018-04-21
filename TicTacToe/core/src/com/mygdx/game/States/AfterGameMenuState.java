@@ -34,7 +34,7 @@ public class AfterGameMenuState implements State {
     Label congratulationsLabel;
     Label winnerLabel;
 
-    public AfterGameMenuState(GameStateManager gsm, char winner, boolean isMuted,int n) {
+    public AfterGameMenuState(GameStateManager gsm, char winner, boolean isMuted, int n) {
         this.gsm = gsm;
         stage = new Stage();
         this.n = n;

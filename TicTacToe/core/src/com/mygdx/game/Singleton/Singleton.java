@@ -1,6 +1,5 @@
 package com.mygdx.game.Singleton;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -8,7 +7,6 @@ import com.mygdx.game.domain.Board;
 import com.mygdx.game.domain.GameMusic;
 import com.mygdx.game.domain.Player;
 import com.mygdx.game.domain.TileState;
-import com.mygdx.game.powerups.ExpandBoardPowerup;
 import com.mygdx.game.powerups.ObstaclePowerup;
 import com.mygdx.game.powerups.Powerup;
 import com.mygdx.game.powerups.SwapPowerup;
