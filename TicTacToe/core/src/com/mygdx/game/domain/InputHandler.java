@@ -1,10 +1,7 @@
 package com.mygdx.game.domain;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Vector3;
-import com.mygdx.game.MyGdxGame;
-import com.mygdx.game.powerups.Powerup;
 
 /**
  * Created by eiriksandberg on 12.04.2018.

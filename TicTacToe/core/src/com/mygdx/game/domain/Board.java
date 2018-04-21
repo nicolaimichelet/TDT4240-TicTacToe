@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.Singleton.Singleton;
-import com.mygdx.game.powerups.ExpandBoardPowerup;
 import com.mygdx.game.powerups.Powerup;
 import com.mygdx.game.sprites.Mark;
 import com.mygdx.game.sprites.Tile;
