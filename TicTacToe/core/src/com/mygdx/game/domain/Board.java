@@ -154,9 +154,9 @@ public class Board {
             if (t.getPowerup() != null) {
                 Sprite pu = new Sprite(t.getPowerup().getTexture());
                 Vector3 tilePosition = t.getPosition();
-                pu.setSize(t.getWidth()-t.getWidth()/4, t.getHeight()-t.getHeight()/4);
-                float xPosition = (tilePosition.x + t.getWidth()/2 - (t.getWidth())/(float)2.7);
-                float yPosition = (tilePosition.y + t.getHeight()/2 - (t.getHeight())/(float)2.7);
+                pu.setSize(t.getWidth()-t.getWidth()/3, t.getHeight()-t.getHeight()/(float)2.5);
+                float xPosition = (tilePosition.x + t.getWidth()/2 - (t.getWidth())/(float)3);
+                float yPosition = (tilePosition.y + t.getHeight()/2 - (t.getHeight())/(float)3);
                 pu.setPosition(xPosition, yPosition);
                 pu.draw(sb);
             }

@@ -162,7 +162,7 @@ public class MainMenuState implements State {
         settingsButton = new TextButton("Settings", skin);
         settingsButton.setPosition((Gdx.graphics.getWidth() - settingsButton.getWidth())/2, ((Gdx.graphics.getHeight() + (float)0.8 - 5 * settingsButton.getHeight())/2));
 
-        powerUpButton = new TextButton("Power ups", skin);
+        powerUpButton = new TextButton("About", skin);
         powerUpButton.setPosition((Gdx.graphics.getWidth() - powerUpButton.getWidth())/2, ((Gdx.graphics.getHeight() + (float)0.8 - 8 * powerUpButton.getHeight())/2));
 
         exitButton = new TextButton("Exit", skin);

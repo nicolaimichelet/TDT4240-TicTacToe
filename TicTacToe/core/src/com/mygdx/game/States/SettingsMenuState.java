@@ -21,6 +21,7 @@ public class SettingsMenuState implements State {
     private GameStateManager gsm;
     private Stage stage;
     private Skin skin;
+    private Texture settingWheel;
 
 //    Buttons
     private TextButton threeButton, fourButton, fiveButton, backButton, muteButton;
@@ -39,6 +40,9 @@ public class SettingsMenuState implements State {
         createSkin(); // Create skin for buttons
         initializeLabels();
         initializeButtons();
+
+        settingWheel = new Texture("settingWheel.png");
+
 
 //        Add buttons and labels to stage
         stage.addActor(settingsLabel);
@@ -96,9 +100,10 @@ public class SettingsMenuState implements State {
 
     @Override
     public void render(SpriteBatch sb) {
-        sb.begin();
         stage.act();
         stage.draw();
+        sb.begin();
+        sb.draw(settingWheel, Gdx.graphics.getWidth()/5, Gdx.graphics.getHeight()/(float)1.2 -10, 60, 60);
         sb.end();
     }
 
