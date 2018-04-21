@@ -122,8 +122,8 @@ public class Board {
                 gameLogic.Move(tile.getX(), tile.getY(),'T');
             }
             Sprite s = new Sprite(m.getTexture());
-            s.setPosition(tile.getPosition().x, tile.getPosition().y);
-            s.setSize(tile.getWidth(), tile.getHeight());
+            s.setPosition(tile.getPosition().x + tile.getWidth()/2 - (tile.getWidth())/3, tile.getPosition().y + tile.getHeight()/2 - (tile.getHeight())/3);
+            s.setSize(tile.getWidth()/(float)1.5, tile.getHeight()/(float)1.5);
             s.draw(sb);
         }
         if (gameLogic.getMoveCount()>updateMoveCount){
@@ -154,9 +154,9 @@ public class Board {
             if (t.getPowerup() != null) {
                 Sprite pu = new Sprite(t.getPowerup().getTexture());
                 Vector3 tilePosition = t.getPosition();
-                pu.setSize(50, 50);
-                float xPosition = (tilePosition.x + (t.getWidth() / 2) - 25);
-                float yPosition = (tilePosition.y + (t.getHeight() / 2) - 25);
+                pu.setSize(t.getWidth()-t.getWidth()/4, t.getHeight()-t.getHeight()/4);
+                float xPosition = (tilePosition.x + t.getWidth()/2 - (t.getWidth())/(float)2.7);
+                float yPosition = (tilePosition.y + t.getHeight()/2 - (t.getHeight())/(float)2.7);
                 pu.setPosition(xPosition, yPosition);
                 pu.draw(sb);
             }
