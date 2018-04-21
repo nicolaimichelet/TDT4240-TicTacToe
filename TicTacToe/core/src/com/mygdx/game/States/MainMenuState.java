@@ -34,10 +34,13 @@ public class MainMenuState implements State {
 
     private Singleton singleton = Singleton.getInstance();
     private boolean isMuted;
+    private int n;
 
-    public MainMenuState(GameStateManager gsm) {
+    public MainMenuState(GameStateManager gsm, int n) {
         this.gsm = gsm;
         stage = new Stage();
+        this.n = n;
+        singleton.setN(n);
         Gdx.input.setInputProcessor(stage);
 
         // Create skin for buttons
@@ -88,7 +91,7 @@ public class MainMenuState implements State {
             gsm.set(new SettingsMenuState(gsm));
         }
         if(powerUpButton.isPressed()){
-//            Change to power-up state
+            gsm.set(new PowerUpMenuState(gsm));
         }
         if(exitButton.isPressed()){
             Gdx.app.exit();
@@ -147,7 +150,6 @@ public class MainMenuState implements State {
         Label.LabelStyle style = new Label.LabelStyle();
         style.font = font;
 
-
         NxNLabel = new Label(singleton.getN()+"x"+singleton.getN(),style);
         NxNLabel.setPosition((Gdx.graphics.getWidth()-NxNLabel.getWidth())/2,(float)(Gdx.graphics.getHeight() / 1.8));
     }
@@ -163,11 +165,9 @@ public class MainMenuState implements State {
         powerUpButton = new TextButton("Power ups", skin);
         powerUpButton.setPosition((Gdx.graphics.getWidth() - powerUpButton.getWidth())/2, ((Gdx.graphics.getHeight() + (float)0.8 - 8 * powerUpButton.getHeight())/2));
 
-        /*highscoreButton = new TextButton("Highscore", skin);
-        highscoreButton.setPosition((Gdx.graphics.getWidth() - highscoreButton.getWidth())/2, ((Gdx.graphics.getHeight() - 5 * highscoreButton.getHeight())/2));
-        */
         exitButton = new TextButton("Exit", skin);
         exitButton.setPosition((Gdx.graphics.getWidth() - exitButton.getWidth())/2, (Gdx.graphics.getHeight()/2) - 6 * exitButton.getHeight());
+
     }
 
 //    Update stage viewport when screen is resized

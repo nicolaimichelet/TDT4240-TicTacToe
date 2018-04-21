@@ -48,10 +48,12 @@ public class PlayState implements State {
     private Skin skin;
     private TextButton backButton,soundButton;
     private Label playerTurn;
-    private boolean isSoundMuted;
+    private boolean isSoundMuted, mutedBefore;
     private String soundButtontext;
+    private int n;
 
     public PlayState(GameStateManager gsm, int n, boolean isMuted) {
+        this.n = n;
         matrix = new Board(n, n);
         singleton.setBoard(matrix);
         singleton.setTiles(matrix.generateBoard());
@@ -65,23 +67,21 @@ public class PlayState implements State {
         this.isSoundMuted = isMuted;
         playMusic();
 
+        //Initialize buttons and labels
         initializeButtons();
         stage.addActor(backButton);
         stage.addActor(soundButton);
-
         stage.addActor(playerTurn);
 
 
+        //Append powerups
         singleton.setPowerup(new ExpandBoardPowerup());
-        singleton.setPowerup(new ObstaclePowerup());
         singleton.setPowerup(new SwapPowerup());
+        singleton.setPowerup(new ObstaclePowerup());
 
+
+        //Create players
         ArrayList<Player> players = new ArrayList<Player>();
-
-        ArrayList<Powerup> mocklist = new ArrayList<Powerup>();
-        //mocklist.add(new SwapPowerup());
-        //mocklist.add(new ObstaclePowerup());
-        //mocklist.add(new ExpandBoardPowerup());
         players.add(new Player(0, null));
         players.add(new Player(1, null));
         singleton.setPlayers(players);
@@ -94,6 +94,7 @@ public class PlayState implements State {
         }
         else{
             soundButtontext = "Sound on";
+            mutedBefore = true;
         }
     }
 
@@ -139,15 +140,21 @@ public class PlayState implements State {
     public void handleInput() {
         if (backButton.isPressed()){
             singleton.stopSound(1);
-            //System.out.println(singleton.isMuted());
-            gsm.set(new MainMenuState(gsm));
+            gsm.set(new MainMenuState(gsm, n));
             dispose();
         }
         if (soundButton.isPressed()){
             if (isSoundMuted){
                 isSoundMuted = false;
-                singleton.unMuteSound();
-                singleton.resumeSound(1);
+                if (mutedBefore){
+                    singleton.unMuteSound();
+                    singleton.playSound(1);
+                    mutedBefore=false;
+                }
+                else{
+                    singleton.unMuteSound();
+                    singleton.resumeSound(1);
+                }
                 soundButton.setText("Sound off");
             }
             else{
@@ -165,84 +172,83 @@ public class PlayState implements State {
     }
 
 
-        @Override
-        public void update ( float dt){
-            ArrayList<Player> players = singleton.getPlayers();
+    @Override
+    public void update ( float dt){
+        ArrayList<Player> players = singleton.getPlayers();
+        dispose();
+        handleInput();
+        for (Tile t : singleton.getTiles()) {
+            t.update(dt);
+        }
+        if (gameLogic.hasWinner()) {
+            //singleton.playSound(2);
+            if (!isSoundMuted){
+                singleton.stopSound(1);
+                singleton.playSound(2);
+            }
+            gsm.set(new AfterGameMenuState(gsm, gameLogic.getWinner(),isSoundMuted,n));
             dispose();
-            handleInput();
-            for (Tile t : singleton.getTiles()) {
-                t.update(dt);
+        }
+        else if (!gameLogic.hasWinner() && gameLogic.getWinner() == 'D') {
+            if (!isSoundMuted){
+                singleton.stopSound(1);
+                singleton.playSound(3);
             }
-            if (gameLogic.hasWinner()) {
-                //singleton.playSound(2);
-                if (!isSoundMuted){
-                    singleton.stopSound(1);
-                    singleton.playSound(2);
-                }
-                System.out.println("Vinneren er spiller " + gameLogic.getWinner());
-                gsm.set(new AfterGameMenuState(gsm, gameLogic.getWinner(),isSoundMuted));
-                dispose();
-            }
-            else if (!gameLogic.hasWinner() && gameLogic.getWinner() == 'D') {
-                System.out.println("UAVGJORT");
-                if (!isSoundMuted){
-                    singleton.stopSound(1);
-                    singleton.playSound(3);
-                }
-                gsm.set(new AfterGameMenuState(gsm, gameLogic.getWinner(),isSoundMuted));
-                dispose();
-            }
-            if (players.get(singleton.getPlayerState()).getPowerups() != null){
-                for (Powerup pu : players.get(singleton.getPlayerState()).getPowerups()){
-                    pu.update(dt);
-                }
-            }
-            if (singleton.getN() > gameLogic.getN()){
-                gameLogic.expandBoard();
-            }
-
-            if (singleton.getIndexTopowerupToRemove() >= 0){
-                players.get(singleton.getPlayerState()).getPowerups().remove(singleton.getIndexTopowerupToRemove());
-                singleton.setIndexTopowerupToRemove(-1);
-            }
-            if (singleton.getPlayerState()==0){
-                playerTurn.setText("Player X's turn");
-            }
-            else if (singleton.getPlayerState()==1){
-                playerTurn.setText("Player O's turn");
+            gsm.set(new AfterGameMenuState(gsm, gameLogic.getWinner(),isSoundMuted,n));
+            dispose();
+        }
+        if (players.get(singleton.getPlayerState()).getPowerups() != null){
+            for (Powerup pu : players.get(singleton.getPlayerState()).getPowerups()){
+                pu.update(dt);
             }
         }
+        if (singleton.getN() > gameLogic.getN()){
+            gameLogic.expandBoard();
+        }
 
-        @Override
-        public void render (SpriteBatch sb){
-            // Create board tiles
-            sb.begin();
-            for (Sprite s : singleton.getBoardTiles()) {
-                s.draw(sb);
-            }
-            // render tiles and powerups
-            //renderTiles(singleton.getTiles(), sb);
-            renderPowerupsOnBoard(singleton.getTiles(), sb);
-
-            // Draw marks when pressed
-            renderMarks(sb);
-
-            // Powerups
-            Player activePlayer = singleton.getPlayers().get(singleton.getPlayerState());
-            if (activePlayer.havePowerupsAvailable()){
-                renderPowerups(activePlayer.getPowerups(), sb);
-            }
-
-            if (currentMoveCount - gameLogic.getMoveCount() == 0){
-                spawnRandomPowerup();
-                currentMoveCount = rm.nextInt(3) + 1 + gameLogic.getMoveCount();
-            }
-            sb.end();
-
-            //Render top-bar
-            stage.act();
-            stage.draw();
+        if (singleton.getIndexTopowerupToRemove() >= 0){
+            players.get(singleton.getPlayerState()).getPowerups().remove(singleton.getIndexTopowerupToRemove());
+            singleton.setIndexTopowerupToRemove(-1);
+        }
+        if (singleton.getPlayerState()==0){
+            playerTurn.setText("Player X's turn");
+        }
+        else if (singleton.getPlayerState()==1){
+            playerTurn.setText("Player O's turn");
+        }
     }
+
+    @Override
+    public void render (SpriteBatch sb){
+        // Create board tiles
+        sb.begin();
+        for (Sprite s : singleton.getBoardTiles()) {
+            s.draw(sb);
+        }
+        // render tiles and powerups
+        //renderTiles(singleton.getTiles(), sb);
+        matrix.renderPowerupsOnBoard(singleton.getTiles(), sb);
+
+        // Draw marks when pressed
+        matrix.renderMarks(sb,gameLogic);
+
+        // Powerups
+        Player activePlayer = singleton.getPlayers().get(singleton.getPlayerState());
+        if (activePlayer.havePowerupsAvailable()){
+            matrix.renderPowerups(activePlayer.getPowerups(), sb);
+        }
+
+        if (currentMoveCount - gameLogic.getMoveCount() == 0){
+            matrix.spawnRandomPowerup(gameLogic);
+            currentMoveCount = rm.nextInt(3) + 1 + gameLogic.getMoveCount();
+        }
+        sb.end();
+
+        //Render top-bar
+        stage.act();
+        stage.draw();
+        dispose();
+}
 
     @Override
     public void dispose () {

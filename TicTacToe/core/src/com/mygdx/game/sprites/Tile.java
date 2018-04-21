@@ -76,6 +76,7 @@ import java.util.ArrayList;
                             if (((com.mygdx.game.powerups.SwapPowerup) pu).setSelectedTile2(this)){
                                 ((com.mygdx.game.powerups.SwapPowerup) pu).swap(((com.mygdx.game.powerups.SwapPowerup) pu).getSelectedTile1(), ((com.mygdx.game.powerups.SwapPowerup) pu).getSelectedTile2());
                                 System.out.println("Successfully swapped");
+                                ((SwapPowerup) pu).resetSelectedTiles();
                                 singleton.setpowerupSelected(null);
                             } else{
                                 System.out.println("Failed setting second tile");
@@ -90,8 +91,13 @@ import java.util.ArrayList;
             }
             if (pu instanceof ObstaclePowerup){
                 if (touchDown()){
-                    ((ObstaclePowerup) pu).setObstacle(this);
-                    singleton.setpowerupSelected(null);
+                    if (isMarked){
+                        System.out.println("Kan ikke plassere tile der");
+                    }
+                    else{
+                        ((ObstaclePowerup) pu).setObstacle(this);
+                        singleton.setpowerupSelected(null);
+                    }
                 }
             }
         }
