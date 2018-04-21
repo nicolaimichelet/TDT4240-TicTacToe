@@ -34,7 +34,7 @@ public class AfterGameMenuState implements State {
     Label congratulationsLabel;
     Label winnerLabel;
 
-    public AfterGameMenuState(GameStateManager gsm, char winner, boolean isMuted,int n) {
+    public AfterGameMenuState(GameStateManager gsm, char winner, boolean isMuted, int n) {
         this.gsm = gsm;
         stage = new Stage();
         this.n = n;
@@ -46,7 +46,6 @@ public class AfterGameMenuState implements State {
 
         //Add buttons to stage
         stage.addActor(congratulationsLabel);
-        stage.addActor(winnerLabel);
         stage.addActor(playAgainButton);
         stage.addActor(mainMenuButton);
         stage.addActor(exitButton);
@@ -152,6 +151,7 @@ public class AfterGameMenuState implements State {
             String winnerText = "Player " + winner + " has won!";
             winnerLabel = new Label(winnerText, style);
             winnerLabel.setPosition((Gdx.graphics.getWidth() - winnerLabel.getWidth())/2, (float)(congratulationsLabel.getY() - winnerLabel.getHeight() * 1.5));
+            stage.addActor(winnerLabel);
         }
     }
 
