@@ -1,20 +1,16 @@
 package com.mygdx.game.States;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.Singleton.Singleton;
 import com.mygdx.game.domain.Board;
 import com.mygdx.game.domain.Player;
@@ -23,7 +19,6 @@ import com.mygdx.game.powerups.ExpandBoardPowerup;
 import com.mygdx.game.domain.GameLogic;
 import com.mygdx.game.powerups.ObstaclePowerup;
 import com.mygdx.game.powerups.SwapPowerup;
-import com.mygdx.game.sprites.Mark;
 import com.mygdx.game.powerups.Powerup;
 import com.mygdx.game.sprites.Tile;
 
@@ -47,7 +42,8 @@ public class PlayState implements State {
     private Stage stage;
     private Skin skin;
     private TextButton backButton,soundButton;
-    private Label playerTurn;
+    private Label playerTurn, amountToWin;
+    private String amountToWinText;
     private boolean isSoundMuted, mutedBefore;
     private String soundButtontext;
     private int n;
@@ -72,6 +68,7 @@ public class PlayState implements State {
         stage.addActor(backButton);
         stage.addActor(soundButton);
         stage.addActor(playerTurn);
+        stage.addActor(amountToWin);
 
 
         //Append powerups
@@ -119,14 +116,22 @@ public class PlayState implements State {
         skin.add("default", textButtonStyle);
 
         BitmapFont playerFont = new BitmapFont(Gdx.files.internal("playerTurnText.fnt"));
+        BitmapFont amountToWinFont = new BitmapFont(Gdx.files.internal("amountToWinFont.fnt"));
 
         Label.LabelStyle style = new Label.LabelStyle();
         style.font = playerFont;
         String playerText = "Player "+singleton.getPlayerState()+"'s turn";
 
         playerTurn = new Label(playerText,style);
-        playerTurn.setPosition((Gdx.graphics.getWidth()-playerTurn.getWidth())/2,Gdx.graphics.getHeight()-playerTurn.getHeight()-5);
+        playerTurn.setPosition((Gdx.graphics.getWidth()-playerTurn.getWidth())/2,Gdx.graphics.getHeight()-playerTurn.getHeight()-12);
 
+
+        Label.LabelStyle style2 = new Label.LabelStyle();
+        style2.font = amountToWinFont;
+        amountToWinText = n+" in a row to win";
+
+        amountToWin = new Label(amountToWinText,style2);
+        amountToWin.setPosition((Gdx.graphics.getWidth()-amountToWin.getWidth())/2,Gdx.graphics.getHeight()-amountToWin.getHeight()-34);
 
         backButton = new TextButton("Back", skin);
         backButton.setPosition(5, Gdx.graphics.getHeight()-backButton.getHeight()-5);
@@ -216,6 +221,8 @@ public class PlayState implements State {
         else if (singleton.getPlayerState()==1){
             playerTurn.setText("Player O's turn");
         }
+        amountToWinText = gameLogic.getN()+" in a row to win";
+        amountToWin.setText(amountToWinText);
     }
 
     @Override
