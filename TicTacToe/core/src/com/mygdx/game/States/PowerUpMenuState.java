@@ -13,7 +13,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.mygdx.game.Singleton.Singleton;
 
@@ -58,6 +57,7 @@ public class PowerUpMenuState implements State {
 
 //        Add buttons to stage
         stage.addActor(backButton);
+
         if (!singleton.isPlaying()){
             singleton.playSound(0);
         }

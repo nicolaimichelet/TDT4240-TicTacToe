@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.Singleton.Singleton;
-import com.mygdx.game.powerups.ExpandBoardPowerup;
 import com.mygdx.game.powerups.Powerup;
 import com.mygdx.game.sprites.Mark;
 import com.mygdx.game.sprites.Tile;
@@ -36,20 +35,12 @@ public class Board {
         return rows;
     }
 
-    public void setRows(int rows) {
-        this.rows = rows;
-    }
-
     public ArrayList<Tile> getTiles(){
         return tiles;
     }
 
     public int getColumns() {
         return columns;
-    }
-
-    public void setColumns(int columns) {
-        this.columns = columns;
     }
 
     public ArrayList<Sprite> setBoardTiles(){
@@ -66,10 +57,6 @@ public class Board {
 
     public ArrayList<Tile> generateBoard(){
         this.tiles = new ArrayList<Tile>();
-        /*
-        float xFactor = MyGdxGame.WIDTH / getColumns();
-        float yFactor = (MyGdxGame.HEIGHT - MyGdxGame.BAR) / getRows();
-        */
 
         float xFactor = Gdx.graphics.getWidth() / getColumns();
         float yFactor = (Gdx.graphics.getHeight()- MyGdxGame.BAR-MyGdxGame.BOTTOMBAR) / getRows();
@@ -127,8 +114,6 @@ public class Board {
             s.draw(sb);
         }
         if (gameLogic.getMoveCount()>updateMoveCount){
-            //System.out.println("movecount "+gameLogic.getMoveCount());
-            //System.out.println("To draw: "+singleton.getN()*singleton.getN());
             updateMoveCount=gameLogic.getMoveCount();
             System.out.println(gameLogic.printBoard());
         }

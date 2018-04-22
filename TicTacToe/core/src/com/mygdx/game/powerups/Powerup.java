@@ -11,7 +11,6 @@ public interface Powerup {
     void update(float dt);
     Texture getTexture();
     void setPosition(Vector3 position);
-    Vector3 getPosition();
     void setHeight(float height);
     float getHeight();
     void setWidth(float width);

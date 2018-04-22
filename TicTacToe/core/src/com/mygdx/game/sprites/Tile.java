@@ -1,10 +1,7 @@
 package com.mygdx.game.sprites;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector3;
-import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.Singleton.Singleton;
 import com.mygdx.game.domain.InputHandler;
 import com.mygdx.game.domain.Player;
@@ -142,10 +139,6 @@ import java.util.ArrayList;
         }
 
         public Texture getTexture() {
-            return tile;
-        }
-
-        public Texture getTile() {
             return tile;
         }
 

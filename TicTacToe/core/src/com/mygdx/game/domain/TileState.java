@@ -19,10 +19,6 @@ public class TileState {
         return tile;
     }
 
-    public void setTile(Tile tile) {
-        this.tile = tile;
-    }
-
     public int getState() {
         return state;
     }

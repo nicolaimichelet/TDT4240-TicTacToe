@@ -31,11 +31,6 @@ public class Mark {
     public void update(float dt){
     }
 
-
-    public Vector3 getPosition() {
-        return position;
-    }
-
     public Texture getTexture() {
         return mark;
     }
