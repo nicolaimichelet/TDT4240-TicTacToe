@@ -16,7 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.mygdx.game.Singleton.Singleton;
 
-public class PowerUpMenuState implements State {
+public class AboutMenuState implements State {
     private GameStateManager gsm;
     private Stage stage;
     private Skin skin;
@@ -35,7 +35,7 @@ public class PowerUpMenuState implements State {
     private Texture obstacleStop;
 
 
-    public PowerUpMenuState(GameStateManager gsm) {
+    public AboutMenuState(GameStateManager gsm) {
         this.gsm = gsm;
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
@@ -61,7 +61,6 @@ public class PowerUpMenuState implements State {
         if (!singleton.isPlaying()){
             singleton.playSound(0);
         }
-
     }
 
     @Override
@@ -153,7 +152,6 @@ public class PowerUpMenuState implements State {
 //        Label initializations
         aboutTitleLabel = new Label(aboutTitle, style);
         aboutTitleLabel.setPosition((Gdx.graphics.getWidth() - aboutTitleLabel.getWidth()) / 2,Gdx.graphics.getHeight() - 130);
-        System.out.println(aboutTitleLabel);
 
         aboutGameLabel = new Label(aboutGameText, style2);
         aboutGameLabel.setPosition((Gdx.graphics.getWidth() - aboutGameLabel.getWidth()) / 2, Gdx.graphics.getHeight() - 250);

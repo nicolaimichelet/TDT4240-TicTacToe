@@ -22,9 +22,9 @@ public class MainMenuState implements State {
     private Skin skin;
     private TextButton playButton;
     private TextButton settingsButton;
-    private TextButton powerUpButton;
+    private TextButton aboutButton;
     private TextButton exitButton;
-    private Label titleLabel, NxNLabel;
+    private Label NxNLabel;
 
     private Texture menuPic;
 
@@ -46,20 +46,13 @@ public class MainMenuState implements State {
 
         menuPic = new Texture("thinkOutsideTheBox.png");
 
-   /*     image = new Image();
-        image.setDrawable(new TextureRegionDrawable(new TextureRegion(menuPic)));
-        image.setSize(menuPic.getWidth() / 4, menuPic.getHeight() / 4);
-        menuPic.setPosition(Gdx.graphics.getWidth() - image.getImageWidth() / 2, Gdx.graphics.getHeight() - image.getImageHeight() / 2);
-*/
-
-
         // Add labels to stage
         stage.addActor(NxNLabel);
 
         //Add buttons to stage
         stage.addActor(playButton);
         stage.addActor(settingsButton);
-        stage.addActor(powerUpButton);
+        stage.addActor(aboutButton);
         stage.addActor(exitButton);
 
         // Start lobby music
@@ -86,8 +79,8 @@ public class MainMenuState implements State {
         if(settingsButton.isPressed()){
             gsm.set(new SettingsMenuState(gsm));
         }
-        if(powerUpButton.isPressed()){
-            gsm.set(new PowerUpMenuState(gsm));
+        if(aboutButton.isPressed()){
+            gsm.set(new AboutMenuState(gsm));
         }
         if(exitButton.isPressed()){
             Gdx.app.exit();
@@ -158,8 +151,8 @@ public class MainMenuState implements State {
         settingsButton = new TextButton("Settings", skin);
         settingsButton.setPosition((Gdx.graphics.getWidth() - settingsButton.getWidth())/2, ((Gdx.graphics.getHeight() + (float)0.8 - 5 * settingsButton.getHeight())/2));
 
-        powerUpButton = new TextButton("About", skin);
-        powerUpButton.setPosition((Gdx.graphics.getWidth() - powerUpButton.getWidth())/2, ((Gdx.graphics.getHeight() + (float)0.8 - 8 * powerUpButton.getHeight())/2));
+        aboutButton = new TextButton("About", skin);
+        aboutButton.setPosition((Gdx.graphics.getWidth() - aboutButton.getWidth())/2, ((Gdx.graphics.getHeight() + (float)0.8 - 8 * aboutButton.getHeight())/2));
 
         exitButton = new TextButton("Exit", skin);
         exitButton.setPosition((Gdx.graphics.getWidth() - exitButton.getWidth())/2, (Gdx.graphics.getHeight()/2) - 6 * exitButton.getHeight());
