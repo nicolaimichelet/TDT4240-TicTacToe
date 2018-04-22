@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.States.GameStateManager;
 import com.mygdx.game.States.MainMenuState;
 
-public class MyGdxGame extends ApplicationAdapter {
+public class ThinkOutsideTheBOX extends ApplicationAdapter {
 	public static final int BAR = 70;
 	public static final int WIDTH = 480;
 	public static final int HEIGHT = 800;
@@ -16,7 +16,7 @@ public class MyGdxGame extends ApplicationAdapter {
 
 
 
-	public static final String TITLE = "Tic Tac Toe UNLEASHED";
+	public static final String TITLE = "Think Outside The BOX";
 	private GameStateManager gsm;
 	private SpriteBatch batch;
 	Texture img;

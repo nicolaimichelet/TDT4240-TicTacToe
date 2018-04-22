@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
-import com.mygdx.game.MyGdxGame;
+import com.mygdx.game.ThinkOutsideTheBOX;
 import com.mygdx.game.Singleton.Singleton;
 import com.mygdx.game.powerups.Powerup;
 import com.mygdx.game.sprites.Mark;
@@ -59,10 +59,10 @@ public class Board {
         this.tiles = new ArrayList<Tile>();
 
         float xFactor = Gdx.graphics.getWidth() / getColumns();
-        float yFactor = (Gdx.graphics.getHeight()- MyGdxGame.BAR-MyGdxGame.BOTTOMBAR) / getRows();
+        float yFactor = (Gdx.graphics.getHeight()- ThinkOutsideTheBOX.BAR- ThinkOutsideTheBOX.BOTTOMBAR) / getRows();
       
         float xPosition = 0;
-        float yPosition = MyGdxGame.BOTTOMBAR;
+        float yPosition = ThinkOutsideTheBOX.BOTTOMBAR;
         for (int row = 0; row < getRows(); row++){
             for (int column = 0; column < getColumns(); column++){
                 Tile t = new Tile(xPosition, yPosition, xFactor, yFactor, row,column);
@@ -76,17 +76,17 @@ public class Board {
     }
 
     public void renderPowerups(ArrayList<Powerup> powerups, SpriteBatch sb) {
-        float factor = powerups.size() > 1 ? MyGdxGame.WIDTH / powerups.size() : MyGdxGame.WIDTH / 2;
+        float factor = powerups.size() > 1 ? ThinkOutsideTheBOX.WIDTH / powerups.size() : ThinkOutsideTheBOX.WIDTH / 2;
         float blankspace = powerups.size() > 1 ? factor / powerups.size() : 0;
-        float renderIterator = powerups.size() > 1 ? 0 : MyGdxGame.WIDTH / 2;
+        float renderIterator = powerups.size() > 1 ? 0 : ThinkOutsideTheBOX.WIDTH / 2;
         for (Powerup pu : powerups){
             Sprite s = new Sprite(pu.getTexture());
             if (pu.equals(singleton.getPowerupSelected())){
                 s.setAlpha(0.5f);
             }
             s.setSize(50, 50);
-            s.setPosition(renderIterator + blankspace - 25, /*Gdx.graphics.getHeight() - MyGdxGame.BAR + 10*/10); // Fix this to appear in own menu
-            pu.setPosition(new Vector3(renderIterator + blankspace - 25, /*Gdx.graphics.getHeight()  - MyGdxGame.BAR + 10*/ 10, 0f));
+            s.setPosition(renderIterator + blankspace - 25, /*Gdx.graphics.getHeight() - ThinkOutsideTheBOX.BAR + 10*/10); // Fix this to appear in own menu
+            pu.setPosition(new Vector3(renderIterator + blankspace - 25, /*Gdx.graphics.getHeight()  - ThinkOutsideTheBOX.BAR + 10*/ 10, 0f));
             pu.setHeight(50);
             pu.setWidth(50);
             s.draw(sb);
