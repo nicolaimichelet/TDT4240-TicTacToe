@@ -6,13 +6,17 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.States.GameStateManager;
-import com.mygdx.game.States.MenuState;
+import com.mygdx.game.States.MainMenuState;
 
-public class MyGdxGame extends ApplicationAdapter {
+public class ThinkOutsideTheBOX extends ApplicationAdapter {
+	public static final int BAR = 70;
 	public static final int WIDTH = 480;
 	public static final int HEIGHT = 800;
+	public static final int BOTTOMBAR = 70;
 
-	public static final String TITLE = "Chopper";
+
+
+	public static final String TITLE = "Think Outside The BOX";
 	private GameStateManager gsm;
 	private SpriteBatch batch;
 	Texture img;
@@ -21,8 +25,8 @@ public class MyGdxGame extends ApplicationAdapter {
 	public void create () {
 		batch = new SpriteBatch();
 		gsm = new GameStateManager();
-		Gdx.gl.glClearColor(1, 0, 0, 1);
-		gsm.push(new MenuState(gsm));
+		Gdx.gl.glClearColor((float)80/255,(float)80/255,(float)80/255,0);
+		gsm.push(new MainMenuState(gsm,3));
 	}
 
 	@Override
